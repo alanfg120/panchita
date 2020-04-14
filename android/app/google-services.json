@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "500342663235",
+    "firebase_url": "https://panchitaapp-7cc6f.firebaseio.com",
+    "project_id": "panchitaapp-7cc6f",
+    "storage_bucket": "panchitaapp-7cc6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500342663235:android:b23bb6aec24132bba44cf6",
+        "android_client_info": {
+          "package_name": "com.example.panchita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "500342663235-mb2mohpm130dbphuafs541ft7fr483cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFFKs6QRwlLQGcmw0Df4gOj1JcGux7MR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500342663235-mb2mohpm130dbphuafs541ft7fr483cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

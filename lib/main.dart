@@ -36,14 +36,14 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Panchita',
           theme: ThemeData(
-                 
+                 iconTheme: IconThemeData(color: Colors.purple),
                  appBarTheme   : AppBarTheme(
                                  elevation  : 0.0, 
-                                 color      : Colors.white,
-                                 brightness : Brightness.light,
-                                 //iconTheme  : IconThemeData(color:Colors.teal), 
+                                 color      : Colors.purple[100],
+                                 brightness : Brightness.dark,
+                                 iconTheme  : IconThemeData(color:Colors.white,size: 40), 
                                  textTheme  : TextTheme(title : TextStyle(
-                                                                color: Colors.blueAccent,
+                                                                color: Colors.black,
                                                                 fontSize: 25.0,
                                                                 ))
                                  ),
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
           home   : LoginPage(),
           routes : route(),
-          initialRoute: 'login',
+          initialRoute: 'home',
           ),
     );
   }

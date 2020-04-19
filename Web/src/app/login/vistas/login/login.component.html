@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="fondo">
+    <h1>Bienvenido a MedicalApp</h1>
+    <p>Asigne citas a sus usuarios de manera remota y facil con esta Herramienta</p>
+    <!-- <img src="./../../../../assets/fondo.png" alt="" srcset="" width="400"> -->
+  </div>
+  <div class="login">
+    <form #formuser="ngForm" (ngSubmit)="login(formuser)">
+      <img src="../../../assets/logo.png" alt="" srcset="" width="350" height="90"> 
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix color="primary">person</mat-icon>
+        <input
+          matInput
+          [(ngModel)]="usuario.email"
+          name="usuario"
+          required
+          #u="ngModel"
+        />
+        <mat-error *ngIf="u.errors?.required">Usuario Requerido</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix color="primary">vpn_key</mat-icon>
+        <input
+          #p="ngModel"
+          matInput
+          [(ngModel)]="usuario.password"
+          name="contrasena"
+          type="password"
+          required
+        />
+        <mat-error *ngIf="p.errors?.required">Contraseña Requerido</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent" class="ingresar" type="submit">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>

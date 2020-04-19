@@ -1,0 +1,45 @@
+.contenedor{
+height: calc(100vh - 56px);
+display: grid;
+grid-template-rows: 50px 1px 1fr;
+overflow: hidden;
+box-sizing: border-box;
+
+}
+
+.encabezado{
+  display: grid;
+ grid-template-columns: repeat(3,2fr) repeat(5,1fr);
+ font-size: 12px;
+ align-items: center;
+ justify-items: center;
+
+}
+
+.producto{
+  
+    height: 50px;   
+    display: grid;
+    grid-template-columns: repeat(3,2fr) repeat(5,1fr);
+    font-size: 13px;
+    align-items: center;
+    justify-items: center;
+    
+}
+.productos{
+    overflow-y: scroll;
+}
+.float{
+    padding: 30px;
+    display:block;
+    position: fixed;;
+    float: right;;
+    bottom:0px;
+    right:5px;
+}
+.noproductos{
+align-self: center;
+justify-self: center;
+
+   
+}

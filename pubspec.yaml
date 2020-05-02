@@ -32,7 +32,8 @@ dependencies:
   bloc: ^3.0.0
   simple_animations: ^1.3.11
   equatable: ^1.1.1
-  curved_navigation_bar: ^0.3.2
+  badges: ^1.1.1
+  shared_preferences: ^0.5.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

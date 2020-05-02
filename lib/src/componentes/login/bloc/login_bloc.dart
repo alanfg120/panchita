@@ -7,14 +7,18 @@ import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/login/models/status_model.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/plugins/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   AuthService auth = AuthService();
+  final prefs = PreferenciasUsuario();
+
   LoginRepocitorio repo;
   LoginBloc({this.repo});
+
   @override
   LoginState get initialState => InitialState();
 
@@ -28,6 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is AuthGoogleEvent)           yield* _authGoogle(state);
     if (event is AuthEvent)                 yield* _auth(event, state);
     if (event is RegistroEvent)             yield* _registro(event, state);
+    if (event is VericarLoginEvent)         yield* _verificarLogin(state);
   }
 
   Stream<LoginState> _registroGoogle(AutenticandoState state) async* {
@@ -44,12 +49,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield state.copyWith(usuario: usuario, registro: StatusLogin.registrado);
       yield state.copyWith(usuario: usuario, registro: StatusLogin.inicial);
       repo.setUsuario(usuario);
+      prefs.token = usuario.idGoogle;
     }
   }
 
   Stream<LoginState> _finishregistroGoogle(
       FinishRegistroGoogleEvent event) async* {
-    // print(event.usuario.cedula);
     repo.updateUsuario(event.usuario);
     yield AutenticadoState(usuario: event.usuario);
   }
@@ -75,8 +80,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield state.copyWith(
             usuario: usuario, registro: StatusLogin.incompleto);
         yield state.copyWith(usuario: usuario, registro: StatusLogin.inicial);
-      } else
+      } else {
         yield AutenticadoState(usuario: usuario);
+        prefs.token = usuario.idGoogle;
+      }
     }
   }
 
@@ -111,5 +118,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield state.copyWith(
           usuario: event.usuario, registro: StatusLogin.inicial);
     }
+  }
+
+  Stream<LoginState> _verificarLogin(LoginState state) async* {
+    if (prefs.token != '') {
+      final usuario = await repo.getUsuario(prefs.token);
+      yield AutenticadoState(usuario: usuario);
+    } else
+      yield* _getCiudades();
   }
 }

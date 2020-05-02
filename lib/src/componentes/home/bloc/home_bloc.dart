@@ -14,6 +14,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(
     HomeEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+
   }
 }

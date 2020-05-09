@@ -57,16 +57,19 @@ class _HomePageState extends State<HomePage> {
 
 Widget _drawer() {
   return Drawer(
-         child: ListView(
-         children: <Widget>[
-                  DrawerHeader(
-                  child: Text("Bienvenido ${usuario.nombre}"),
-                  ),
-                  ListTile(title: Text("Categorias")),
-                  ListTile(title: Text("Marcas")),
-                  ListTile(title: Text("Tus pedidos")),
-                  ListTile(title: Text("Configuracion"))
+         child: Container(
+           color: Colors.red,
+           child: ListView(
+                  children: <Widget>[
+                            DrawerHeader(
+                            child: Text("Bienvenido ${usuario.nombre}"),
+                            ),
+                            ListTile(title: Text("Categorias")),
+                            ListTile(title: Text("Marcas")),
+                            ListTile(title: Text("Tus pedidos")),
+                            ListTile(title: Text("Configuracion"))
                   ]
+           ),
          ),
   );
 

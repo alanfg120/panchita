@@ -6,6 +6,9 @@ import 'package:panchita/src/componentes/home/vistas/home_page.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
+import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
+import 'package:panchita/src/componentes/pedidos/data/pedidos_repocitorio.dart';
+import 'package:panchita/src/componentes/pedidos/vistas/compra_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/data/productos_repocitori.dart';
 import 'package:panchita/src/componentes/productos/vistas/loading_page.dart';
@@ -26,8 +29,9 @@ final prefs = PreferenciasUsuario();
 
 class MyApp extends StatelessWidget {
  
-  final LoginRepocitorio repologin         = LoginRepocitorio();
+  final LoginRepocitorio   repologin       = LoginRepocitorio();
   final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
+  final PedidoRepositorio   repoPedido     = PedidoRepositorio();
   @override
   Widget build(BuildContext context) {
 
@@ -40,6 +44,9 @@ class MyApp extends StatelessWidget {
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetCategoriasEvent())
                                                                             ..add(GetMarcasEvent())
                                                                             ..add(GetProductosEvent())
+                      ),
+                      BlocProvider<PedidosBloc>(
+                      create: (context) => PedidosBloc(repocitorio: repoPedido)
                       ),
                       
                      

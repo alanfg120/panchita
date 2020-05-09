@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 
 class Producto {
+
   int cantidad;
-  int cantidadCompra;
+  int cantidadCompra = 1;
   String categoria;
   String codigo;
   String descripcion;
@@ -28,7 +30,6 @@ class Producto {
 
   Producto.map(DocumentSnapshot producto) {
    print(producto);
-
     categoria   = producto['categoria'];
     codigo      = producto['codigo'];
     descripcion = producto['descripcion'];
@@ -40,7 +41,13 @@ class Producto {
     precioDos   = producto['ruta2'];
     precioTres  = producto['ruta3'];
   }
+  Map toMap(Ciudad ciudad)=>{
+    "codigo"   : codigo,
+    "nombre"   : nombre,
+    "cantidad" : cantidadCompra,
+    "precio"   : getPrecio(ciudad.ruta)
 
+  };
   int getPrecio(String ruta){
       switch (ruta) {
               case '1': return precioUno;
@@ -52,6 +59,8 @@ class Producto {
               default:  return precioUno;
                         break;
       }
-
+  }
+  int getSubtotal(String ruta){
+      return cantidadCompra * this.getPrecio(ruta);
   }
 }

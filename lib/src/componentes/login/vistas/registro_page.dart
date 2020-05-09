@@ -168,7 +168,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Usua
                                                   break;
                       case 'Identificacion'     : usuario.cedula = value;
                                                   break;
-                      case 'Direccion'          : usuario.dirrecion = value;
+                      case 'Direccion'          : usuario.direccion = value;
                                                   break;
                       case 'Telefono'           : usuario.telefono = value;
                                                   break;

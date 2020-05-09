@@ -20,8 +20,9 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
     ProductosEvent event,
   ) async* {
     if (event is GetCategoriasEvent) yield* _getCategorias(state);
-    if (event is GetMarcasEvent) yield* _getMarcas(state);
-    if (event is GetProductosEvent) yield* _getProductos(state);
+    if (event is GetMarcasEvent)     yield* _getMarcas(state);
+    if (event is GetProductosEvent)  yield* _getProductos(state);
+    if (event is ResetCantidadEvent) yield* _resetCantidad(event,state);
   }
 
   Stream<ProductosState> _getCategorias(ProductosState state) async* {
@@ -37,5 +38,13 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   Stream<ProductosState> _getProductos(ProductosState state) async* {
     final productos = await repo.getProductos();
     yield state.copyWith(productos: productos);
+  }
+
+  Stream<ProductosState> _resetCantidad(ResetCantidadEvent event, ProductosState state) async* {
+   state.productos.forEach((p){
+       if(p.codigo==event.codigo)
+          p.cantidadCompra = 1;
+   });
+     yield state.copyWith(productos: state.productos);
   }
 }

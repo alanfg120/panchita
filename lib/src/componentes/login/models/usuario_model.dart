@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
+import 'package:panchita/src/componentes/pedidos/models/pedido_model.dart';
 
 class Usuario {
   String email;
@@ -7,9 +8,10 @@ class Usuario {
   String nombre;
   String idGoogle;
   String cedula;
-  String dirrecion;
+  String direccion;
   String telefono;
   Ciudad ciudad;
+  List<Pedido> pedidos;
 
   Usuario(
       {this.password,
@@ -17,16 +19,17 @@ class Usuario {
       this.nombre,
       this.idGoogle,
       this.cedula,
-      this.dirrecion,
+      this.direccion,
       this.telefono,
-      this.ciudad});
+      this.ciudad,
+      this.pedidos});
 
    Usuario.map(DocumentSnapshot usuario){
      idGoogle  = usuario.documentID;
      nombre    = usuario['nombre'];
      email     = usuario['email'];
      cedula    = usuario['cedula'];
-     dirrecion = usuario['direccion'];
+     direccion = usuario['direccion'];
      telefono  = usuario['telefono'];
      ciudad    = Ciudad.map(usuario['ciudad']);
    }

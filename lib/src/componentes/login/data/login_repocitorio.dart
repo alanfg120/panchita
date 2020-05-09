@@ -7,11 +7,11 @@ class LoginRepocitorio {
   final String ciudadesColletion = '/ciudades';
 
   Stream setUsuario(Usuario usuario) {
-    return addDocument(colletion, usuario.idGoogle, {
+    return addDocument(colletion,id:usuario.idGoogle,data:{
       "email"     : usuario.email,
       "cedula"    : usuario.cedula,
       "nombre"    : usuario.nombre,
-      "direccion" : usuario.dirrecion,
+      "direccion" : usuario.direccion,
       "telefono"  : usuario.telefono,
       "ciudad"    : usuario.ciudad.toMap()
     });
@@ -22,7 +22,7 @@ class LoginRepocitorio {
       "email"     : usuario.email,
       "cedula"    : usuario.cedula,
       "nombre"    : usuario.nombre,
-      "direccion" : usuario.dirrecion,
+      "direccion" : usuario.direccion,
       "telefono"  : usuario.telefono,
       "ciudad"    : usuario.ciudad.toMap()
     });

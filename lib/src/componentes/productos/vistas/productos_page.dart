@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
+
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 import 'package:panchita/src/componentes/productos/widgets/producto_card.dart';
@@ -88,18 +90,23 @@ class _ProductosPageState extends State<ProductosPage> {
           );
 
   Widget _card()
-          => Badge (
-             animationType : BadgeAnimationType.slide,
-             showBadge     : true,
-             badgeContent  : Text("2",style: TextStyle(color: Colors.red)),
-             position      :BadgePosition.topRight(right: 0) ,
-             badgeColor    : Colors.white,
-             child         : FloatingActionButton(
-                             child           : Icon(Icons.shopping_cart),
-                             backgroundColor : Colors.red,
-                             onPressed       :(){},
-             ),
-        );
+          => BlocBuilder<PedidosBloc,PedidosState>(
+               builder: (context,state)
+               =>Badge (
+               animationType : BadgeAnimationType.slide,
+               showBadge     : state.productos.length == 0 ? false : true,
+               badgeContent  : Text('${state.productos.length}',style: TextStyle(color: Colors.white)),
+               position      : BadgePosition.topRight(right: 0) ,
+               badgeColor    : Colors.red,
+               child         : FloatingActionButton(
+                               child           : Icon(Icons.shopping_cart,color: Colors.red),
+                               backgroundColor : Colors.white,
+                               onPressed       : (){
+                                    Navigator.pushNamed(context, 'carrito');
+                               },
+               ),
+        ),
+          );
 
   Widget _listProductos(List<Producto> productos) 
          =>Expanded(

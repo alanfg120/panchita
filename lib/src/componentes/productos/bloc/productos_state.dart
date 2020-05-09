@@ -5,18 +5,22 @@ class ProductosState extends Equatable {
   final List categorias;
   final List<Producto> productos;
 
-  ProductosState({this.marcas, this.categorias, this.productos});
 
-  factory ProductosState.initial() =>
-      ProductosState(categorias: [], marcas: [], productos: []);
+  ProductosState(
+      {this.marcas, this.categorias, this.productos});
+
+  factory ProductosState.initial() => ProductosState(
+      categorias: [], marcas: [], productos: []);
 
   ProductosState copyWith(
-          {List marcas, List categorias, List<Producto> productos}) =>
+          {List marcas, List categorias, List<Producto> productos,bool sendPedido}) =>
       ProductosState(
           marcas     : marcas     ?? this.marcas,
           categorias : categorias ?? this.categorias,
-          productos  : productos  ?? this.productos);
+          productos  : productos  ?? this.productos,
+          );
+          
 
   @override
-  List<Object> get props => [marcas, categorias,productos];
+  List<Object> get props => [marcas, categorias, productos];
 }

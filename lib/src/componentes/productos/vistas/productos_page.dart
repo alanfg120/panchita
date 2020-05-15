@@ -6,6 +6,7 @@ import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 import 'package:panchita/src/componentes/productos/widgets/producto_card.dart';
+import 'package:panchita/src/plugins/custom_icon_icons.dart';
 
 class ProductosPage extends StatefulWidget {
   const ProductosPage({Key key}) : super(key: key);
@@ -20,7 +21,7 @@ class _ProductosPageState extends State<ProductosPage> {
   int selectCategoria = -1;
   @override
   Widget build(BuildContext context) {
-    
+     
     return Scaffold(
         backgroundColor: Colors.grey[200],
         body: BlocBuilder<ProductosBloc, ProductosState>(
@@ -30,9 +31,9 @@ class _ProductosPageState extends State<ProductosPage> {
                      children           : <Widget>[
                                            Padding(
                                            padding : EdgeInsets.all(15.0),
-                                           child   : Text("Categorias", style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
+                                           child   : Text(state.preferencia, style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
                                            ),
-                                           _listCategorias(state.categorias),
+                                           _listCategorias(state.preferencias),
                                             Padding(
                                            padding : EdgeInsets.all(15.0),
                                            child   : Text("Productos", style: TextStyle(fontSize: 18,fontWeight: FontWeight.w300)),
@@ -63,7 +64,7 @@ class _ProductosPageState extends State<ProductosPage> {
                                                  decoration: BoxDecoration(
                                                              borderRadius: BorderRadius.circular(20),
                                                              color       : selectCategoria == index
-                                                                           ? Colors.red
+                                                                           ? Colors.pink
                                                                            : Colors.white,
                                           
                                                  ),
@@ -99,7 +100,7 @@ class _ProductosPageState extends State<ProductosPage> {
                position      : BadgePosition.topRight(right: 0) ,
                badgeColor    : Colors.red,
                child         : FloatingActionButton(
-                               child           : Icon(Icons.shopping_cart,color: Colors.red),
+                               child           : Icon(CustomIcon.cart_outline,color: Colors.pink),
                                backgroundColor : Colors.white,
                                onPressed       : (){
                                     Navigator.pushNamed(context, 'carrito');

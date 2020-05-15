@@ -1,26 +1,32 @@
 part of 'productos_bloc.dart';
 
 class ProductosState extends Equatable {
-  final List marcas;
-  final List categorias;
+  final List preferencias;
   final List<Producto> productos;
-
+  final List<Producto> resultSearch;
+  final String preferencia;
 
   ProductosState(
-      {this.marcas, this.categorias, this.productos});
+      {this.preferencias, this.productos, this.resultSearch,this.preferencia});
 
   factory ProductosState.initial() => ProductosState(
-      categorias: [], marcas: [], productos: []);
+     preferencias: [], productos: [], resultSearch: [],preferencia:'');
 
   ProductosState copyWith(
-          {List marcas, List categorias, List<Producto> productos,bool sendPedido}) =>
+          {
+          List preferencias,
+          List<Producto> productos,
+          bool sendPedido,
+          List<Producto> resultSearch,
+          String preferencia
+          }) =>
       ProductosState(
-          marcas     : marcas     ?? this.marcas,
-          categorias : categorias ?? this.categorias,
-          productos  : productos  ?? this.productos,
-          );
-          
+        preferencias : preferencias ?? this.preferencias,
+        productos    : productos    ?? this.productos,
+        resultSearch : resultSearch ?? this.resultSearch,
+        preferencia   : preferencia ?? this.preferencia
+      );
 
   @override
-  List<Object> get props => [marcas, categorias, productos];
+  List<Object> get props => [preferencias, productos,resultSearch,preferencia];
 }

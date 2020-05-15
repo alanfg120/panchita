@@ -70,11 +70,12 @@ class _DialogProductoState extends State<DialogProducto> {
                                        Expanded(
                                        flex  : 1,
                                        child : Container(
+                                               margin  : EdgeInsets.all(2),
                                                alignment: Alignment.centerLeft,
                                                child: Text(
                                                       '${widget.producto.nombre}',
                                                       style: TextStyle(
-                                                             fontSize   : 25, 
+                                                             fontSize   : 15, 
                                                              fontWeight : FontWeight.bold
                                                       ),
                                                ),
@@ -83,6 +84,7 @@ class _DialogProductoState extends State<DialogProducto> {
                                        Expanded(
                                        flex  : 2,
                                        child : Container(
+                                               margin  : EdgeInsets.all(2),
                                                alignment : Alignment.topLeft,
                                                child     : Text("${widget.producto.descripcion}")
                                                )
@@ -128,7 +130,7 @@ class _DialogProductoState extends State<DialogProducto> {
                                                            );
                                                            Navigator.pop(context);
                                                },
-                                               color     : Colors.red,
+                                               color     : Colors.pink,
                                                child     : Text(
                                                            "Agregar al Carro",
                                                             style: TextStyle(color: Colors.white),

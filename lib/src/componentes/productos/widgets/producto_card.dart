@@ -38,7 +38,8 @@ class _ProductoCardState extends State<ProductoCard> {
                                   _precioCard(),
                                   _addProducto(),
                         ],
-        ));
+          )
+        );
   }
 
   _navigation() {
@@ -66,10 +67,10 @@ class _ProductoCardState extends State<ProductoCard> {
                                    onTap : _navigation,
                                    child : FadeInImage.assetNetwork(
                                            fit         : BoxFit.cover,
-                                           height      : 100,
-                                           width       : 100,
+                                           height      : 90,
+                                           width       : 90,
                                            placeholder : 'assets/image.gif',
-                                           image       : widget.producto.foto
+                                           image       :  widget.producto.foto
                                    ),
                            ),
             )
@@ -77,17 +78,21 @@ class _ProductoCardState extends State<ProductoCard> {
  
   Widget _precioCard()
          =>  Container(
+            
              margin : EdgeInsets.only(left: 10),
              height : 90,
+             width  : 180,
              child  : Column(
                       mainAxisAlignment : MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children          : <Widget>[
                                            Text(
                                            widget.producto.nombre,
                                            style : TextStyle(
                                                    fontWeight : FontWeight.bold,
-                                                   fontSize   : 15
-                                                   )
+                                                   fontSize   : 13
+                                                   ),
+                                           overflow: TextOverflow.ellipsis,
                                            ),
                                            Container(
                                            height    : 28,
@@ -95,7 +100,7 @@ class _ProductoCardState extends State<ProductoCard> {
                                            alignment : Alignment.center,
                                            decoration: BoxDecoration(
                                                        borderRadius : BorderRadius.circular(25),
-                                                       color        : Colors.red
+                                                       color        : Colors.pink
                                            ),
                                            child     : Text(
                                                        '\u0024 ${widget.producto.getPrecio(ruta)}',
@@ -118,9 +123,9 @@ class _ProductoCardState extends State<ProductoCard> {
                      onPressed : _dialogCompra,
                      child     : Icon(
                                  Icons.add,
-                                 color: Colors.red,
+                                 color: Colors.pink,
                      ),
-                     shape     : CircleBorder(side: BorderSide(color: Colors.red)),
+                     shape     : CircleBorder(side: BorderSide(color: Colors.pink)),
                   )),
             );
 

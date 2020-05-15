@@ -36,7 +36,7 @@ class _CompraPageState extends State<CompraPage> {
     }
 
     return  BlocConsumer<PedidosBloc, PedidosState>(
-                      listener: (context,state){
+                      listener : (context,state){
                                  if(!state.sendPedido){
                                      Navigator.pop(context);
                                      _snackBar("Pedido Realizado");
@@ -44,6 +44,11 @@ class _CompraPageState extends State<CompraPage> {
                                  }
                                
                       },
+                      listenWhen :(previos,current){
+                           if(previos.sendPedido==current.sendPedido)
+                              return false;
+                           return true;
+                      } ,
                       builder: (context, state) =>
                                 Scaffold(
                                 key    :  _scafKey,

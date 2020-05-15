@@ -1,9 +1,12 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/vistas/productos_page.dart';
+import 'package:panchita/src/plugins/custom_icon_icons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -28,8 +31,13 @@ class _HomePageState extends State<HomePage> {
            
            appBar              : AppBar(
                                  actions: <Widget>[
-                                           IconButton(icon:Icon(Icons.search), onPressed:(){}),
-                                           IconButton(icon:Icon(Icons.dns ), onPressed:(){})
+                                           IconButton(
+                                           icon      :Icon(Icons.search), 
+                                           onPressed : (){
+                                                        Navigator.pushNamed(context, 'buscar_producto');
+                                           }
+                                           ),
+                                           IconButton(icon:Icon(CustomIcon.filter_menu_outline), onPressed:(){})
                                  ],
            ),
            backgroundColor     : Colors.white,
@@ -58,16 +66,53 @@ class _HomePageState extends State<HomePage> {
 Widget _drawer() {
   return Drawer(
          child: Container(
-           color: Colors.red,
+           color: Colors.white,
            child: ListView(
                   children: <Widget>[
                             DrawerHeader(
-                            child: Text("Bienvenido ${usuario.nombre}"),
+                            child     :Align(
+                                       child: Text("Bienvenido ${usuario.nombre}",style: TextStyle(color: Colors.white)),
+                                       alignment: Alignment.bottomCenter,
+                                      ),
+                            decoration: BoxDecoration(
+                                       gradient: LinearGradient(colors: [
+                                         Colors.pink,
+                                         Colors.pink[400],
+                                         Colors.pink[300]
+                                       ]),
+                                        image: DecorationImage(image: AssetImage('assets/logo.png'),fit: BoxFit.cover)
                             ),
-                            ListTile(title: Text("Categorias")),
-                            ListTile(title: Text("Marcas")),
-                            ListTile(title: Text("Tus pedidos")),
-                            ListTile(title: Text("Configuracion"))
+                            ),
+                            ListTile(
+                            leading : Icon(CustomIcon.format_list_checkbox,color: Colors.pink[300]),
+                            title   : Text("Categorias"),
+                            onTap   : (){
+                              context.bloc<ProductosBloc>().add(
+                                GetCategoriasEvent()
+                              );
+                              Navigator.pop(context);
+                            },
+                            ),
+                            ListTile(
+                            leading : Icon(CustomIcon.tag_text_outline,color: Colors.pink[300]),
+                            title   : Text("Marcas"),
+                            onTap   : (){
+                               context.bloc<ProductosBloc>().add(
+                                GetMarcasEvent()
+                              );
+                                Navigator.pop(context);
+                            },
+                            ),
+                            ListTile(
+                            leading : Icon(CustomIcon.basket_outline,color: Colors.pink[300]),  
+                            title   : Text("Tus pedidos"),
+                            onTap   : (){},
+                            ),
+                            ListTile(
+                            leading : Icon(CustomIcon.cog_outline,color: Colors.pink[300]),  
+                            title   : Text("Configuracion"),
+                            onTap   : (){},
+                            )
                   ]
            ),
          ),

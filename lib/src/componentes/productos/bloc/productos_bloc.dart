@@ -20,19 +20,20 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
     ProductosEvent event,
   ) async* {
     if (event is GetCategoriasEvent) yield* _getCategorias(state);
-    if (event is GetMarcasEvent)     yield* _getMarcas(state);
-    if (event is GetProductosEvent)  yield* _getProductos(state);
-    if (event is ResetCantidadEvent) yield* _resetCantidad(event,state);
+    if (event is GetMarcasEvent) yield* _getMarcas(state);
+    if (event is GetProductosEvent) yield* _getProductos(state);
+    if (event is ResetCantidadEvent) yield* _resetCantidad(event, state);
+    if (event is SearchProductoEvent) yield* _searchProducto(event, state);
   }
 
   Stream<ProductosState> _getCategorias(ProductosState state) async* {
     final categorias = await repo.getCategorias();
-    yield state.copyWith(categorias: categorias);
+    yield state.copyWith(preferencias: categorias,preferencia:'Categorias');
   }
 
   Stream<ProductosState> _getMarcas(ProductosState state) async* {
     final marcas = await repo.getMarcas();
-    yield state.copyWith(marcas: marcas);
+    yield state.copyWith(preferencias: marcas,preferencia:'Marcas');
   }
 
   Stream<ProductosState> _getProductos(ProductosState state) async* {
@@ -40,11 +41,23 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
     yield state.copyWith(productos: productos);
   }
 
-  Stream<ProductosState> _resetCantidad(ResetCantidadEvent event, ProductosState state) async* {
-   state.productos.forEach((p){
-       if(p.codigo==event.codigo)
-          p.cantidadCompra = 1;
-   });
-     yield state.copyWith(productos: state.productos);
+  Stream<ProductosState> _resetCantidad(
+      ResetCantidadEvent event, ProductosState state) async* {
+    state.productos.forEach((p) {
+      if (p.codigo == event.codigo) p.cantidadCompra = 1;
+    });
+    yield state.copyWith(productos: state.productos);
+  }
+
+  Stream<ProductosState> _searchProducto(
+      SearchProductoEvent event, ProductosState state) async* {
+    final result = state.productos
+        .where(
+            (p) => p.nombre.toLowerCase().startsWith(event.query.toLowerCase()))
+        .toList();
+    if (event.query == '')
+      yield state.copyWith(resultSearch: []);
+    else
+      yield state.copyWith(resultSearch: result);
   }
 }

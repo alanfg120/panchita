@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/home/vistas/home_page.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
+import 'package:panchita/src/componentes/login/vistas/loading_page.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
 import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 import 'package:panchita/src/componentes/pedidos/data/pedidos_repocitorio.dart';
-import 'package:panchita/src/componentes/pedidos/vistas/compra_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/data/productos_repocitori.dart';
-import 'package:panchita/src/componentes/productos/vistas/loading_page.dart';
+
 import 'package:panchita/src/plugins/bloc_delegate.dart';
 import 'package:panchita/src/plugins/rutas.dart';
 import 'package:panchita/src/plugins/shared_preferences.dart';
@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
                       ),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetCategoriasEvent())
-                                                                            ..add(GetMarcasEvent())
                                                                             ..add(GetProductosEvent())
                       ),
                       BlocProvider<PedidosBloc>(
@@ -56,18 +55,18 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Panchita',
           theme: ThemeData(
-                 iconTheme: IconThemeData(color: Colors.white),
+                 iconTheme: IconThemeData(color: Colors.red),
                  appBarTheme   : AppBarTheme(
                                  elevation  : 0.0, 
                                  color      : Colors.white,
-                                 brightness : Brightness.dark,
-                                 iconTheme  : IconThemeData(color:Colors.red[400],size: 40), 
+                                 brightness : Brightness.light,
+                                 iconTheme  : IconThemeData(color:Colors.pink,size: 40), 
                                  textTheme  : TextTheme(title : TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 25.0,
                                                                 ))
                                  ),
-               
+                
           ),
           home   : BlocBuilder<LoginBloc,LoginState>(
                   builder:(context,state){

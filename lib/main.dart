@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
                                                                             ..add(GetProductosEvent())
                       ),
                       BlocProvider<PedidosBloc>(
-                      create: (context) => PedidosBloc(repocitorio: repoPedido)
+                      create: (context) => PedidosBloc(repocitorio: repoPedido)..add(GetPedidosEvent())
                       ),
                       
                      

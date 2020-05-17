@@ -28,10 +28,8 @@ class SendPedidoEvent extends PedidosEvent {
 }
 
 class GetPedidosEvent extends PedidosEvent {
-  final List<Pedido> pedidos;
-  GetPedidosEvent({this.pedidos});
   @override
-  List<Object> get props => [pedidos];
+  List<Object> get props => [];
 }
 
 class FinishPedidoEvent extends PedidosEvent {

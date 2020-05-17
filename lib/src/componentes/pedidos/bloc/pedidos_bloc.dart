@@ -48,7 +48,8 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
   }
 
  Stream<PedidosState> _getPedidos(GetPedidosEvent event, PedidosState state) async* {
-  
+   final pedidos =  await repocitorio.getPedidos();
+   yield state.copyWith(pedidos: pedidos);
  }
 
   Stream<PedidosState> _addPedido(SendPedidoEvent event, PedidosState state) async* {

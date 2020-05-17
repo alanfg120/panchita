@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/vistas/productos_page.dart';
 import 'package:panchita/src/plugins/custom_icon_icons.dart';
@@ -30,7 +31,8 @@ class _HomePageState extends State<HomePage> {
            drawer              : _drawer(),
            
            appBar              : AppBar(
-                                 actions: <Widget>[
+                                 actions: currentIndex == 0
+                                          ? <Widget>[
                                            IconButton(
                                            icon      :Icon(Icons.search), 
                                            onPressed : (){
@@ -38,7 +40,11 @@ class _HomePageState extends State<HomePage> {
                                            }
                                            ),
                                            IconButton(icon:Icon(CustomIcon.filter_menu_outline), onPressed:(){})
-                                 ],
+                                           ]
+                                          : null,
+                                 title  : currentIndex == 1
+                                          ? Text("Tus pedidos")
+                                          : null
            ),
            backgroundColor     : Colors.white,
            body                : _selectPage(),
@@ -54,6 +60,8 @@ class _HomePageState extends State<HomePage> {
          switch (currentIndex){
          
          case 0 : return ProductosPage();
+                  break;
+         case 1 : return PedidosPage();
                   break;
 
          default: return ProductosPage();
@@ -87,6 +95,9 @@ Widget _drawer() {
                             leading : Icon(CustomIcon.format_list_checkbox,color: Colors.pink[300]),
                             title   : Text("Categorias"),
                             onTap   : (){
+                              setState(() {
+                                currentIndex = 0;
+                              });
                               context.bloc<ProductosBloc>().add(
                                 GetCategoriasEvent()
                               );
@@ -97,6 +108,9 @@ Widget _drawer() {
                             leading : Icon(CustomIcon.tag_text_outline,color: Colors.pink[300]),
                             title   : Text("Marcas"),
                             onTap   : (){
+                              setState(() {
+                                currentIndex = 0;
+                              });
                                context.bloc<ProductosBloc>().add(
                                 GetMarcasEvent()
                               );
@@ -106,7 +120,12 @@ Widget _drawer() {
                             ListTile(
                             leading : Icon(CustomIcon.basket_outline,color: Colors.pink[300]),  
                             title   : Text("Tus pedidos"),
-                            onTap   : (){},
+                            onTap   : (){
+                              setState(() {
+                                currentIndex = 1;
+                              });
+                              Navigator.pop(context);
+                            },
                             ),
                             ListTile(
                             leading : Icon(CustomIcon.cog_outline,color: Colors.pink[300]),  

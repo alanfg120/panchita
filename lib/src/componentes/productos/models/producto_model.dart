@@ -14,6 +14,7 @@ class Producto {
   int precioUno;
   int precioDos;
   int precioTres;
+  int precioFinal;
 
   Producto(
       {this.cantidad,
@@ -26,10 +27,10 @@ class Producto {
       this.foto,
       this.precioDos,
       this.precioTres,
-      this.precioUno});
+      this.precioUno,
+      this.precioFinal});
 
   Producto.map(DocumentSnapshot producto) {
-   print(producto);
     categoria   = producto['categoria'];
     codigo      = producto['codigo'];
     descripcion = producto['descripcion'];
@@ -50,17 +51,20 @@ class Producto {
   };
   int getPrecio(String ruta){
       switch (ruta) {
-              case '1': return precioUno;
+              case '1': precioFinal = precioUno;
                         break;
-              case '2': return precioDos;
+              case '2': precioFinal = precioDos;
                         break;
-              case '3': return precioTres;
+              case '3': precioFinal =  precioTres;
                         break;
-              default:  return precioUno;
+              default:  precioFinal =  precioUno;
                         break;
       }
+     return precioFinal;
   }
-  int getSubtotal(String ruta){
+  int getSubtotal([String ruta]){
+     if(ruta!= null)
       return cantidadCompra * this.getPrecio(ruta);
+     else  return cantidadCompra * precioFinal;
   }
 }

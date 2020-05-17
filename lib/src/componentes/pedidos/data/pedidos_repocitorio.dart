@@ -13,9 +13,14 @@ Stream setPedido(Pedido pedido,String id){
       "productos"      : pedido.productos.map((p)=>p.toMap(pedido.ciudad)).toList(),
       "total"          : pedido.total,
       "observacion"    : pedido.observacion,
-      "confirmado"     : pedido.confirmado
+      "confirmado"     : pedido.confirmado,
+      "fecha"          : pedido.fecha
     });
 }
 
+Future<List<Pedido>> getPedidos() async {
+  final pedidos = await getDocuments(colletion);
+  return pedidos.documents.map((p)=>Pedido.map(p)).toList();
+}
 
 }

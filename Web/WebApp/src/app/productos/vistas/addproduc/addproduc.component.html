@@ -1,0 +1,114 @@
+<h2 mat-dialog-title>Agregar Producto</h2>
+<form #formproducto="ngForm" (ngSubmit)="addProducto(formproducto)">
+  <mat-dialog-content class="mat-typography inputs">
+    <mat-form-field appearance="outline">
+      <mat-label>Codigo</mat-label>
+      <input matInput name="Codigo" [(ngModel)]="producto.codigo" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input
+        matInput
+        name="nombre"
+        type="text"
+        [(ngModel)]="producto.nombre"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Cantidad</mat-label>
+      <input
+        matInput
+        name="cantidad"
+        type="number"
+        [(ngModel)]="producto.cantidad"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Categoria</mat-label>
+      <mat-select name="categoria" [(ngModel)]="producto.categoria" required>
+        <mat-option
+          [value]="categoria"
+          *ngFor="let categoria of categorias$ | async"
+        >
+          {{ categoria }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Marca</mat-label>
+      <mat-select name="categoria" [(ngModel)]="producto.marca" required>
+        <mat-option [value]="marca" *ngFor="let marca of marcas$ | async">
+          {{ marca }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Precio (Ruta1)</mat-label>
+      <input
+        matInput
+        name="precio1"
+        type="number"
+        [(ngModel)]="producto.ruta1"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Precio (Ruta2)</mat-label>
+      <input
+        matInput
+        name="precio2"
+        type="number"
+        [(ngModel)]="producto.ruta2"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Precio (Ruta3)</mat-label>
+      <input
+        matInput
+        name="precio3"
+        type="number"
+        [(ngModel)]="producto.ruta3"
+        required
+      />
+    </mat-form-field>
+    <input
+      #csvInput
+      hidden="true"
+      type="file"
+      onclick="this.value=null"
+      (change)="fileUpload($event)"
+      accept="image/*"
+    />
+    <button
+      type="button"
+      mat-raised-button
+      color="accent"
+      (click)="csvInput.click()"
+      class="upload"
+    >
+      Subir foto
+    </button>
+    <mat-form-field appearance="outline" class="descripcion">
+      <mat-label>Descripcion</mat-label>
+      <textarea
+        matInput
+        name="descripcion"
+        [(ngModel)]="producto.descripcion"
+        rows="6"
+      ></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button color="accent" mat-button cdkFocusInitial type="submit" *ngIf="!this.data">
+      Agregar
+    </button>
+    <button color="accent" mat-button cdkFocusInitial type="submit" *ngIf="this.data">
+      Actualizar
+    </button>
+    <button mat-button mat-dialog-close (click)="this.data ? null : formproducto.reset()">
+      Cancelar
+    </button>
+  </mat-dialog-actions>
+</form>

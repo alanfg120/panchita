@@ -1,0 +1,53 @@
+.contenedor {
+  height: calc(100vh - 56px);
+  display: grid;
+  grid-template-rows: 50px 1px 1fr;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.encabezado {
+  display: grid;
+  grid-template-columns:  repeat(4, 2fr) repeat(4, 1fr) 2fr;
+  font-size: 11px;
+  align-items: center;
+  justify-items: center;
+}
+
+.producto {
+  padding: 4px;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr) repeat(4, 1fr) 2fr;
+  grid-template-rows: auto;
+  font-size: 13px;
+  align-items: center;
+  justify-items: center;
+  border-bottom: solid 1px rgb(207, 207, 207);
+}
+.productos {
+  overflow-y: scroll;
+}
+.producto:hover{
+  background-color: rgb(204, 204, 204);
+  cursor: pointer;
+}
+.float {
+  padding: 30px;
+  display: block;
+  position: fixed;
+  float: right;
+  bottom: 0px;
+  right: 5px;
+}
+.noproductos {
+  align-self: center;
+  justify-self: center;
+}
+
+.actionButon{
+  margin-left: 10px;
+}
+
+.selected{
+  background-color: rgb(204, 204, 204);
+}

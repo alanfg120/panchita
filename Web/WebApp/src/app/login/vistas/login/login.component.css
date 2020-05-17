@@ -1,0 +1,78 @@
+.container {
+  /* background-image: url("../../../assets/img/transporte-carga.jpg"); */
+  background-color: #f0f0f0;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.login {
+  justify-self: center;
+  align-self: center;
+  width: 350px;
+  height: 360px;
+  border-radius: 13px;
+  padding: 30px;
+ 
+  background-color: white;
+
+}
+
+.login img {
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.ingresar {
+  width: 100%;
+  padding: 5px;
+
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-size: 12pt;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.ingresar:hover {
+  opacity: 0.8;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.warning {
+  background-color: #ffffff !important;
+  color: red !important;
+  text-align: center !important;
+}
+
+.fondo{
+  background: rgb(0,175,239);
+  background: linear-gradient(0deg, rgba(0,175,239,1) 50%, rgba(0,213,255,1) 100%);
+  padding: 20px;
+  color: white;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.fondo h1{
+  font-weight: 100;
+}
+
+.fondo img {
+  align-self: center;
+  justify-self: center;
+}

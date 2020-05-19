@@ -6,8 +6,9 @@ interface Timestamp {
 }
 export class Pedido {
 
+public id:string;
 public nombre_cliente:string;
-public cedula:string;
+public cedula_cliente:string;
 public direccion:string;
 public fecha:Timestamp;
 public ciudad:string;

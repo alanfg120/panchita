@@ -21,6 +21,7 @@ import { ProductoReducer } from './productos/reducer/productos_reducer';
 import { ProductosEffects } from './productos/effects/productos_effect';
 import { PedidosReducer } from './pedidos/reducers/pedido_reducer';
 import { PedidosEffects } from './pedidos/affects/pedidos_effect';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,6 +45,7 @@ import { PedidosEffects } from './pedidos/affects/pedidos_effect';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     AngularFirestoreModule,
+    AngularFireMessagingModule,
     MatSnackBarModule,
   ],
   providers: [AngularFirestore,AngularFireStorage],

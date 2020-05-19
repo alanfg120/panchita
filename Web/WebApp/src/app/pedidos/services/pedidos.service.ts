@@ -12,7 +12,7 @@ export class PedidosService {
   getPedidos() {
     return this.firebase
       .collection<Pedido>("pedidos", (ref) => ref.orderBy("fecha"))
-      .valueChanges()
+      .valueChanges({idField:"id"})
       .pipe(map((pedido: any) => pedido.reverse()));
   }
 }

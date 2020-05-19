@@ -1,4 +1,5 @@
 export class Producto{
+    public precio:number;
     public id:string;
     public codigo:string;
     public nombre:string;
@@ -8,7 +9,7 @@ export class Producto{
     public ruta1:string;
     public ruta2:string;
     public ruta3:string;
-    public cantidad:string;
+    public cantidad:number;
     public url_foto:string;
     
 }

@@ -1,0 +1,42 @@
+.datos_basicos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-row-gap: 5px;
+  grid-column-gap: 10px;
+}
+
+.pedido_item {
+  display: flex;
+  height: 40px;
+  background-color: rgb(228, 228, 228);
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.productos_encabezado {
+  height: 30px;
+  display: grid;
+  grid-template-columns: 50px  2fr repeat(3, 1fr);
+  justify-items: center;
+}
+.productos_items {
+  display: grid;
+  grid-template-columns: 50px  2fr repeat(3, 1fr);
+  grid-template-rows: 40px;
+  grid-row-gap: 10px;
+  justify-items: center;
+}
+
+.productos {
+  height: 35vh;
+  overflow-y: scroll;
+}
+
+.total{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}

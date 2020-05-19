@@ -1,0 +1,28 @@
+.encabezado{
+ 
+ background-color: white;
+ display: grid;
+ grid-template-columns: 50px repeat(5,1fr);
+ align-content: center;
+ justify-items: center;
+}
+
+.pedidos{
+    height: 58px;  
+
+    display: grid;
+    grid-template-columns: 50px repeat(5,1fr);
+    align-content: center;
+    justify-items: center;
+   }
+.container-pedidos{
+  
+    overflow-y: scroll;
+}
+.container {
+    height: calc(100vh - 56px);
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    overflow: hidden;
+    box-sizing: border-box;
+  }

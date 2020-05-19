@@ -13,9 +13,10 @@ import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/data/productos_repocitori.dart';
 
 import 'package:panchita/src/plugins/bloc_delegate.dart';
+import 'package:panchita/src/plugins/push_notifications.dart';
 import 'package:panchita/src/plugins/rutas.dart';
 import 'package:panchita/src/plugins/shared_preferences.dart';
-import 'package:panchita/src/plugins/sing_google.dart';
+
 
 
 void main() async {
@@ -23,12 +24,15 @@ void main() async {
  BlocSupervisor.delegate = SimpleBlocDelegate();
 final prefs = PreferenciasUsuario();
  await prefs.initPrefs();
+ //prefs.eraseall();
  runApp(MyApp());
- singOut();
+ //singOut();
 }
 
 class MyApp extends StatelessWidget {
  
+  final push = PushNotificatios();
+  
   final LoginRepocitorio   repologin       = LoginRepocitorio();
   final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
   final PedidoRepositorio   repoPedido     = PedidoRepositorio();
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
                                                                             ..add(GetProductosEvent())
                       ),
                       BlocProvider<PedidosBloc>(
-                      create: (context) => PedidosBloc(repocitorio: repoPedido)..add(GetPedidosEvent())
+                      create: (context) => PedidosBloc(repocitorio: repoPedido)
                       ),
                       
                      
@@ -72,9 +76,13 @@ class MyApp extends StatelessWidget {
                   builder:(context,state){
                     if(state is AutenticandoState)
                        return LoginPage();
-                   if(state is AutenticadoState)
+                   if(state is AutenticadoState){
+                       context.bloc<PedidosBloc>().add(
+                          GetPedidosEvent(cedula: state.usuario.cedula)
+                       );
                        return HomePage();
-                     return LoadingPage();
+                   }
+                   return LoadingPage();
                   }
                   ),
           routes : route(),

@@ -56,6 +56,7 @@ class _CompraPageState extends State<CompraPage> {
                                 body   :  state.productos.length == 0 
                                           ? Center(child: Text("Ningun producto agregado"))
                                           : ListView.builder(
+                                            padding     : EdgeInsets.only(bottom: 130),
                                             itemCount   : state.productos.length,
                                             itemBuilder : (context, i) {
                                                            return Dismissible (
@@ -187,6 +188,7 @@ class _CompraPageState extends State<CompraPage> {
    
     final pedido  = Pedido(
     cedula        : usuario.cedula,
+    telefono      : usuario.telefono,
     confirmado    : false,
     direccion     : usuario.direccion,
     fecha         : DateTime.now(),

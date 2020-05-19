@@ -103,7 +103,7 @@ class _RegistroPageState extends State<RegistroPage> {
                                                            ],
                                             ),
                                    ),
-                                   );
+                          );
                            },
                            ),
                          ),

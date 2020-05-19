@@ -41,9 +41,18 @@ class AutenticandoState extends LoginState {
 
 class AutenticadoState extends LoginState {
   final Usuario usuario;
-  AutenticadoState({this.usuario});
+  final List<Ciudad> ciudades;
+  final bool edit;
+  AutenticadoState({this.usuario,this.ciudades,this.edit});
+
+AutenticadoState copyWith({Usuario usuario,List<Ciudad> ciudades,bool edit})=>
+   AutenticadoState(
+   usuario  : usuario  ?? this.usuario,
+   ciudades : ciudades ?? this.ciudades,
+   edit     : edit     ?? this.edit 
+   );
   @override
-  List<Object> get props => [usuario];
+  List<Object> get props => [usuario,ciudades,edit];
 }
 class InitialState extends LoginState {}
 

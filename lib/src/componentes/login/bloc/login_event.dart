@@ -37,7 +37,12 @@ class GetCiudadesEvent extends LoginEvent {
   @override
   List<Object> get props => [];
 }
-
+class EditUsuarioEvent extends LoginEvent{
+  final Usuario usuario;
+  EditUsuarioEvent({this.usuario});
+  @override
+  List<Object> get props => [usuario];
+}
 class LogOutEvent extends LoginEvent{}
 
 class VericarLoginEvent extends LoginEvent{}

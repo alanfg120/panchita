@@ -34,6 +34,6 @@ Future<DocumentSnapshot> getDocument(String colletion,String id){
    return firestore.collection(colletion).document(id).get();
 }
 
-Stream<QuerySnapshot> filterDocumento(String colletion,String campo,String valor){
-   return firestore.collection(colletion).where(campo,isEqualTo: valor).snapshots();
+Future<QuerySnapshot> queryGetDocumento(String colletion,String campo,String valor){
+   return firestore.collection(colletion).where(campo,isEqualTo: valor).getDocuments();
 }

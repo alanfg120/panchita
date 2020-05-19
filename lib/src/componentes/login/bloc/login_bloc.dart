@@ -18,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginRepocitorio repo;
   LoginBloc({this.repo});
+  List<Ciudad> ciudades;
 
   @override
   LoginState get initialState => InitialState();
@@ -33,9 +34,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is AuthEvent)                 yield* _auth(event, state);
     if (event is RegistroEvent)             yield* _registro(event, state);
     if (event is VericarLoginEvent)         yield* _verificarLogin(state);
+    if (event is EditUsuarioEvent)          yield* _editUsuario(event,state);
   }
 
   Stream<LoginState> _registroGoogle(AutenticandoState state) async* {
+    
     final usuario = await auth.signInGoogle();
     if (usuario.idGoogle == null) {
       yield state.copyWith(usuario: usuario, registro: StatusLogin.error);
@@ -59,12 +62,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield AutenticadoState(usuario: event.usuario);
   }
 
-  Stream<LoginState> _getCiudades() async* {
-    final ciudades = await repo.getCiudades();
+  Stream<LoginState>  _getCiudades() async* {
+    ciudades = await repo.getCiudades();
     yield AutenticandoState.initial(ciudades);
   }
 
   Stream<LoginState> _authGoogle(AutenticandoState state) async* {
+
     final uid = await auth.authGoogle();
     if (uid == "ERROR_NO_AUTH") {
       yield state.copyWith(registro: StatusLogin.error);
@@ -123,8 +127,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _verificarLogin(LoginState state) async* {
     if (prefs.token != '') {
       final usuario = await repo.getUsuario(prefs.token);
-      yield AutenticadoState(usuario: usuario);
+      yield* _getCiudades();
+      yield AutenticadoState(usuario: usuario,ciudades: ciudades);
     } else
       yield* _getCiudades();
   }
+
+ Stream<LoginState> _editUsuario(EditUsuarioEvent event, AutenticadoState state) async*{
+     repo.updateUsuario(event.usuario);
+     yield state.copyWith(usuario: event.usuario,edit: true);
+     yield state.copyWith(edit: false);
+ }
 }

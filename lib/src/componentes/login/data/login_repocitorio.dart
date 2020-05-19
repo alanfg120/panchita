@@ -8,6 +8,7 @@ class LoginRepocitorio {
 
   Stream setUsuario(Usuario usuario) {
     return addDocument(colletion,id:usuario.idGoogle,data:{
+      "token"     : usuario.token,
       "email"     : usuario.email,
       "cedula"    : usuario.cedula,
       "nombre"    : usuario.nombre,

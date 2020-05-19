@@ -4,9 +4,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:panchita/src/componentes/home/vistas/home_page.dart';
+import 'package:panchita/src/componentes/login/vistas/editUser_page.dart';
 import 'package:panchita/src/componentes/login/vistas/finishRegistro_page.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
 import 'package:panchita/src/componentes/login/vistas/registro_page.dart';
+import 'package:panchita/src/componentes/login/vistas/userSetting_page.dart';
 import 'package:panchita/src/componentes/pedidos/vistas/compra_page.dart';
 import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
 import 'package:panchita/src/componentes/productos/vistas/producto_page.dart';
@@ -23,7 +25,9 @@ Map<String, WidgetBuilder> route() {
    'producto'        : (context) => ProductoPage(),
    'carrito'         : (context) => CompraPage(),
    'buscar_producto' : (context) => SearchProductoPage(),
-   'pedidos'         : (context) => PedidosPage()
+   'pedidos'         : (context) => PedidosPage(),
+   'setting'         : (context) => UserSettingPage(),
+   'editdatos'       : (context) => EditUserPage()
     
     };
 }

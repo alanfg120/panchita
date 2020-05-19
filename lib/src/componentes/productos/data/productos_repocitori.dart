@@ -23,10 +23,7 @@ class ProductoRepocitorio {
   }
 
   Future<List<Producto>> filterProducto(String campo, String valor) async {
-    List<Producto> listProductos;
-    filterDocumento(colletionProductos, campo, valor).listen((productos) {
-      listProductos = productos.documents.map((p) => Producto.map(p)).toList();
-    });
-    return listProductos;
+    final productos = await queryGetDocumento(colletionProductos,campo,valor);
+    return productos.documents.map((p) => Producto.map(p)).toList();
   }
 }

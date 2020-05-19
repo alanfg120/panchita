@@ -8,6 +8,7 @@ class Pedido {
   String nombreCliente;
   String direccion;
   String cedula;
+  String telefono;
   List<Producto> productos;
   int total;
   bool confirmado;
@@ -25,8 +26,10 @@ class Pedido {
       this.cedula,
       this.direccion,
       this.nombreCliente,
-      this.ciudad
+      this.ciudad,
+      this.telefono
       });
+
   String formatFecha(){
     return DateFormat("dd/MM/yyyy hh:mm aaa").format(DateTime.parse(fecha.toString()));
   }
@@ -43,6 +46,7 @@ class Pedido {
   }
 
   Pedido.map(DocumentSnapshot data){
+    telefono      =  data['telefono'];
     nombreCliente =  data['nombre_cliente'];
     direccion     =  data['direccion'];
     cedula        =  data['cedula_cliente'];

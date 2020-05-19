@@ -28,8 +28,10 @@ class SendPedidoEvent extends PedidosEvent {
 }
 
 class GetPedidosEvent extends PedidosEvent {
+  final String cedula;
+  GetPedidosEvent({this.cedula});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [cedula];
 }
 
 class FinishPedidoEvent extends PedidosEvent {

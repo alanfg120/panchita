@@ -52,6 +52,7 @@ class _ProductosPageState extends State<ProductosPage> {
              alignment: Alignment.center,
              height : 35,
              child  : ListView.builder(
+                   
                       scrollDirection : Axis.horizontal,
                       itemCount       : categorias.length,
                       itemBuilder     : (context, index) 
@@ -112,7 +113,7 @@ class _ProductosPageState extends State<ProductosPage> {
   Widget _listProductos(List<Producto> productos) 
          =>Expanded(
            child: ListView.builder(
-                  padding     : EdgeInsets.all(10),
+                  padding     : EdgeInsets.only(bottom: 40,top: 10),
                   itemCount   : productos.length,
                   itemBuilder : (context,index)
                                  => ProductoCard(

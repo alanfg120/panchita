@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/componentes/login/vistas/userSetting_page.dart';
+
 import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/vistas/productos_page.dart';
@@ -24,8 +26,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
    
    final state = BlocProvider.of<LoginBloc>(context).state;
-            if(state is AutenticadoState)
-               usuario = state.usuario;
+            if(state is AutenticadoState){
+              usuario = state.usuario;
+             
+            }
+              
 
     return Scaffold(  
            drawer              : _drawer(),
@@ -42,9 +47,7 @@ class _HomePageState extends State<HomePage> {
                                            IconButton(icon:Icon(CustomIcon.filter_menu_outline), onPressed:(){})
                                            ]
                                           : null,
-                                 title  : currentIndex == 1
-                                          ? Text("Tus pedidos")
-                                          : null
+                                 title  : _titulo()
            ),
            backgroundColor     : Colors.white,
            body                : _selectPage(),
@@ -62,6 +65,8 @@ class _HomePageState extends State<HomePage> {
          case 0 : return ProductosPage();
                   break;
          case 1 : return PedidosPage();
+                  break;
+         case 2 : return UserSettingPage();
                   break;
 
          default: return ProductosPage();
@@ -130,7 +135,12 @@ Widget _drawer() {
                             ListTile(
                             leading : Icon(CustomIcon.cog_outline,color: Colors.pink[300]),  
                             title   : Text("Configuracion"),
-                            onTap   : (){},
+                            onTap   : (){
+                               setState(() {
+                                currentIndex = 2;
+                              });
+                              Navigator.pop(context);
+                            },
                             )
                   ]
            ),
@@ -138,4 +148,12 @@ Widget _drawer() {
   );
 
 }
+
+  Widget _titulo() {
+      if(currentIndex == 1)
+         return Text("Tus Pedidos");
+      if(currentIndex == 2)
+         return Text("Configuracion");
+      return null;
+  }
 }

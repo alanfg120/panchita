@@ -2,18 +2,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
 import 'package:panchita/src/plugins/firebase_service.dart';
+import 'package:panchita/src/plugins/push_notifications.dart';
 import 'package:panchita/src/plugins/sing_google.dart';
 
 class AuthService {
+   final push = PushNotificatios();
+
   Future<Usuario> signInGoogle() async {
     try {
       final user = await singGoogle();
-      if (!await userExist('usuarios', user.uid))
+      if (!await userExist('usuarios', user.uid)) {
+         final token = await push.getoken();
         return Usuario(
-            nombre: user.displayName,
-            idGoogle: user.uid,
-            email: user.email,
-            ciudad: Ciudad());
+            token    : token ,
+            nombre   : user.displayName,
+            idGoogle : user.uid,
+            email    : user.email,
+            ciudad   : Ciudad());
+      }
       return Usuario(idGoogle: '');
     } catch (e) {
       return Usuario();

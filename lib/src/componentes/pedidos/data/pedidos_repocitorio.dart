@@ -6,6 +6,7 @@ final String colletion = '/pedidos';
 
 Stream setPedido(Pedido pedido,String id){
     return addDocument(colletion,data:{
+      "telefono"       : pedido.telefono,
       "nombre_cliente" : pedido.nombreCliente,
       "ciudad"         : pedido.ciudad.ciudad,
       "direccion"      : pedido.direccion,
@@ -18,8 +19,8 @@ Stream setPedido(Pedido pedido,String id){
     });
 }
 
-Future<List<Pedido>> getPedidos() async {
-  final pedidos = await getDocuments(colletion);
+Future<List<Pedido>> getPedidos(String valor) async {
+  final pedidos = await queryGetDocumento(colletion,'cedula_cliente',valor);
   return pedidos.documents.map((p)=>Pedido.map(p)).toList();
 }
 

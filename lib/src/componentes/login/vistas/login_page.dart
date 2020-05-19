@@ -188,7 +188,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Usua
                                     Image(
                                       height : 90,
                                       width  : 90,
-                                      image  : AssetImage('assets/logo.jpg'), 
+                                      image  : AssetImage('assets/logo.png'), 
                                     ),
                                     SizedBox(height: 10),
                                     Text("Bienvenido Panchita Cliente",

@@ -35,6 +35,8 @@ class GetPedidosEvent extends PedidosEvent {
 }
 
 class FinishPedidoEvent extends PedidosEvent {
+  final Pedido pedido;
+  FinishPedidoEvent({this.pedido});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [pedido];
 }

@@ -40,5 +40,5 @@ class PedidosState extends Equatable {
   }
 
   @override
-  List<Object> get props => [productos, total,pedidos,sendPedido];
+  List<Object> get props => [productos,total,pedidos,sendPedido];
 }

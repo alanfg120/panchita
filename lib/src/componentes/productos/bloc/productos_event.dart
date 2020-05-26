@@ -9,11 +9,13 @@ class GetProductosEvent extends ProductosEvent {
 }
 
 class GetMarcasEvent extends ProductosEvent {
+
   @override
   List<Object> get props => [];
 }
 
 class GetCategoriasEvent extends ProductosEvent {
+
   @override
   List<Object> get props => [];
 }
@@ -30,6 +32,13 @@ class ResetCantidadEvent extends ProductosEvent {
   ResetCantidadEvent({this.codigo});
   @override
   List<Object> get props => [codigo];
+}
+class FilterProductoEvent extends ProductosEvent {
+  final int select;
+  final String query;
+  FilterProductoEvent({this.query,this.select});
+  @override
+  List<Object> get props => [query,select];
 }
 
 

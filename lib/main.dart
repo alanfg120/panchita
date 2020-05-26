@@ -7,6 +7,7 @@ import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
 import 'package:panchita/src/componentes/login/vistas/loading_page.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
+import 'package:panchita/src/componentes/login/vistas/offline_page.dart';
 import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 import 'package:panchita/src/componentes/pedidos/data/pedidos_repocitorio.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
                                  color      : Colors.white,
                                  brightness : Brightness.light,
                                  iconTheme  : IconThemeData(color:Colors.pink,size: 40), 
-                                 textTheme  : TextTheme(title : TextStyle(
+                                 textTheme  : TextTheme(headline1 : TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 25.0,
                                                                 ))
@@ -76,13 +77,16 @@ class MyApp extends StatelessWidget {
                   builder:(context,state){
                     if(state is AutenticandoState)
                        return LoginPage();
-                   if(state is AutenticadoState){
+                    if(state is AutenticadoState){
                        context.bloc<PedidosBloc>().add(
                           GetPedidosEvent(cedula: state.usuario.cedula)
                        );
                        return HomePage();
-                   }
-                   return LoadingPage();
+                    }
+                    if(state is OfflineState) 
+                       return OfflinePage();
+                       
+                    return LoadingPage();
                   }
                   ),
           routes : route(),

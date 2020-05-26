@@ -1,3 +1,4 @@
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,24 +10,32 @@ import 'package:panchita/src/componentes/productos/widgets/producto_card.dart';
 import 'package:panchita/src/plugins/custom_icon_icons.dart';
 
 class ProductosPage extends StatefulWidget {
-  const ProductosPage({Key key}) : super(key: key);
+  const ProductosPage({Key key,}) : super(key: key);
 
   @override
   _ProductosPageState createState() => _ProductosPageState();
 }
 
 class _ProductosPageState extends State<ProductosPage> {
- 
 
-  int selectCategoria = -1;
+  int selectCategoria;
+  final ScrollController _listCategoriasController = ScrollController(initialScrollOffset: 0);
   @override
   Widget build(BuildContext context) {
      
     return Scaffold(
         backgroundColor: Colors.grey[200],
         body: BlocBuilder<ProductosBloc, ProductosState>(
-            builder: (context, state) => 
-                     Column(
+          
+            builder : (context, state) { 
+                     selectCategoria = state.selectPreferencia;
+                     if(state.selectPreferencia == 0 && _listCategoriasController.hasClients)
+                        _listCategoriasController.animateTo(
+                                                  0.0, 
+                                                  duration: Duration(milliseconds: 500), 
+                                                  curve: Curves.easeIn
+                        );
+                     return Column(
                      crossAxisAlignment : CrossAxisAlignment.start,
                      children           : <Widget>[
                                            Padding(
@@ -40,19 +49,23 @@ class _ProductosPageState extends State<ProductosPage> {
                                            ),
                                            _listProductos(state.productos)
                                           ]
-                    )
+                    );
+            }
         ),
         floatingActionButton: _card(),
     );
   }
 
-  Widget _listCategorias(List categorias)
-          => Container(
+  Widget _listCategorias(List categorias){
+       
+       return Container(
              margin: EdgeInsets.all(8),
              alignment: Alignment.center,
              height : 35,
-             child  : ListView.builder(
-                   
+             child  : categorias.length == 0
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                      controller: _listCategoriasController,
                       scrollDirection : Axis.horizontal,
                       itemCount       : categorias.length,
                       itemBuilder     : (context, index) 
@@ -82,15 +95,15 @@ class _ProductosPageState extends State<ProductosPage> {
 
                                                  )
                                           ),
-                                          onTap: ()=>
-                                            setState(() {
-                                                selectCategoria = index;
-                                            })
+                                          onTap: ()=>context.bloc<ProductosBloc>().add(
+                                                   FilterProductoEvent(query: categorias[index],select: index)
+                                                )
+                                         )
                                           
-                                        )
-             ),
+                      )
+             
           );
-
+          }
   Widget _card()
           => BlocBuilder<PedidosBloc,PedidosState>(
                builder: (context,state)

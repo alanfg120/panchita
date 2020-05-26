@@ -34,7 +34,6 @@ export class ProductosComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(loadCategoriasyMarcas());
     this.store.dispatch(loadProductos());
-
     this.exist$.subscribe((exist) => {
       if (exist)
         this.snack.open("Ya existe este Producto", "Aceptar", {

@@ -37,7 +37,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Marca</mat-label>
-      <mat-select name="categoria" [(ngModel)]="producto.marca" required>
+      <mat-select name="marca" [(ngModel)]="producto.marca" required>
         <mat-option [value]="marca" *ngFor="let marca of marcas$ | async">
           {{ marca }}
         </mat-option>
@@ -88,7 +88,7 @@
       (click)="csvInput.click()"
       class="upload"
     >
-      Subir foto
+      Subir foto {{ producto.url_foto || !this.data ? null : "(No hay Foto)" }}
     </button>
     <mat-form-field appearance="outline" class="descripcion">
       <mat-label>Descripcion</mat-label>
@@ -101,13 +101,29 @@
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button color="accent" mat-button cdkFocusInitial type="submit" *ngIf="!this.data">
+    <button
+      color="accent"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      *ngIf="!this.data"
+    >
       Agregar
     </button>
-    <button color="accent" mat-button cdkFocusInitial type="submit" *ngIf="this.data">
+    <button
+      color="accent"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      *ngIf="this.data"
+    >
       Actualizar
     </button>
-    <button mat-button mat-dialog-close (click)="this.data ? null : formproducto.reset()">
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="this.data ? null : formproducto.reset()"
+    >
       Cancelar
     </button>
   </mat-dialog-actions>

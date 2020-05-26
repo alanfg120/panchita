@@ -15,7 +15,7 @@ Future<FirebaseUser> singGoogle() async {
       idToken: googleAuth.idToken,
     );
     return (await _auth.signInWithCredential(credential)).user;
-  } catch (e) {
+  }on PlatformException catch (_) {
     return null;
   }
 }

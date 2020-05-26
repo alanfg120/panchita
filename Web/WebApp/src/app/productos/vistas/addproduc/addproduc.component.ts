@@ -31,6 +31,8 @@ export class AddproducComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.data);
+    
     if (this.data) this.producto = this.data;
   }
   addProducto(form: any) {

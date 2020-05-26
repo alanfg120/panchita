@@ -37,8 +37,6 @@ class AutenticandoState extends LoginState {
   List<Object> get props => [usuario,registro,ciudades];
 }
 
-
-
 class AutenticadoState extends LoginState {
   final Usuario usuario;
   final List<Ciudad> ciudades;
@@ -55,4 +53,5 @@ AutenticadoState copyWith({Usuario usuario,List<Ciudad> ciudades,bool edit})=>
   List<Object> get props => [usuario,ciudades,edit];
 }
 class InitialState extends LoginState {}
+class OfflineState extends LoginState {}
 

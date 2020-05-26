@@ -64,9 +64,11 @@ class _HomePageState extends State<HomePage> {
          
          case 0 : return ProductosPage();
                   break;
-         case 1 : return PedidosPage();
+         case 1 : return ProductosPage();
                   break;
-         case 2 : return UserSettingPage();
+         case 2 : return PedidosPage();
+                  break;
+         case 3 : return UserSettingPage();
                   break;
 
          default: return ProductosPage();
@@ -114,9 +116,9 @@ Widget _drawer() {
                             title   : Text("Marcas"),
                             onTap   : (){
                               setState(() {
-                                currentIndex = 0;
+                                currentIndex = 1;
                               });
-                               context.bloc<ProductosBloc>().add(
+                              context.bloc<ProductosBloc>().add(
                                 GetMarcasEvent()
                               );
                                 Navigator.pop(context);
@@ -127,7 +129,7 @@ Widget _drawer() {
                             title   : Text("Tus pedidos"),
                             onTap   : (){
                               setState(() {
-                                currentIndex = 1;
+                                currentIndex = 2;
                               });
                               Navigator.pop(context);
                             },
@@ -137,7 +139,7 @@ Widget _drawer() {
                             title   : Text("Configuracion"),
                             onTap   : (){
                                setState(() {
-                                currentIndex = 2;
+                                currentIndex = 3;
                               });
                               Navigator.pop(context);
                             },

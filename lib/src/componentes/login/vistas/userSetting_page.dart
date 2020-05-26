@@ -1,5 +1,9 @@
 
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 
 
 class UserSettingPage extends StatefulWidget {
@@ -27,7 +31,11 @@ class _UserSettingPageState extends State<UserSettingPage> {
                    ListTile(
                    leading : Icon(Icons.power_settings_new),
                    title   : Text("Cerrar Sesion"),
-                   onTap: (){},
+                   onTap: (){
+                     BlocProvider.of<LoginBloc>(context).add(
+                       LogOutEvent()
+                     );
+                   },
                    )
                  ],
            )

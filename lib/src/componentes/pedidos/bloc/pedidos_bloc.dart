@@ -12,7 +12,6 @@ part 'pedidos_event.dart';
 part 'pedidos_state.dart';
 
 class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
-  
   final PedidoRepositorio repocitorio;
 
   PedidosBloc({this.repocitorio});
@@ -24,20 +23,18 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
   Stream<PedidosState> mapEventToState(
     PedidosEvent event,
   ) async* {
-    if (event is AddProductoEvent)     yield* _addProducto(event, state);
-    if (event is DeleteProductoEvent)  yield* _deleteProducto(event, state);
-    if (event is GetPedidosEvent)      yield* _getPedidos(event,state);
-    if (event is SendPedidoEvent)      yield* _addPedido(event,state);
-    if (event is FinishPedidoEvent)    yield  state.copyWith(sendPedido: false);
-  }   
+    if (event is AddProductoEvent)    yield* _addProducto(event, state);
+    if (event is DeleteProductoEvent) yield* _deleteProducto(event, state);
+    if (event is GetPedidosEvent)     yield* _getPedidos(event, state);
+    if (event is SendPedidoEvent)     yield* _addPedido(event, state);
+    if (event is FinishPedidoEvent)   yield* _finishPedido(event, state);
+  }
 
   Stream<PedidosState> _addProducto(
       AddProductoEvent event, PedidosState state) async* {
-
     if (!state.isExist(event.producto)) state.productos.add(event.producto);
     int total = state.calcularTotal(state.productos, event.ruta);
     yield state.copyWith(productos: state.productos, total: total);
-
   }
 
   Stream<PedidosState> _deleteProducto(
@@ -47,16 +44,24 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     yield state.copyWith(productos: state.productos, total: total);
   }
 
- Stream<PedidosState> _getPedidos(GetPedidosEvent event, PedidosState state) async* {
-   final pedidos =  await repocitorio.getPedidos(event.cedula);
-   yield state.copyWith(pedidos: pedidos);
- }
+  Stream<PedidosState> _getPedidos(
+      GetPedidosEvent event, PedidosState state) async* {
+    final pedidos = await repocitorio.getPedidos(event.cedula);
+    yield state.copyWith(pedidos: pedidos);
+  }
 
-  Stream<PedidosState> _addPedido(SendPedidoEvent event, PedidosState state) async* {
-    repocitorio.setPedido(event.pedido, event.id).listen((_){
-        add(FinishPedidoEvent());
+  Stream<PedidosState> _addPedido(
+      SendPedidoEvent event, PedidosState state) async* {
+    repocitorio.setPedido(event.pedido, event.id).listen((_) {
+      add(FinishPedidoEvent(pedido: event.pedido));
     });
+    yield state.copyWith(sendPedido: true);
+  }
+
+  Stream<PedidosState> _finishPedido(
+      FinishPedidoEvent event, PedidosState state) async* {
     state.pedidos.add(event.pedido);
-    yield state.copyWith(pedidos: state.pedidos,productos: [],total: 0,sendPedido: true);
+    yield state.copyWith(
+        pedidos: state.pedidos, productos: [], total: 0, sendPedido: false);
   }
 }

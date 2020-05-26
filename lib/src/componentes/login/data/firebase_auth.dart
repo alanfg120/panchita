@@ -59,4 +59,9 @@ class AuthService {
   Future<String> auth(String email, String password) async {
     return await logIn(email, password);
   }
+  Future logOut() async {
+    return  singOut();
+  }
+
+  
 }

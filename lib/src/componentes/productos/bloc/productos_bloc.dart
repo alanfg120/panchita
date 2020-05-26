@@ -11,6 +11,7 @@ part 'productos_state.dart';
 
 class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   final ProductoRepocitorio repo;
+  List<Producto> allproductos;
   ProductosBloc({this.repo});
   @override
   ProductosState get initialState => ProductosState.initial();
@@ -19,25 +20,35 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   Stream<ProductosState> mapEventToState(
     ProductosEvent event,
   ) async* {
-    if (event is GetCategoriasEvent) yield* _getCategorias(state);
-    if (event is GetMarcasEvent) yield* _getMarcas(state);
-    if (event is GetProductosEvent) yield* _getProductos(state);
-    if (event is ResetCantidadEvent) yield* _resetCantidad(event, state);
+    if (event is GetCategoriasEvent)  yield* _getCategorias(state);
+    if (event is GetMarcasEvent)      yield* _getMarcas(state);
+    if (event is GetProductosEvent)   yield* _getProductos(state);
+    if (event is ResetCantidadEvent)  yield* _resetCantidad(event, state);
     if (event is SearchProductoEvent) yield* _searchProducto(event, state);
+    if (event is FilterProductoEvent) yield* _filterProducto(event, state);
   }
 
   Stream<ProductosState> _getCategorias(ProductosState state) async* {
     final categorias = await repo.getCategorias();
-    yield state.copyWith(preferencias: categorias,preferencia:'Categorias');
+    yield state.copyWith(
+        productos: allproductos,
+        preferencias: categorias,
+        preferencia: 'Categorias',
+        selectPreferencia: 0);
   }
 
   Stream<ProductosState> _getMarcas(ProductosState state) async* {
     final marcas = await repo.getMarcas();
-    yield state.copyWith(preferencias: marcas,preferencia:'Marcas');
+    yield state.copyWith(
+        productos: allproductos,
+        preferencias: marcas,
+        preferencia: 'Marcas',
+        selectPreferencia: 0);
   }
 
   Stream<ProductosState> _getProductos(ProductosState state) async* {
     final productos = await repo.getProductos();
+    allproductos = productos;
     yield state.copyWith(productos: productos);
   }
 
@@ -51,7 +62,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
 
   Stream<ProductosState> _searchProducto(
       SearchProductoEvent event, ProductosState state) async* {
-    final result = state.productos
+    final result = allproductos
         .where(
             (p) => p.nombre.toLowerCase().startsWith(event.query.toLowerCase()))
         .toList();
@@ -59,5 +70,31 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
       yield state.copyWith(resultSearch: []);
     else
       yield state.copyWith(resultSearch: result);
+  }
+
+  Stream<ProductosState> _filterProducto(
+      FilterProductoEvent event, ProductosState state) async* {
+    if (state.preferencia == 'Categorias') {
+      if (event.query == "Todos")
+        yield state.copyWith(
+            productos: allproductos, selectPreferencia: event.select);
+      else {
+        final resultado =
+            allproductos.where((p) => p.categoria == event.query).toList();
+        yield state.copyWith(
+            productos: resultado, selectPreferencia: event.select);
+      }
+    }
+    if (state.preferencia == 'Marcas') {
+      if (event.query == "Todos")
+        yield state.copyWith(
+            productos: allproductos, selectPreferencia: event.select);
+      else {
+        final resultado =
+            allproductos.where((p) => p.marca == event.query).toList();
+        yield state.copyWith(
+            productos: resultado, selectPreferencia: event.select);
+      }
+    }
   }
 }

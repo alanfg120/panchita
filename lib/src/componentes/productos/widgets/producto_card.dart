@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
-import 'package:panchita/src/componentes/productos/vistas/producto_page.dart';
 import 'package:panchita/src/componentes/productos/widgets/producto_dialogo.dart';
 
 class ProductoCard extends StatefulWidget {
@@ -43,11 +42,11 @@ class _ProductoCardState extends State<ProductoCard> {
   }
 
   _navigation() {
-    Navigator.push(
+  /*   Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                ProductoPage(id: widget.id, producto: widget.producto)));
+                ProductoPage(id: widget.id, producto: widget.producto))); */
   }
 
   _dialogCompra() {

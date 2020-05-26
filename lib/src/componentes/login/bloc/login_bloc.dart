@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:panchita/src/componentes/login/data/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/login/models/status_model.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/plugins/internet_check.dart';
 import 'package:panchita/src/plugins/shared_preferences.dart';
 
 part 'login_event.dart';
@@ -27,18 +29,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
-    if (event is RegistroGoogleEvent)       yield* _registroGoogle(state);
+    if (event is RegistroGoogleEvent) yield* _registroGoogle(state);
     if (event is FinishRegistroGoogleEvent) yield* _finishregistroGoogle(event);
-    if (event is GetCiudadesEvent)          yield* _getCiudades();
-    if (event is AuthGoogleEvent)           yield* _authGoogle(state);
-    if (event is AuthEvent)                 yield* _auth(event, state);
-    if (event is RegistroEvent)             yield* _registro(event, state);
-    if (event is VericarLoginEvent)         yield* _verificarLogin(state);
-    if (event is EditUsuarioEvent)          yield* _editUsuario(event,state);
+    if (event is GetCiudadesEvent) yield* _getCiudades();
+    if (event is AuthGoogleEvent) yield* _authGoogle(state);
+    if (event is AuthEvent) yield* _auth(event, state);
+    if (event is RegistroEvent) yield* _registro(event, state);
+    if (event is VericarLoginEvent) yield* _verificarLogin(state);
+    if (event is EditUsuarioEvent) yield* _editUsuario(event, state);
+    if (event is LogOutEvent) yield* _logOut(event, state);
   }
 
   Stream<LoginState> _registroGoogle(AutenticandoState state) async* {
-    
     final usuario = await auth.signInGoogle();
     if (usuario.idGoogle == null) {
       yield state.copyWith(usuario: usuario, registro: StatusLogin.error);
@@ -62,13 +64,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield AutenticadoState(usuario: event.usuario);
   }
 
-  Stream<LoginState>  _getCiudades() async* {
+  Stream<LoginState> _getCiudades() async* {
     ciudades = await repo.getCiudades();
     yield AutenticandoState.initial(ciudades);
   }
 
   Stream<LoginState> _authGoogle(AutenticandoState state) async* {
-
     final uid = await auth.authGoogle();
     if (uid == "ERROR_NO_AUTH") {
       yield state.copyWith(registro: StatusLogin.error);
@@ -125,17 +126,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _verificarLogin(LoginState state) async* {
-    if (prefs.token != '') {
+    yield InitialState();
+    if (await internetCheck()) if (prefs.token != '') {
       final usuario = await repo.getUsuario(prefs.token);
       yield* _getCiudades();
-      yield AutenticadoState(usuario: usuario,ciudades: ciudades);
+      yield AutenticadoState(usuario: usuario, ciudades: ciudades);
     } else
       yield* _getCiudades();
+    else
+      yield OfflineState();
   }
 
- Stream<LoginState> _editUsuario(EditUsuarioEvent event, AutenticadoState state) async*{
-     repo.updateUsuario(event.usuario);
-     yield state.copyWith(usuario: event.usuario,edit: true);
-     yield state.copyWith(edit: false);
- }
+  Stream<LoginState> _editUsuario(
+      EditUsuarioEvent event, AutenticadoState state) async* {
+    repo.updateUsuario(event.usuario);
+    yield state.copyWith(usuario: event.usuario, edit: true);
+    yield state.copyWith(edit: false);
+  }
+
+  Stream<LoginState> _logOut(LogOutEvent event, LoginState state) async* {
+    prefs.eraseall();
+    auth.logOut();
+    yield AutenticandoState.initial(ciudades);
+  }
 }

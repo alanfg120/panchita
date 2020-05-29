@@ -20,7 +20,6 @@ class _CompraPageState extends State<CompraPage> {
     
     Usuario usuario;
     String ruta;
-    String id;
     String observacion;
     Producto productoActual;
    final _scafKey = GlobalKey<ScaffoldState>();
@@ -32,7 +31,6 @@ class _CompraPageState extends State<CompraPage> {
       if (state is AutenticadoState) {
          usuario = state.usuario;
          ruta    = state.usuario.ciudad.ruta;
-         id      = state.usuario.idGoogle;
     }
 
     return  BlocConsumer<PedidosBloc, PedidosState>(
@@ -52,7 +50,7 @@ class _CompraPageState extends State<CompraPage> {
                       builder: (context, state) =>
                                 Scaffold(
                                 key    :  _scafKey,
-                                appBar :  AppBar(title: Text("Tu Pedido")),
+                                appBar :  AppBar(title: Text("Tu Pedido",style: TextStyle(color:Colors.black),)),
                                 body   :  state.productos.length == 0 
                                           ? Center(child: Text("Ningun producto agregado"))
                                           : ListView.builder(
@@ -189,6 +187,7 @@ class _CompraPageState extends State<CompraPage> {
     final pedido  = Pedido(
     cedula        : usuario.cedula,
     telefono      : usuario.telefono,
+    token         : usuario.token,
     confirmado    : false,
     direccion     : usuario.direccion,
     fecha         : DateTime.now(),
@@ -201,7 +200,6 @@ class _CompraPageState extends State<CompraPage> {
 
     context.bloc<PedidosBloc>().add(
             SendPedidoEvent(
-            id     : id,
             pedido : pedido   
             )
     );

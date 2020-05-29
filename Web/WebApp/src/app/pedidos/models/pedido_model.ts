@@ -16,6 +16,7 @@ public observacion:string;
 public productos:Producto[];
 public total:number;
 public confirmado:boolean;
-
+public telefono:string;
+public token:string;
 
 }

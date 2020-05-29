@@ -64,8 +64,6 @@ class _HomePageState extends State<HomePage> {
          
          case 0 : return ProductosPage();
                   break;
-         case 1 : return ProductosPage();
-                  break;
          case 2 : return PedidosPage();
                   break;
          case 3 : return UserSettingPage();
@@ -115,8 +113,8 @@ Widget _drawer() {
                             leading : Icon(CustomIcon.tag_text_outline,color: Colors.pink[300]),
                             title   : Text("Marcas"),
                             onTap   : (){
-                              setState(() {
-                                currentIndex = 1;
+                               setState(() {
+                                currentIndex = 0;
                               });
                               context.bloc<ProductosBloc>().add(
                                 GetMarcasEvent()

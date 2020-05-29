@@ -5,6 +5,8 @@ import { PedidosRoutingModule } from './pedidos-routing.module';
 import { PedidosComponent } from './vistas/pedidos/pedidos.component';
 import { MaterialModule } from 'src/material/material.module';
 import { DetallepedidoComponent } from './vistas/detallepedido/detallepedido.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -14,7 +16,9 @@ import { DetallepedidoComponent } from './vistas/detallepedido/detallepedido.com
   imports: [
     CommonModule,
     PedidosRoutingModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    FormsModule
   ]
   
 })

@@ -7,6 +7,7 @@ import { Pedido } from "../../models/pedido_model";
 import { loadPedidos } from "../../actions/pedidos_actions";
 import { MatDialog } from "@angular/material";
 import { DetallepedidoComponent } from "../detallepedido/detallepedido.component";
+import { PedidosService } from '../../services/pedidos.service';
 
 @Component({
   selector: "app-pedidos",
@@ -17,7 +18,8 @@ export class PedidosComponent implements OnInit {
   pedidos$: Observable<Pedido[]> = this.store.select(getPedidos);
   constructor(
     private store: Store<{ productos: PedidosState }>,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+  
   ) {}
 
   ngOnInit() {

@@ -28,13 +28,16 @@ class _PedidosPageState extends State<PedidosPage> {
                                                               backgroundColor : Colors.pink,
                                                    ),
                                                    title    : Text("${state.pedidos[i].formatFecha()}"),
-                                                   subtitle : Text("Total: \u0024 ${state.pedidos[i].total}"),
+                                                   subtitle : Text("Total: \u0024 ${state.pedidos[i].id}"),
+                                                   trailing : state.pedidos[i].confirmado
+                                                              ? Icon(Icons.check)
+                                                              : Icon(Icons.cancel),
                                                    onTap: ()=>Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetallesPedidoPage(pedido: state.pedidos[i]),
-                ),
-              ),
+                                                              context,
+                                                              MaterialPageRoute(
+                                                              builder: (context) => DetallesPedidoPage(pedido: state.pedidos[i])
+                                                              ),
+                                                   ),
                                             );
                             },
                            ),

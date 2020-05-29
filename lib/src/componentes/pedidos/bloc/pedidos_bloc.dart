@@ -52,7 +52,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
 
   Stream<PedidosState> _addPedido(
       SendPedidoEvent event, PedidosState state) async* {
-    repocitorio.setPedido(event.pedido, event.id).listen((_) {
+    repocitorio.setPedido(event.pedido).listen((_) {
       add(FinishPedidoEvent(pedido: event.pedido));
     });
     yield state.copyWith(sendPedido: true);

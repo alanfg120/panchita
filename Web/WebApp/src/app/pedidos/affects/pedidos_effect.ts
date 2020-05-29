@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { Actions, createEffect, ofType, act } from "@ngrx/effects";
 import { EMPTY, of, pipe } from "rxjs";
-import { Store, select } from '@ngrx/store';
+import { Store, select } from "@ngrx/store";
 
 import {
   //map,
@@ -14,19 +14,19 @@ import {
   withLatestFrom,
 } from "rxjs/operators";
 
-
 import { MatSnackBar } from "@angular/material";
 
-
-import { async } from '@angular/core/testing';
-import { loadPedidos, loadedPedidos } from '../actions/pedidos_actions';
-import { PedidosService } from '../services/pedidos.service';
-
+import { async } from "@angular/core/testing";
+import {
+  loadPedidos,
+  loadedPedidos,
+  sendPushNotification,
+} from "../actions/pedidos_actions";
+import { PedidosService } from "../services/pedidos.service";
 
 @Injectable()
 export class PedidosEffects {
-
- loadPedidos$ = createEffect(() =>
+  loadPedidos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPedidos),
       concatMap(() => {
@@ -37,10 +37,22 @@ export class PedidosEffects {
       })
     )
   );
+  sendPushNotification$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(sendPushNotification),
+        concatMap((action) => {
+          return this._pedidos
+            .sendPushNotications(action.mensaje,action.token)
+            .pipe(map(() => this.snacbar.open("Pedido Confirmado", "Aceptar")));
+        })
+      ),
+    { dispatch: false }
+  );
 
   constructor(
     private actions$: Actions,
     private _pedidos: PedidosService,
-    private snacbar: MatSnackBar,
+    private snacbar: MatSnackBar
   ) {}
 }

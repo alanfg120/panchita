@@ -21,10 +21,9 @@ class DeleteProductoEvent extends PedidosEvent {
 
 class SendPedidoEvent extends PedidosEvent {
   final Pedido pedido;
-  final String id;
-  SendPedidoEvent({this.id, this.pedido});
+  SendPedidoEvent({this.pedido});
   @override
-  List<Object> get props => [id, pedido];
+  List<Object> get props => [pedido];
 }
 
 class GetPedidosEvent extends PedidosEvent {
@@ -39,4 +38,9 @@ class FinishPedidoEvent extends PedidosEvent {
   FinishPedidoEvent({this.pedido});
   @override
   List<Object> get props => [pedido];
+}
+
+class ConfirmPedidoEvent extends PedidosEvent {
+  @override
+  List<Object> get props => [];
 }

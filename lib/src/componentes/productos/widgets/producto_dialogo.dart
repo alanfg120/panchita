@@ -86,7 +86,9 @@ class _DialogProductoState extends State<DialogProducto> {
                                        child : Container(
                                                margin  : EdgeInsets.all(2),
                                                alignment : Alignment.topLeft,
-                                               child     : Text("${widget.producto.descripcion}")
+                                               child     : widget.producto.descripcion == null
+                                                           ? Text("No hay descripcion")
+                                                           : Text("${widget.producto.descripcion}"),
                                                )
                                        ),
                                        Expanded(

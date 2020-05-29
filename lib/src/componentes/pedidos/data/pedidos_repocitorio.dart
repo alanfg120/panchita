@@ -4,10 +4,11 @@ import 'package:panchita/src/plugins/firebase_service.dart';
 class PedidoRepositorio {
 final String colletion = '/pedidos';
 
-Stream setPedido(Pedido pedido,String id){
-    return addDocument(colletion,data:{
+Stream setPedido(Pedido pedido){
+    return addDocument(colletion,id: pedido.id,data:{
       "telefono"       : pedido.telefono,
       "nombre_cliente" : pedido.nombreCliente,
+      "token"          : pedido.token,
       "ciudad"         : pedido.ciudad.ciudad,
       "direccion"      : pedido.direccion,
       "cedula_cliente" : pedido.cedula,

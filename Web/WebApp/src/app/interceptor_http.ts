@@ -17,7 +17,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     const dupReq = req.clone({
       headers: req.headers.set(
         "Authorization",
-        `Bearer ${sessionStorage.getItem("id_seccion")}`
+        `key=AAAAdH6_KEM:APA91bGhFWbLdqLpblST63fbDM-Fd5LK34Z8mXXxyt2YibueEOjBIOjktKnoy5OxvnKCxRMnl5JfI389mlRs77PuqztCGWxqtAHfcHcUjx2m5Gc8arxPKAx5Y0FiXJVgyn9ldwiQcHco`
       )
     });
     return next.handle(dupReq);

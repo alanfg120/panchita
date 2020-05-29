@@ -2,7 +2,7 @@
   Pedido Fecha:{{ this.data.fecha.seconds * 1000 | date: "dd/MM/yyyy" }}
 </h2>
 
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content style="overflow: hidden;">
   <h3>Datos basicos</h3>
   <div class="datos_basicos">
     <div>Nombre:</div>
@@ -13,10 +13,12 @@
     <div class="pedido_item">{{ data.direccion }}</div>
     <div>Ciudad:</div>
     <div>Confirmado:</div>
-    <div>Observacion:</div>
+    <div>Telefono:</div>
     <div class="pedido_item">{{ data.ciudad }}</div>
     <div class="pedido_item">{{ data.confirmado ? "Si" : "No" }}</div>
-    <div class="pedido_item">{{ data.observacion }}</div>
+    <div class="pedido_item">{{ data.telefono }}</div>
+    <div class="observacion">Observacion</div>
+    <div class="pedido_item observacion">{{ data.observacion }}</div>
   </div>
   <h3>Productos</h3>
 
@@ -47,8 +49,17 @@
   <h2>$ {{ this.data.total }}</h2>
 </mat-dialog-actions>
 
-<mat-dialog-actions align="end">
-    <button color="accent" mat-button cdkFocusInitial>
+<mat-dialog-actions align="end" class="send">
+  <mat-form-field appearance="outline" class="descripcion">
+    <mat-label>Mensaje de pedido</mat-label>
+    <textarea
+      matInput
+      name="mensaje"
+      [(ngModel)]="mensaje"
+      rows="3"
+    ></textarea>
+  </mat-form-field>
+    <button color="accent" mat-button cdkFocusInitial (click)="sendPush()">
         Enviar Confirmacion
       </button>
       <button mat-button mat-dialog-close cdkFocusInitial>

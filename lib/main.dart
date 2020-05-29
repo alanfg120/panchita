@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
   final PedidoRepositorio   repoPedido     = PedidoRepositorio();
   @override
   Widget build(BuildContext context) {
-
+    push.init();
     return MultiBlocProvider (
           providers: [
                       BlocProvider<LoginBloc>(
@@ -74,7 +74,10 @@ class MyApp extends StatelessWidget {
                 
           ),
           home   : BlocBuilder<LoginBloc,LoginState>(
-                  builder:(context,state){
+                   builder:(context,state){
+                    push.onlaunchStream.listen((data) { 
+                      print(data);
+                    });
                     if(state is AutenticandoState)
                        return LoginPage();
                     if(state is AutenticadoState){

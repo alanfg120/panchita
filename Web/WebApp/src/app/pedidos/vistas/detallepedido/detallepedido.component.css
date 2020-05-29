@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  grid-row-gap: 5px;
+  grid-row-gap: 3px;
   grid-column-gap: 10px;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .productos_encabezado {
-  height: 30px;
+  height: 25px;
   display: grid;
   grid-template-columns: 50px  2fr repeat(3, 1fr);
   justify-items: center;
@@ -30,7 +30,7 @@
 }
 
 .productos {
-  height: 30vh;
+  height: 18vh;
   overflow-y: scroll;
 }
 
@@ -39,4 +39,14 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
+}
+
+.observacion{
+  grid-column: span 3;
+}
+
+.send{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

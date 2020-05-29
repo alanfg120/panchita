@@ -11,4 +11,9 @@ export const loadedPedidos = createAction(
   props<{pedidos:Pedido[]}>()
 );
 
+export const sendPushNotification = createAction(
+  "[Pedidos Componet] SendPushNotification",
+  props<{mensaje:string,token:string}>()
+);
+
 

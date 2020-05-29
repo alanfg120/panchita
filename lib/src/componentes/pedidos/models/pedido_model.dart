@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 
 class Pedido {
   
+  String id;
   String nombreCliente;
   String direccion;
   String cedula;
   String telefono;
+  String token;
   List<Producto> productos;
   int total;
   bool confirmado;
@@ -27,8 +30,11 @@ class Pedido {
       this.direccion,
       this.nombreCliente,
       this.ciudad,
-      this.telefono
-      });
+      this.telefono,
+      this.token
+      }){
+          id = UniqueKey().toString();
+      }
 
   String formatFecha(){
     return DateFormat("dd/MM/yyyy hh:mm aaa").format(DateTime.parse(fecha.toString()));

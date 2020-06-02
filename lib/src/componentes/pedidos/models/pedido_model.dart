@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
@@ -16,6 +15,7 @@ class Pedido {
   int total;
   bool confirmado;
   String observacion;
+  String mensaje;
   DateTime fecha;
   Ciudad   ciudad;
  
@@ -25,6 +25,7 @@ class Pedido {
       this.total,
       this.confirmado,
       this.observacion,
+      this.mensaje,
       this.fecha,
       this.cedula,
       this.direccion,
@@ -32,9 +33,7 @@ class Pedido {
       this.ciudad,
       this.telefono,
       this.token
-      }){
-          id = UniqueKey().toString();
-      }
+      });
 
   String formatFecha(){
     return DateFormat("dd/MM/yyyy hh:mm aaa").format(DateTime.parse(fecha.toString()));
@@ -52,6 +51,7 @@ class Pedido {
   }
 
   Pedido.map(DocumentSnapshot data){
+    id            =  data.documentID;
     telefono      =  data['telefono'];
     nombreCliente =  data['nombre_cliente'];
     direccion     =  data['direccion'];
@@ -61,8 +61,10 @@ class Pedido {
     total         =  data['total'];
     productos     =  productoMap(data['productos']);
     confirmado    =  data['confirmado'];
+    mensaje       =  data['mensaje'];
   }
-     
+  @override
+  String toString()=>'$confirmado';
 
 }
 

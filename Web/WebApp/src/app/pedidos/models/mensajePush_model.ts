@@ -14,6 +14,7 @@ interface Data {
   click_action: string;
   mensaje: string;
   event: string;
+  id:string
 }
 
 interface Setting {

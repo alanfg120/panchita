@@ -28,6 +28,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     if (event is GetPedidosEvent)     yield* _getPedidos(event, state);
     if (event is SendPedidoEvent)     yield* _addPedido(event, state);
     if (event is FinishPedidoEvent)   yield* _finishPedido(event, state);
+    if (event is ConfirmPedidoEvent)  yield* _confirmPedido(event, state);
   }
 
   Stream<PedidosState> _addProducto(
@@ -52,7 +53,8 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
 
   Stream<PedidosState> _addPedido(
       SendPedidoEvent event, PedidosState state) async* {
-    repocitorio.setPedido(event.pedido).listen((_) {
+    repocitorio.setPedido(event.pedido).listen((data) {
+      event.pedido.id = data.documentID;
       add(FinishPedidoEvent(pedido: event.pedido));
     });
     yield state.copyWith(sendPedido: true);
@@ -63,5 +65,19 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     state.pedidos.add(event.pedido);
     yield state.copyWith(
         pedidos: state.pedidos, productos: [], total: 0, sendPedido: false);
+  }
+
+  Stream<PedidosState> _confirmPedido(
+      ConfirmPedidoEvent event, PedidosState state) async* {
+    List<Pedido> pedidos = state.pedidos.map((p) {
+      if (p.id == event.id) {
+        p.confirmado = true;
+        p.mensaje = event.mensaje;
+      }
+      return p;
+    }).toList();
+    state.pedidos.add(Pedido());
+    repocitorio.updatePedido(event.id, event.mensaje);
+    yield state.copyWith(pedidos: pedidos);
   }
 }

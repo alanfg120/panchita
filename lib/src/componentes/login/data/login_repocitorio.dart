@@ -37,4 +37,11 @@ class LoginRepocitorio {
       final usuario = await getDocument(colletion, uid);
       return Usuario.map(usuario);
   }
+  
+  Stream updateToken(String token,String id){
+       return updateDocument(colletion, id, {
+         "token":token
+       });
+  }
 }
+

@@ -12,7 +12,6 @@ import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 import 'package:panchita/src/componentes/pedidos/data/pedidos_repocitorio.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/data/productos_repocitori.dart';
-
 import 'package:panchita/src/plugins/bloc_delegate.dart';
 import 'package:panchita/src/plugins/push_notifications.dart';
 import 'package:panchita/src/plugins/rutas.dart';
@@ -31,19 +30,22 @@ final prefs = PreferenciasUsuario();
 }
 
 class MyApp extends StatelessWidget {
+
  
   final push = PushNotificatios();
   
-  final LoginRepocitorio   repologin       = LoginRepocitorio();
+  final LoginRepocitorio    repologin       = LoginRepocitorio();
   final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
   final PedidoRepositorio   repoPedido     = PedidoRepositorio();
   @override
   Widget build(BuildContext context) {
     push.init();
+ 
     return MultiBlocProvider (
           providers: [
                       BlocProvider<LoginBloc>(
-                      create: (context) => LoginBloc(repo:repologin)..add(VericarLoginEvent()),
+                      create: (context) => LoginBloc(repo:repologin)..add(VericarLoginEvent())
+                                                                    
                       ),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetCategoriasEvent())
@@ -75,9 +77,6 @@ class MyApp extends StatelessWidget {
           ),
           home   : BlocBuilder<LoginBloc,LoginState>(
                    builder:(context,state){
-                    push.onlaunchStream.listen((data) { 
-                      print(data);
-                    });
                     if(state is AutenticandoState)
                        return LoginPage();
                     if(state is AutenticadoState){

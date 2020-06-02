@@ -27,19 +27,30 @@ class _DetallesPedidoPageState extends State<DetallesPedidoPage> {
                             body   : Column(
                                      children: <Widget>[
                                               ListTile(
-                                              title    : Text(widget.pedido.nombreCliente),
-                                              subtitle : Text("Nombre"),
-                                              leading  : Icon(Icons.people),
+                                              title    : Text("Confirmado"),
+                                              subtitle : widget.pedido.confirmado
+                                                         ? Text("SI")
+                                                         : Text("NO"),
+                                              leading  : widget.pedido.confirmado
+                                                         ? Icon(Icons.check_circle_outline)
+                                                         : Icon(Icons.cancel)
                                               ),
                                               ListTile(
-                                              title    : Text(widget.pedido.cedula),
-                                              subtitle : Text("Cedula"),
-                                              leading  : Icon(Icons.credit_card)
+                                              leading  : Icon(Icons.message),
+                                              title    : Text("Mensaje del distribuidor"),
                                               ),
-                                              ListTile(
-                                              title    : Text(widget.pedido.direccion),
-                                              subtitle : Text("Direccion"),
-                                              leading  : Icon(Icons.map),
+                                              Container(
+                                              height : 80,
+                                              margin : EdgeInsets.symmetric(horizontal: 8),
+                                              width  : double.infinity,
+                                              alignment: Alignment.center,
+                                              child  : widget.pedido.mensaje == null 
+                                                       ? Text("No hay un mensaje de pedido")
+                                                       : Text(widget.pedido.mensaje),
+                                              decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(20),
+                                                          color: Colors.black12
+                                              ),
                                               ),
                                               ListTile(
                                               leading  : Text("No"),

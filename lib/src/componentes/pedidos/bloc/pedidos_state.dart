@@ -1,6 +1,7 @@
 part of 'pedidos_bloc.dart';
 
 class PedidosState extends Equatable {
+
   final List<Pedido> pedidos;
   final List<Producto> productos;
   final int total;
@@ -41,4 +42,8 @@ class PedidosState extends Equatable {
 
   @override
   List<Object> get props => [productos,total,pedidos,sendPedido];
+
+ @override
+  String toString()=>'$pedidos';
+
 }

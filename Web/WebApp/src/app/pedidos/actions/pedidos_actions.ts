@@ -13,7 +13,7 @@ export const loadedPedidos = createAction(
 
 export const sendPushNotification = createAction(
   "[Pedidos Componet] SendPushNotification",
-  props<{mensaje:string,token:string}>()
+  props<{mensaje:string,token:string,id:string}>()
 );
 
 

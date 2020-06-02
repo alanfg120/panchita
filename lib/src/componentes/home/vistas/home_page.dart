@@ -1,15 +1,19 @@
 
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
 import 'package:panchita/src/componentes/login/vistas/userSetting_page.dart';
+import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 
 import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/vistas/productos_page.dart';
 import 'package:panchita/src/plugins/custom_icon_icons.dart';
+import 'package:panchita/src/plugins/push_notifications.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -20,18 +24,43 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
  
+  @override
+  void initState() {
+    onmessage = push.onmessageStream.listen((data) {});
+    onresume  = push.onresumeStream.listen((data) {});
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+     onmessage?.cancel();
+     onresume?.cancel();
+     super.dispose();
+  }
+
+  final push = PushNotificatios();
+  StreamSubscription onmessage;
+  StreamSubscription onresume;
   int currentIndex=0;
   Usuario usuario;
   @override
   Widget build(BuildContext context) {
-   
+  onmessage.onData((data) { 
+    context.bloc<PedidosBloc>().add(
+      ConfirmPedidoEvent(id: data['id'],mensaje: data['mensaje'])
+    );
+   }); 
+   onresume.onData((data) { 
+    context.bloc<PedidosBloc>().add(
+      ConfirmPedidoEvent(id: data['id'],mensaje: data['mensaje'])
+    );
+   }); 
+
    final state = BlocProvider.of<LoginBloc>(context).state;
             if(state is AutenticadoState){
               usuario = state.usuario;
-             
-            }
-              
-
+             }
+     
     return Scaffold(  
            drawer              : _drawer(),
            

@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:panchita/src/componentes/pedidos/models/pedido_model.dart';
 import 'package:panchita/src/plugins/firebase_service.dart';
 
 class PedidoRepositorio {
 final String colletion = '/pedidos';
 
-Stream setPedido(Pedido pedido){
-    return addDocument(colletion,id: pedido.id,data:{
+Stream<DocumentReference> setPedido(Pedido pedido){
+    return addDocument(colletion,data:{
       "telefono"       : pedido.telefono,
       "nombre_cliente" : pedido.nombreCliente,
       "token"          : pedido.token,
@@ -17,6 +18,13 @@ Stream setPedido(Pedido pedido){
       "observacion"    : pedido.observacion,
       "confirmado"     : pedido.confirmado,
       "fecha"          : pedido.fecha
+    });
+}
+
+Stream updatePedido(String id,String mensaje){
+    return updateDocument(colletion, id, {
+           "confirmado": true,
+           "mensaje"   : mensaje
     });
 }
 

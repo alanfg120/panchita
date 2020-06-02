@@ -42,9 +42,13 @@ export class PedidosEffects {
       this.actions$.pipe(
         ofType(sendPushNotification),
         concatMap((action) => {
+    
           return this._pedidos
-            .sendPushNotications(action.mensaje,action.token)
-            .pipe(map(() => this.snacbar.open("Pedido Confirmado", "Aceptar")));
+            .sendPushNotications(action.mensaje,action.token,action.id)
+            .pipe(map( async () => {
+              await this._pedidos.updatePedidos(action.mensaje,true,action.id)
+              return this.snacbar.open("Pedido Confirmado", "Aceptar")
+            }));
         })
       ),
     { dispatch: false }

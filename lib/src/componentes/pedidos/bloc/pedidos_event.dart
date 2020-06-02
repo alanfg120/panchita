@@ -41,6 +41,9 @@ class FinishPedidoEvent extends PedidosEvent {
 }
 
 class ConfirmPedidoEvent extends PedidosEvent {
+  final String mensaje;
+  final String id;
+  ConfirmPedidoEvent({this.id,this.mensaje});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [id,mensaje];
 }

@@ -28,10 +28,10 @@ class _PedidosPageState extends State<PedidosPage> {
                                                               backgroundColor : Colors.pink,
                                                    ),
                                                    title    : Text("${state.pedidos[i].formatFecha()}"),
-                                                   subtitle : Text("Total: \u0024 ${state.pedidos[i].id}"),
+                                                   subtitle : Text("Total: \u0024 ${state.pedidos[i].total}"),
                                                    trailing : state.pedidos[i].confirmado
-                                                              ? Icon(Icons.check)
-                                                              : Icon(Icons.cancel),
+                                                              ? Icon(Icons.check,color:Colors.green)
+                                                              : Icon(Icons.cancel,color: Colors.red),
                                                    onTap: ()=>Navigator.push(
                                                               context,
                                                               MaterialPageRoute(

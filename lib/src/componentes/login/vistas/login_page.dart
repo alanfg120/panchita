@@ -185,10 +185,15 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Usua
                      child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                                    Image(
-                                      height : 90,
-                                      width  : 90,
-                                      image  : AssetImage('assets/logo.png'), 
+                                    Container(
+                                     height     : 100,
+                                     width      : 250,
+                                     decoration : BoxDecoration(
+                                                  image: DecorationImage(
+                                                         image : AssetImage('assets/logoLogin.png'),
+                                                         fit   : BoxFit.cover
+                                                         ),
+                                     ),  
                                     ),
                                     SizedBox(height: 10),
                                     Text("Bienvenido Panchita Cliente",

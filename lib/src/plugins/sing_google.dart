@@ -27,10 +27,16 @@ void singOut() async {
 
 Future<String> singIn(String email,String password) async {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  return (await _auth.createUserWithEmailAndPassword(
+  try {
+      return (await _auth.createUserWithEmailAndPassword(
       email    : email,
       password : password,
     )).user.uid;
+  } catch (e) {
+    return handleError(e);
+  }
+
+
 }
 Future<String> logIn(String email,String password) async {
   final FirebaseAuth _auth = FirebaseAuth.instance;

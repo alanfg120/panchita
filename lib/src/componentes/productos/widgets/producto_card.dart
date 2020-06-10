@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
@@ -64,13 +65,17 @@ class _ProductoCardState extends State<ProductoCard> {
                            tag   : widget.id.toString(),
                            child : GestureDetector(
                                    onTap : _navigation,
-                                   child : FadeInImage.assetNetwork(
-                                           fit         : BoxFit.cover,
-                                           height      : 90,
-                                           width       : 90,
-                                           placeholder : 'assets/image.gif',
-                                           image       :  widget.producto.foto
-                                   ),
+                                   child :CachedNetworkImage(
+                                          height      : 90,
+                                          width       : 90,
+                                          imageUrl    : widget.producto.foto,
+                                          placeholder : (context, url) => Image(
+                                                                          height : 90,
+                                                                          width  : 90,
+                                                                          image  : AssetImage("assets/image.gif"),
+                                          ),
+                                          errorWidget : (context, url, error) => Icon(Icons.error),
+                                    ),
                            ),
             )
             );

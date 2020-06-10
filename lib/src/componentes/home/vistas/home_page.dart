@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/home/widgets/menu_drawer_widget.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
 import 'package:panchita/src/componentes/login/vistas/userSetting_page.dart';
@@ -45,11 +46,13 @@ class _HomePageState extends State<HomePage> {
   Usuario usuario;
   @override
   Widget build(BuildContext context) {
+
   onmessage.onData((data) { 
     context.bloc<PedidosBloc>().add(
       ConfirmPedidoEvent(id: data['id'],mensaje: data['mensaje'])
     );
    }); 
+
    onresume.onData((data) { 
     context.bloc<PedidosBloc>().add(
       ConfirmPedidoEvent(id: data['id'],mensaje: data['mensaje'])
@@ -79,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                                  title  : _titulo()
            ),
            backgroundColor     : Colors.white,
-           body                : _selectPage(),
+           body                : _selectPage(currentIndex),
       
         
         
@@ -88,10 +91,15 @@ class _HomePageState extends State<HomePage> {
         );
   }
 
-  Widget _selectPage() {
+  Widget _selectPage(int page) {
+         setState(()=>currentIndex = page);
          switch (currentIndex){
          
-         case 0 : return ProductosPage();
+         case 0 : context.bloc<ProductosBloc>().add(GetCategoriasEvent());
+                  return ProductosPage();
+                  break;
+         case 1 : context.bloc<ProductosBloc>().add(GetMarcasEvent());
+                  return ProductosPage();
                   break;
          case 2 : return PedidosPage();
                   break;
@@ -111,67 +119,39 @@ Widget _drawer() {
            color: Colors.white,
            child: ListView(
                   children: <Widget>[
-                            DrawerHeader(
-                            child     :Align(
-                                       child: Text("Bienvenido ${usuario.nombre}",style: TextStyle(color: Colors.white)),
-                                       alignment: Alignment.bottomCenter,
-                                      ),
-                            decoration: BoxDecoration(
-                                       gradient: LinearGradient(colors: [
-                                         Colors.pink,
-                                         Colors.pink[400],
-                                         Colors.pink[300]
-                                       ]),
-                                        image: DecorationImage(image: AssetImage('assets/logo.png'),fit: BoxFit.cover)
+                            _drawerHeader(),
+                            ItemDrawer(
+                            icono  : CustomIcon.format_list_checkbox,
+                            titulo : "Categorias",
+                            page   : 0,
+                            ontap  : (page)=>_selectPage(page)
                             ),
+                            ItemDrawer(
+                            icono  : CustomIcon.tag_text_outline,
+                            titulo : "Marcas",
+                            page   : 1,
+                            ontap  : (page)=>_selectPage(page)
                             ),
-                            ListTile(
-                            leading : Icon(CustomIcon.format_list_checkbox,color: Colors.pink[300]),
-                            title   : Text("Categorias"),
-                            onTap   : (){
-                              setState(() {
-                                currentIndex = 0;
-                              });
-                              context.bloc<ProductosBloc>().add(
-                                GetCategoriasEvent()
-                              );
-                              Navigator.pop(context);
-                            },
+                            ItemDrawer(
+                            icono  : CustomIcon.basket_outline,
+                            titulo : "Tus Pedidos",
+                            page   : 2,
+                            ontap  : (page)=>_selectPage(page)
                             ),
-                            ListTile(
-                            leading : Icon(CustomIcon.tag_text_outline,color: Colors.pink[300]),
-                            title   : Text("Marcas"),
-                            onTap   : (){
-                               setState(() {
-                                currentIndex = 0;
-                              });
-                              context.bloc<ProductosBloc>().add(
-                                GetMarcasEvent()
-                              );
-                                Navigator.pop(context);
-                            },
+                            ItemDrawer(
+                            icono    : Icons.add_box,
+                            titulo   : "Crear Productos",
+                            page     : 4,
+                            ontap    : (page)=>_selectPage(page),
+                            activate : usuario.vendedor,
                             ),
-                            ListTile(
-                            leading : Icon(CustomIcon.basket_outline,color: Colors.pink[300]),  
-                            title   : Text("Tus pedidos"),
-                            onTap   : (){
-                              setState(() {
-                                currentIndex = 2;
-                              });
-                              Navigator.pop(context);
-                            },
+                            ItemDrawer(
+                            icono  : CustomIcon.cog_outline,
+                            titulo : "Configuracion",
+                            page   : 3,
+                            ontap  : (page)=>_selectPage(page)
                             ),
-                            ListTile(
-                            leading : Icon(CustomIcon.cog_outline,color: Colors.pink[300]),  
-                            title   : Text("Configuracion"),
-                            onTap   : (){
-                               setState(() {
-                                currentIndex = 3;
-                              });
-                              Navigator.pop(context);
-                            },
-                            )
-                  ]
+                           ]
            ),
          ),
   );
@@ -179,10 +159,28 @@ Widget _drawer() {
 }
 
   Widget _titulo() {
-      if(currentIndex == 1)
-         return Text("Tus Pedidos");
       if(currentIndex == 2)
+         return Text("Tus Pedidos");
+      if(currentIndex == 3)
          return Text("Configuracion");
       return null;
   }
+
+ Widget _drawerHeader(){
+        return    DrawerHeader(
+                            child     :Align(
+                                       child: Text("Bienvenido ${usuario.nombre}",style: TextStyle(color: Colors.white)),
+                                       alignment: Alignment.bottomCenter,
+                                       ),
+                            decoration: BoxDecoration(
+                                         gradient: LinearGradient(colors: [
+                                         Colors.pink,
+                                         Colors.pink[400],
+                                         Colors.pink[300]
+                                       ]),
+                                        image: DecorationImage(image: AssetImage('assets/logo.png'),fit: BoxFit.cover)
+                            ),
+                            );
+
+ }
 }

@@ -3,6 +3,7 @@ import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/pedidos/models/pedido_model.dart';
 
 class Usuario {
+
   String token;
   String email;
   String password;
@@ -13,6 +14,7 @@ class Usuario {
   String telefono;
   Ciudad ciudad;
   List<Pedido> pedidos;
+  bool vendedor;
 
   Usuario({
     this.token,
@@ -25,6 +27,7 @@ class Usuario {
     this.telefono,
     this.ciudad,
     this.pedidos,
+    this.vendedor
   });
 
   Usuario.map(DocumentSnapshot usuario) {
@@ -36,5 +39,6 @@ class Usuario {
     direccion  = usuario['direccion'];
     telefono   = usuario['telefono'];
     ciudad     = Ciudad.map(usuario['ciudad']);
+    vendedor   = usuario['vendedor'];
   }
 }

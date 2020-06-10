@@ -35,14 +35,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
   
 
-    if (event is RegistroGoogleEvent) yield* _registroGoogle(state);
+    if (event is RegistroGoogleEvent)       yield* _registroGoogle(state);
     if (event is FinishRegistroGoogleEvent) yield* _finishregistroGoogle(event);
-    if (event is AuthGoogleEvent) yield* _authGoogle(state);
-    if (event is AuthEvent) yield* _auth(event, state);
-    if (event is RegistroEvent) yield* _registro(event, state);
-    if (event is VericarLoginEvent) yield* _verificarLogin(state);
-    if (event is EditUsuarioEvent) yield* _editUsuario(event, state);
-    if (event is LogOutEvent) yield* _logOut(event, state);
+    if (event is AuthGoogleEvent)           yield* _authGoogle(state);
+    if (event is AuthEvent)                 yield* _auth(event, state);
+    if (event is RegistroEvent)             yield* _registro(event, state);
+    if (event is VericarLoginEvent)         yield* _verificarLogin(state);
+    if (event is EditUsuarioEvent)          yield* _editUsuario(event, state);
+    if (event is LogOutEvent)               yield* _logOut(event, state);
   }
 
   Stream<LoginState> _registroGoogle(AutenticandoState state) async* {

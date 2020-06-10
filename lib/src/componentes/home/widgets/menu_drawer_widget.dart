@@ -18,16 +18,16 @@ class ItemDrawer extends StatefulWidget {
 class _ItemDrawerState extends State<ItemDrawer> {
   @override
   Widget build(BuildContext context) {
-    
-    if(widget.activate == null || widget.activate == true)
-    return ListTile(
-      title: Text(widget.titulo),
-      leading: Icon(widget.icono, color: Colors.pink[300]),
-      onTap: () {
-        widget.ontap(widget.page);
-        Navigator.pop(context);
-      },
-    );
-    else return null;
+    if (widget.activate == null || widget.activate == true)
+      return ListTile(
+             title   : Text(widget.titulo),
+             leading : Icon(widget.icono, color: Colors.pink[300]),
+             onTap   : () {
+                            widget.ontap(widget.page);
+                            Navigator.pop(context);
+             },
+      );
+    else
+      return null;
   }
 }

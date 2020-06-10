@@ -12,6 +12,7 @@ import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 
 import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
+import 'package:panchita/src/componentes/productos/vistas/create_producto.dart';
 import 'package:panchita/src/componentes/productos/vistas/productos_page.dart';
 import 'package:panchita/src/plugins/custom_icon_icons.dart';
 import 'package:panchita/src/plugins/push_notifications.dart';
@@ -94,20 +95,20 @@ class _HomePageState extends State<HomePage> {
   Widget _selectPage(int page) {
          setState(()=>currentIndex = page);
          switch (currentIndex){
-         
-         case 0 : context.bloc<ProductosBloc>().add(GetCategoriasEvent());
-                  return ProductosPage();
-                  break;
-         case 1 : context.bloc<ProductosBloc>().add(GetMarcasEvent());
-                  return ProductosPage();
-                  break;
-         case 2 : return PedidosPage();
-                  break;
-         case 3 : return UserSettingPage();
-                  break;
-
-         default: return ProductosPage();
-                  break;
+                 case 0 : context.bloc<ProductosBloc>().add(GetCategoriasEvent());
+                          return ProductosPage();
+                          break;
+                 case 1 : context.bloc<ProductosBloc>().add(GetMarcasEvent());
+                          return ProductosPage();
+                          break;
+                 case 2 : return PedidosPage();
+                          break;
+                 case 3 : return UserSettingPage();
+                          break;
+                 case 4 : return CreateProductoPage();
+                          break;
+                 default: return ProductosPage();
+                          break;
 
          }
 

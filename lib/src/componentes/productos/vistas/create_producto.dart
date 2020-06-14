@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
+import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
+import 'package:panchita/src/plugins/custom_icon_icons.dart';
 
 class CreateProductoPage extends StatefulWidget {
   CreateProductoPage({Key key}) : super(key: key);
@@ -12,6 +13,8 @@ class CreateProductoPage extends StatefulWidget {
 class _CreateProductoPageState extends State<CreateProductoPage> {
 
   Producto producto = Producto();
+  List  categorias  = List(); 
+  List  marcas      = List(); 
  
   final _codigoController     = TextEditingController();
   final _cantidadController   = TextEditingController();
@@ -36,12 +39,17 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+         categorias = context.bloc<ProductosBloc>().categorias;
+         marcas     = context.bloc<ProductosBloc>().marcas;
+
     return Scaffold(
+         
            key: _scaffoldKey,
            body: GestureDetector(
                  onTap: ()=>FocusScope.of(context).unfocus(),
                  child: SingleChildScrollView(
-                        child: BlocConsumer<LoginBloc,LoginState>(
+                        child: BlocConsumer<ProductosBloc,ProductosState>(
                                listener: (context,state){
                              
                                },
@@ -52,21 +60,21 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
                                               padding: EdgeInsets.all(33),
                                               child: Column(
                                                  children: <Widget>[
-                                                            input("Codigo",_codigoController,Icon(Icons.mail_outline),_focoCodigo,producto),
+                                                            input("Codigo",_codigoController,Icon(CustomIcon.barcode),_focoCodigo,producto),
                                                             SizedBox(height: 20),
-                                                            input("Nombre",_nombreController,Icon(Icons.lock),_focoNombre,producto),
+                                                            input("Nombre",_nombreController,Icon(Icons.near_me),_focoNombre,producto),
                                                             SizedBox(height: 20),
-                                                            input("Cantidad",_cantidadController,Icon(Icons.mail_outline),_focoCantidad,producto),
+                                                            input("Cantidad",_cantidadController,Icon(CustomIcon.numeric_9_plus_circle_outline),_focoCantidad,producto),
                                                             SizedBox(height: 20),
-                                                            input("Categorias",_categoriasController,Icon(Icons.lock),_focoCategorias,producto),
+                                                            input("Categorias",_categoriasController,Icon(CustomIcon.format_list_checkbox),_focoCategorias,producto),
                                                             SizedBox(height: 20),
-                                                            input("Marcas",_marcasController,Icon(Icons.lock),_focoMarcas,producto),
+                                                            input("Marcas",_marcasController,Icon(CustomIcon.tag_text_outline),_focoMarcas,producto),
                                                             SizedBox(height: 20),
-                                                            input("Precio Uno",_precioUnoController,Icon(Icons.lock),_focoPrecioUno,producto),
+                                                            input("Precio Uno",_precioUnoController,Icon(CustomIcon.cash_usd_outline),_focoPrecioUno,producto),
                                                             SizedBox(height: 20),
-                                                            input("Precio Dos",_precioDosController,Icon(Icons.lock),_focoPrecioDos,producto),
+                                                            input("Precio Dos",_precioDosController,Icon(CustomIcon.cash_usd_outline),_focoPrecioDos,producto),
                                                             SizedBox(height: 20),
-                                                            input("Precio Tres",_precioTresController,Icon(Icons.lock),_focoPrecioTres,producto),
+                                                            input("Precio Tres",_precioTresController,Icon(CustomIcon.cash_usd_outline),_focoPrecioTres,producto),
                                                             SizedBox(height: 20),
                                                             registroButton(),
                                                             SizedBox(height: 20),
@@ -103,10 +111,11 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                      break;
                  case 'Precio Tres': textinput=TextInputAction.done;
                                      break;
-                 default:
+                 default:            break;
          }
         
        return TextFormField(
+       readOnly   : texto == 'Categorias' || texto == 'Marcas' ?  true : false,
        textInputAction: textinput,
        focusNode  : foco,
        controller : controller,
@@ -162,24 +171,59 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        validator: (value){
                    if(value.isEmpty) return "Es requerido";
                    return null;
-       },         
+       }, 
+       onTap: (){
+              if(texto == 'Categorias')
+               _addCiudad(context, categorias, 'categorias');
+              if(texto == 'Marcas')
+               _addCiudad(context, marcas, 'marcas');
+       },        
       );
  }
   Widget registroButton() => MaterialButton(
                              height    : 50,
                              minWidth  : double.maxFinite,
-                             color     : Colors.purple,
-                             child     : Text("Ingresar",
+                             color     : Colors.pink,
+                             child     : Text("Guardar Producto",
                                                style: TextStyle(color: Colors.white)
                                              ),
                              onPressed :(){
                                 if(_formKey.currentState.validate())
-                                     print('ok');
+                                     context.bloc<ProductosBloc>().add(
+                                       CreateProductoEvent(producto:producto)
+                                     );
                              },
   );
 
 
-
+ _addCiudad(BuildContext context,List items,String preferencia) {
+     items.removeAt(0);
+     showModalBottomSheet(
+     context: context, 
+     builder:(context){
+        return Container(
+               padding: EdgeInsets.all(20),
+               height: MediaQuery.of(context).size.height *0.5,
+               child : ListView.builder(
+                       itemCount: items.length,
+                       itemBuilder:(context,index){
+                      
+                         return ListTile(
+                                title: Text(items[index]),
+                                onTap: (){
+                                   if(preferencia == 'categorias')
+                                      _categoriasController.text = items[index]; 
+                                   if(preferencia == 'marcas')
+                                      _marcasController.text = items[index]; 
+                                   Navigator.pop(context);
+                                   },
+                                );
+                        
+                       } 
+                       )
+               );
+     });
+  } 
 
 
   void _snackBar(String mensaje) {

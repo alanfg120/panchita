@@ -12,6 +12,8 @@ part 'productos_state.dart';
 class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   final ProductoRepocitorio repo;
   List<Producto> allproductos;
+  List categorias;
+  List marcas;
   ProductosBloc({this.repo});
   @override
   ProductosState get initialState => ProductosState.initial();
@@ -26,10 +28,10 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
     if (event is ResetCantidadEvent)  yield* _resetCantidad(event, state);
     if (event is SearchProductoEvent) yield* _searchProducto(event, state);
     if (event is FilterProductoEvent) yield* _filterProducto(event, state);
+    if (event is CreateProductoEvent) yield* _createProducto(event, state);
   }
 
   Stream<ProductosState> _getCategorias(ProductosState state) async* {
-    final categorias = await repo.getCategorias();
     yield state.copyWith(
         productos: allproductos,
         preferencias: categorias,
@@ -38,7 +40,6 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   }
 
   Stream<ProductosState> _getMarcas(ProductosState state) async* {
-    final marcas = await repo.getMarcas();
     yield state.copyWith(
         productos: allproductos,
         preferencias: marcas,
@@ -47,9 +48,10 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   }
 
   Stream<ProductosState> _getProductos(ProductosState state) async* {
-    final productos = await repo.getProductos();
-    allproductos = productos;
-    yield state.copyWith(productos: productos);
+    categorias   = await repo.getCategorias();
+    marcas       = await repo.getMarcas();
+    allproductos = await repo.getProductos();
+    yield state.copyWith(productos: allproductos);
   }
 
   Stream<ProductosState> _resetCantidad(
@@ -96,5 +98,12 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
             productos: resultado, selectPreferencia: event.select);
       }
     }
+  }
+
+  Stream<ProductosState> _createProducto(
+      CreateProductoEvent event, ProductosState state) async* {
+    repo.setProducto(event.producto);
+    state.productos.add(event.producto);
+    yield state.copyWith(productos: state.productos);
   }
 }

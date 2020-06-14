@@ -161,9 +161,11 @@ Widget _drawer() {
 
   Widget _titulo() {
       if(currentIndex == 2)
-         return Text("Tus Pedidos");
+         return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
       if(currentIndex == 3)
-         return Text("Configuracion");
+         return Text("Configuracion",style: TextStyle(color: Colors.black));
+      if(currentIndex == 4)
+         return Text("Crear Producto",style: TextStyle(color: Colors.black));
       return null;
   }
 

@@ -24,7 +24,6 @@ class CustomIcon {
 
   static const _kFontFam = 'CustomIcon';
   static const _kFontPkg = null;
-
   static const IconData tag_text_outline = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData format_list_checkbox = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData basket_outline = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);

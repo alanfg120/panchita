@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/clientes/bloc/clientes_bloc.dart';
+import 'package:panchita/src/componentes/clientes/data/clientes_repositorio.dart';
 import 'package:panchita/src/componentes/home/vistas/home_page.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/data/login_repocitorio.dart';
@@ -34,9 +36,11 @@ class MyApp extends StatelessWidget {
  
   final push = PushNotificatios();
   
-  final LoginRepocitorio    repologin       = LoginRepocitorio();
+  final LoginRepocitorio    repologin      = LoginRepocitorio();
   final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
   final PedidoRepositorio   repoPedido     = PedidoRepositorio();
+  final ClientesRepositorio repoClientes   = ClientesRepositorio();
+
   @override
   Widget build(BuildContext context) {
     push.init();
@@ -45,7 +49,6 @@ class MyApp extends StatelessWidget {
           providers: [
                       BlocProvider<LoginBloc>(
                       create: (context) => LoginBloc(repo:repologin)..add(VericarLoginEvent())
-                                                                    
                       ),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetCategoriasEvent())
@@ -54,9 +57,10 @@ class MyApp extends StatelessWidget {
                       BlocProvider<PedidosBloc>(
                       create: (context) => PedidosBloc(repocitorio: repoPedido)
                       ),
-                      
-                     
-                     ],
+                      BlocProvider<ClientesBloc>(
+                      create: (context) => ClientesBloc(repositorio: repoClientes)
+                      ),
+          ],
           child: MaterialApp(
         
           debugShowCheckedModeBanner: false,

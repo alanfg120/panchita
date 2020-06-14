@@ -9,13 +9,11 @@ class GetProductosEvent extends ProductosEvent {
 }
 
 class GetMarcasEvent extends ProductosEvent {
-
   @override
   List<Object> get props => [];
 }
 
 class GetCategoriasEvent extends ProductosEvent {
-
   @override
   List<Object> get props => [];
 }
@@ -41,4 +39,9 @@ class FilterProductoEvent extends ProductosEvent {
   List<Object> get props => [query,select];
 }
 
-
+class CreateProductoEvent extends ProductosEvent {
+  final Producto producto;
+  CreateProductoEvent({this.producto});
+  @override
+  List<Object> get props => [producto];
+}

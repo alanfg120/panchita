@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
+import 'package:panchita/src/componentes/login/models/usuario_model.dart';
+import 'package:panchita/src/plugins/custom_icon_icons.dart';
 
 
 class UserSettingPage extends StatefulWidget {
@@ -14,11 +16,14 @@ class UserSettingPage extends StatefulWidget {
 }
 
 class _UserSettingPageState extends State<UserSettingPage> {
-
-
+  Usuario usuario;
   @override
   Widget build(BuildContext context) {
- 
+
+    final state = context.bloc<LoginBloc>().state;
+    if(state is AutenticadoState)
+          usuario = state.usuario;
+
    return Scaffold(
            body: ListView(
                  children: <Widget>[
@@ -28,15 +33,25 @@ class _UserSettingPageState extends State<UserSettingPage> {
                    subtitle: Text("Nombre,Ciudad..."),
                    onTap: ()=>Navigator.pushNamed(context, 'editdatos'),
                    ),
+                   usuario.vendedor ?
+                    ListTile(
+                   leading : Icon(Icons.map),
+                   title   : Text("Escojer Ruta"),
+                   isThreeLine: true,
+                   subtitle: Text("escoje la ruta para ajustar los precios     (solo vendedores)"),
+                   onTap: ()=>Navigator.pushNamed(context, 'change_ruta'),
+                   )
+                   : Container(),
                    ListTile(
                    leading : Icon(Icons.power_settings_new),
                    title   : Text("Cerrar Sesion"),
+                  
                    onTap: (){
                      BlocProvider.of<LoginBloc>(context).add(
                        LogOutEvent()
                      );
                    },
-                   )
+                   ),
                  ],
            )
     );

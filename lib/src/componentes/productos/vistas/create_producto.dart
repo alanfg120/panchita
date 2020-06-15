@@ -12,7 +12,7 @@ class CreateProductoPage extends StatefulWidget {
 
 class _CreateProductoPageState extends State<CreateProductoPage> {
 
-  Producto producto = Producto();
+  Producto producto = Producto(foto:'',cantidadCompra: 1,descripcion: '');
   List  categorias  = List(); 
   List  marcas      = List(); 
  
@@ -62,9 +62,7 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
                                                  children: <Widget>[
                                                             input("Codigo",_codigoController,Icon(CustomIcon.barcode),_focoCodigo,producto),
                                                             SizedBox(height: 20),
-                                                            input("Nombre",_nombreController,Icon(Icons.near_me),_focoNombre,producto),
-                                                            SizedBox(height: 20),
-                                                            input("Cantidad",_cantidadController,Icon(CustomIcon.numeric_9_plus_circle_outline),_focoCantidad,producto),
+                                                            input("Nombre",_nombreController,Icon(CustomIcon.card_text),_focoNombre,producto),
                                                             SizedBox(height: 20),
                                                             input("Categorias",_categoriasController,Icon(CustomIcon.format_list_checkbox),_focoCategorias,producto),
                                                             SizedBox(height: 20),
@@ -129,9 +127,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                     switch (texto) {
                       case 'Codigo'     : FocusScope.of(context).requestFocus(_focoNombre);
                                           break;
-                      case 'Nombre'     : FocusScope.of(context).requestFocus(_focoCantidad);
-                                          break;
-                      case 'Cantidad'   : FocusScope.of(context).requestFocus(_focoCategorias);
+                      case 'Nombre'     : FocusScope.of(context).requestFocus(_focoCategorias);
                                           break;
                       case 'Categorias' : FocusScope.of(context).requestFocus(_focoMarcas);
                                           break;
@@ -141,28 +137,26 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                           break;
                       case 'Precio Dos' : FocusScope.of(context).requestFocus(_focoPrecioTres);
                                           break;
-                      case 'Precio Tres': print('hola');
+                      case 'Precio Tres': _dialogConfirm();
                                           break;
                       default           : break;    
                     }
        },
        onChanged:(value){
                     switch (texto) {
-                      case 'Codigo'     : producto.codigo = texto;
+                      case 'Codigo'     : producto.codigo = value;
                                           break;
-                      case 'Nombre'     : producto.nombre = texto;
+                      case 'Nombre'     : producto.nombre = value;
                                           break;
-                      case 'Cantidad'   : producto.cantidad = int.parse(texto);
+                      case 'Categorias' : producto.categoria = value;
                                           break;
-                      case 'Categorias' : producto.categoria = texto;
+                      case 'Marcas'     : producto.marca = value;
                                           break;
-                      case 'Marcas'     : producto.marca = texto;
+                      case 'Precio Uno' : producto.precioUno = int.parse(value);
                                           break;
-                      case 'Precio Uno' : producto.precioUno = int.parse(texto);
+                      case 'Precio Dos' : producto.precioDos = int.parse(value);
                                           break;
-                      case 'Precio Dos' : producto.precioDos = int.parse(texto);
-                                          break;
-                      case 'Precio Tres': producto.precioTres = int.parse(texto);
+                      case 'Precio Tres': producto.precioTres = int.parse(value);
                                           break;
                       default           : break;    
                     }
@@ -174,9 +168,9 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        }, 
        onTap: (){
               if(texto == 'Categorias')
-               _addCiudad(context, categorias, 'categorias');
+               _selectInput(context, categorias, 'categorias');
               if(texto == 'Marcas')
-               _addCiudad(context, marcas, 'marcas');
+               _selectInput(context, marcas, 'marcas');
        },        
       );
  }
@@ -189,15 +183,12 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                              ),
                              onPressed :(){
                                 if(_formKey.currentState.validate())
-                                     context.bloc<ProductosBloc>().add(
-                                       CreateProductoEvent(producto:producto)
-                                     );
+                                    _dialogConfirm();
                              },
   );
 
 
- _addCiudad(BuildContext context,List items,String preferencia) {
-     items.removeAt(0);
+ _selectInput(BuildContext context,List items,String preferencia) {
      showModalBottomSheet(
      context: context, 
      builder:(context){
@@ -207,18 +198,23 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                child : ListView.builder(
                        itemCount: items.length,
                        itemBuilder:(context,index){
-                      
-                         return ListTile(
+                       if(items[index] != 'Todos')
+                           return ListTile(
                                 title: Text(items[index]),
                                 onTap: (){
-                                   if(preferencia == 'categorias')
-                                      _categoriasController.text = items[index]; 
-                                   if(preferencia == 'marcas')
+                                   if(preferencia == 'categorias'){
+                                       _categoriasController.text = items[index];
+                                       producto.categoria= items[index]; 
+                                   }
+                                   if(preferencia == 'marcas'){
                                       _marcasController.text = items[index]; 
+                                      producto.marca=items[index];
+                                   }
+                                      
                                    Navigator.pop(context);
                                    },
                                 );
-                        
+                        else return Container();
                        } 
                        )
                );
@@ -231,6 +227,27 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        SnackBar(content: Text(mensaje))
      );
  }
+
+  void _dialogConfirm() {
+    showDialog(
+    context: context,
+    child: AlertDialog(
+           title: Text('Agregar producto'),
+           content: Text('Desea agregar este producto al pedido'),
+           actions: <Widget>[
+                      RaisedButton(
+                      color     : Colors.red,
+                      child     : Text("Si",style:TextStyle(color:Colors.white)),
+                      onPressed : (){},
+                      ),
+                      OutlineButton(
+                      child     : Text("No",style:TextStyle(color:Colors.red)),
+                      onPressed : ()=>Navigator.pop(context)
+                      )   
+           ],
+    )
+    );
+  }
 
 
 }

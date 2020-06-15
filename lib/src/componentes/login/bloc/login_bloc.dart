@@ -43,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is VericarLoginEvent)         yield* _verificarLogin(state);
     if (event is EditUsuarioEvent)          yield* _editUsuario(event, state);
     if (event is LogOutEvent)               yield* _logOut(event, state);
+    if (event is ChangeRutaEvent)           yield* _changeRuta(event, state);
   }
 
   Stream<LoginState> _registroGoogle(AutenticandoState state) async* {
@@ -167,5 +168,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     prefs.eraseall();
     auth.logOut();
     yield AutenticandoState.initial(ciudades);
+  }
+
+  Stream<LoginState> _changeRuta(ChangeRutaEvent event, AutenticadoState state) async* {
+    state.usuario.ciudad.ruta = event.ruta;
+    yield state.copyWith(usuario: state.usuario);
   }
 }

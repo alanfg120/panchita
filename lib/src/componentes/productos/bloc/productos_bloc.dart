@@ -102,7 +102,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
 
   Stream<ProductosState> _createProducto(
       CreateProductoEvent event, ProductosState state) async* {
-    repo.setProducto(event.producto);
+    //repo.setProducto(event.producto);
     state.productos.add(event.producto);
     yield state.copyWith(productos: state.productos);
   }

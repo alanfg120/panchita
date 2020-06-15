@@ -8,6 +8,7 @@ import 'package:panchita/src/componentes/login/vistas/editUser_page.dart';
 import 'package:panchita/src/componentes/login/vistas/finishRegistro_page.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
 import 'package:panchita/src/componentes/login/vistas/registro_page.dart';
+import 'package:panchita/src/componentes/login/vistas/ruta_change_page.dart';
 import 'package:panchita/src/componentes/login/vistas/userSetting_page.dart';
 import 'package:panchita/src/componentes/pedidos/vistas/compra_page.dart';
 import 'package:panchita/src/componentes/pedidos/vistas/pedidos_page.dart';
@@ -27,7 +28,8 @@ Map<String, WidgetBuilder> route() {
    'buscar_producto' : (context) => SearchProductoPage(),
    'pedidos'         : (context) => PedidosPage(),
    'setting'         : (context) => UserSettingPage(),
-   'editdatos'       : (context) => EditUserPage()
+   'editdatos'       : (context) => EditUserPage(),
+   'change_ruta'     : (context) => ChangeRutaPage(),
     
     };
 }

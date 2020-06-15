@@ -15,6 +15,7 @@ class Usuario {
   Ciudad ciudad;
   List<Pedido> pedidos;
   bool vendedor;
+  String rutaVendedor;
 
   Usuario({
     this.token,
@@ -27,18 +28,19 @@ class Usuario {
     this.telefono,
     this.ciudad,
     this.pedidos,
-    this.vendedor
+    this.vendedor,
   });
 
   Usuario.map(DocumentSnapshot usuario) {
-    idGoogle   = usuario.documentID;
-    token      = usuario['token'];
-    nombre     = usuario['nombre'];
-    email      = usuario['email'];
-    cedula     = usuario['cedula'];
-    direccion  = usuario['direccion'];
-    telefono   = usuario['telefono'];
-    ciudad     = Ciudad.map(usuario['ciudad']);
-    vendedor   = usuario['vendedor'];
+    idGoogle     = usuario.documentID;
+    token        = usuario['token'];
+    nombre       = usuario['nombre'];
+    email        = usuario['email'];
+    cedula       = usuario['cedula'];
+    direccion    = usuario['direccion'];
+    telefono     = usuario['telefono'];
+    ciudad       = Ciudad.map(usuario['ciudad']);
+    vendedor     = usuario['vendedor'];
+  
   }
 }

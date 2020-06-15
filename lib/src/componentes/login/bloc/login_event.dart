@@ -43,6 +43,12 @@ class EditUsuarioEvent extends LoginEvent{
   @override
   List<Object> get props => [usuario];
 }
+class ChangeRutaEvent extends LoginEvent{
+  final String ruta;
+  ChangeRutaEvent({this.ruta});
+  @override
+  List<Object> get props => [ruta];
+}
 class LogOutEvent extends LoginEvent{}
 
 class VericarLoginEvent extends LoginEvent{}

@@ -28,6 +28,6 @@ class _ItemDrawerState extends State<ItemDrawer> {
              },
       );
     else
-      return null;
+      return Container();
   }
 }

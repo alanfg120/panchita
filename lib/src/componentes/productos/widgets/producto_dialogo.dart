@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
@@ -42,7 +43,7 @@ class _DialogProductoState extends State<DialogProducto> {
                                                children: <Widget>[
                                                          CircleAvatar(
                                                          radius          : 80,
-                                                         backgroundImage : NetworkImage(widget.producto.foto),
+                                                         backgroundImage : CachedNetworkImageProvider(widget.producto.foto)
                                                          ),
                                                          Positioned(
                                                          bottom : 8,

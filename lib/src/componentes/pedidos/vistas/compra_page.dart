@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,7 +85,7 @@ class _CompraPageState extends State<CompraPage> {
 
                                                                                   leading        : CircleAvatar(
                                                                                                    radius         : 30,
-                                                                                                   backgroundImage: NetworkImage(state.productos[i].foto),
+                                                                                                   backgroundImage:CachedNetworkImageProvider(state.productos[i].foto),
                                                                                   ),      
                                                                                   title          : Text(state.productos[i].nombre),
                                                                                   subtitle       : Text(

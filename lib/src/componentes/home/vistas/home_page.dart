@@ -69,17 +69,18 @@ class _HomePageState extends State<HomePage> {
            drawer              : _drawer(),
            
            appBar              : AppBar(
-                                 actions: currentIndex == 0
-                                          ? <Widget>[
-                                           IconButton(
-                                           icon      :Icon(Icons.search), 
-                                           onPressed : (){
-                                                        Navigator.pushNamed(context, 'buscar_producto');
-                                           }
-                                           ),
-                                           IconButton(icon:Icon(CustomIcon.filter_menu_outline), onPressed:(){})
+                                 actions: 
+                                       <Widget>[
+                                           currentIndex == 0 || currentIndex == 1 
+                                           ? IconButton(
+                                             icon      :Icon(Icons.search), 
+                                             onPressed : (){
+                                                Navigator.pushNamed(context, 'buscar_producto');
+                                               }
+                                             )
+                                           : Container()
                                            ]
-                                          : null,
+                                          ,
                                  title  : _titulo()
            ),
            backgroundColor     : Colors.white,
@@ -140,7 +141,7 @@ Widget _drawer() {
                             ontap  : (page)=>_selectPage(page)
                             ),
                             ItemDrawer(
-                            icono    : Icons.add_box,
+                            icono    : CustomIcon.plus_circle_outline,
                             titulo   : "Crear Productos",
                             page     : 4,
                             ontap    : (page)=>_selectPage(page),
@@ -160,6 +161,10 @@ Widget _drawer() {
 }
 
   Widget _titulo() {
+      if(currentIndex == 0 || currentIndex == 1)
+         return Text("Productos",style: TextStyle(color: Colors.black));
+      if(currentIndex == 2)
+         return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
       if(currentIndex == 2)
          return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
       if(currentIndex == 3)

@@ -74,7 +74,12 @@ class _ProductoCardState extends State<ProductoCard> {
                                                                           width  : 90,
                                                                           image  : AssetImage("assets/image.gif"),
                                           ),
-                                          errorWidget : (context, url, error) => Icon(Icons.error),
+                                          errorWidget : (context, url, error) => Container(
+                                                                                 alignment: Alignment.center,
+                                                                                 width: 90,
+                                                                                 height: 90,
+                                                                                 child: Icon(Icons.error)
+                                                                                 ),
                                     ),
                            ),
             )

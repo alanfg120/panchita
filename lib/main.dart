@@ -51,8 +51,7 @@ class MyApp extends StatelessWidget {
                       create: (context) => LoginBloc(repo:repologin)..add(VericarLoginEvent())
                       ),
                       BlocProvider<ProductosBloc>(
-                      create: (context) => ProductosBloc(repo:repoProductos)..add(GetCategoriasEvent())
-                                                                            ..add(GetProductosEvent())
+                      create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
                       ),
                       BlocProvider<PedidosBloc>(
                       create: (context) => PedidosBloc(repocitorio: repoPedido)

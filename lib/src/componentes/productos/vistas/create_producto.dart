@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
 import 'package:panchita/src/componentes/productos/bloc/productos_bloc.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 import 'package:panchita/src/plugins/custom_icon_icons.dart';
@@ -17,7 +18,6 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
   List  marcas      = List(); 
  
   final _codigoController     = TextEditingController();
-  final _cantidadController   = TextEditingController();
   final _categoriasController = TextEditingController();
   final _marcasController     = TextEditingController();
   final _nombreController     = TextEditingController();
@@ -26,7 +26,6 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
   final _precioTresController = TextEditingController();
 
   final _focoCodigo      = FocusNode();
-  final _focoCantidad    = FocusNode();
   final _focoCategorias  = FocusNode();
   final _focoMarcas      = FocusNode();
   final _focoNombre      = FocusNode();
@@ -44,7 +43,7 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
          marcas     = context.bloc<ProductosBloc>().marcas;
 
     return Scaffold(
-         
+          
            key: _scaffoldKey,
            body: GestureDetector(
                  onTap: ()=>FocusScope.of(context).unfocus(),
@@ -224,11 +223,17 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
 
   void _snackBar(String mensaje) {
      _scaffoldKey.currentState.showSnackBar(
-       SnackBar(content: Text(mensaje))
-     );
+       SnackBar(
+       content  : Text(mensaje),
+       duration : Duration(seconds: 2),
+       )
+     )..closed.then((_) => Navigator.pop(context));
  }
 
   void _dialogConfirm() {
+    context.bloc<ProductosBloc>().add(
+      CreateProductoEvent(producto:producto)
+    );
     showDialog(
     context: context,
     child: AlertDialog(
@@ -238,11 +243,21 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                       RaisedButton(
                       color     : Colors.red,
                       child     : Text("Si",style:TextStyle(color:Colors.white)),
-                      onPressed : (){},
+                      onPressed : (){
+                            context.bloc<PedidosBloc>().add(
+                               AddProductoEvent(producto:producto)
+                            );
+                          
+                            
+                      },
                       ),
                       OutlineButton(
                       child     : Text("No",style:TextStyle(color:Colors.red)),
-                      onPressed : ()=>Navigator.pop(context)
+                      onPressed : (){
+                            _formKey.currentState.reset();
+                            print('reset');
+                            Navigator.pop(context);
+                      }
                       )   
            ],
     )

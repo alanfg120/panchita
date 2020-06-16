@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/home/widgets/menu_drawer_widget.dart';
@@ -78,7 +79,9 @@ class _HomePageState extends State<HomePage> {
                                                 Navigator.pushNamed(context, 'buscar_producto');
                                                }
                                              )
-                                           : Container()
+                                           : Container(),
+                                           currentIndex == 4 
+                                           ? _card() : Container()
                                            ]
                                           ,
                                  title  : _titulo()
@@ -191,4 +194,21 @@ Widget _drawer() {
                             );
 
  }
+Widget _card()
+          => BlocBuilder<PedidosBloc,PedidosState>(
+               builder    : (context,state)
+               =>Badge (
+               animationType : BadgeAnimationType.fade,
+               showBadge     : state.productos.length == 0 ? false : true,
+               badgeContent  : Text('${state.productos.length}',style: TextStyle(color: Colors.white)),
+               position      : BadgePosition.topRight(right: 5,top: 2) ,
+               badgeColor    : Colors.red,
+               child         : IconButton(
+                               icon           : Icon(CustomIcon.cart_outline,color: Colors.pink),
+                               onPressed       : (){
+                                    Navigator.pushNamed(context, 'carrito');
+                               },
+               ),
+              ),
+          );
 }

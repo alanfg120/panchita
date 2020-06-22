@@ -42,6 +42,12 @@ class Producto {
     precioDos   = producto['ruta2'];
     precioTres  = producto['ruta3'];
   }
+
+  Producto.initial(){
+    cantidadCompra = 1;
+    foto = '';
+    descripcion ='';
+  }
   Map toMap(Ciudad ciudad)=>{
     "codigo"   : codigo,
     "nombre"   : nombre,

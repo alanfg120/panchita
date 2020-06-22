@@ -13,7 +13,7 @@ class CreateProductoPage extends StatefulWidget {
 
 class _CreateProductoPageState extends State<CreateProductoPage> {
 
-  Producto producto = Producto(foto:'',cantidadCompra: 1,descripcion: '');
+  Producto producto = Producto.initial();
   List  categorias  = List(); 
   List  marcas      = List(); 
  
@@ -50,7 +50,10 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
                  child: SingleChildScrollView(
                         child: BlocConsumer<ProductosBloc,ProductosState>(
                                listener: (context,state){
-                             
+                                       if(state.productoAdd)
+                                          _dialogConfirm();
+                                       if(state.existProducto)
+                                          _snackBar("Ya existe el producto");
                                },
                                builder: (context,state){
                                return  Form(
@@ -114,6 +117,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        return TextFormField(
        readOnly   : texto == 'Categorias' || texto == 'Marcas' ?  true : false,
        textInputAction: textinput,
+       keyboardType: texto == 'Precio Uno' || texto == 'Precio Dos' || texto == 'Precio Tres' ? TextInputType.phone : TextInputType.text,
        focusNode  : foco,
        controller : controller,
        decoration : InputDecoration(
@@ -136,7 +140,9 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                           break;
                       case 'Precio Dos' : FocusScope.of(context).requestFocus(_focoPrecioTres);
                                           break;
-                      case 'Precio Tres': _dialogConfirm();
+                      case 'Precio Tres':     context.bloc<ProductosBloc>().add(
+      CreateProductoEvent(producto:producto)
+    );
                                           break;
                       default           : break;    
                     }
@@ -182,7 +188,9 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                              ),
                              onPressed :(){
                                 if(_formKey.currentState.validate())
-                                    _dialogConfirm();
+                                       context.bloc<ProductosBloc>().add(
+                                       CreateProductoEvent(producto:producto)
+                                     );
                              },
   );
 
@@ -226,18 +234,17 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        SnackBar(
        content  : Text(mensaje),
        duration : Duration(seconds: 2),
+       action   : SnackBarAction(label: "Aceptar", onPressed: (){})
        )
-     )..closed.then((_) => Navigator.pop(context));
+     );
  }
 
   void _dialogConfirm() {
-    context.bloc<ProductosBloc>().add(
-      CreateProductoEvent(producto:producto)
-    );
+
     showDialog(
     context: context,
     child: AlertDialog(
-           title: Text('Agregar producto'),
+           title: Text('Producto Agregado'),
            content: Text('Desea agregar este producto al pedido'),
            actions: <Widget>[
                       RaisedButton(
@@ -247,22 +254,34 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                             context.bloc<PedidosBloc>().add(
                                AddProductoEvent(producto:producto)
                             );
-                          
-                            
+                           Navigator.pop(context);      
+                           producto = Producto.initial();
+                           _resetForm();              
                       },
                       ),
                       OutlineButton(
                       child     : Text("No",style:TextStyle(color:Colors.red)),
-                      onPressed : (){
-                            _formKey.currentState.reset();
-                            print('reset');
-                            Navigator.pop(context);
+                      onPressed : (){ 
+                       Navigator.pop(context);
+                        producto = Producto.initial(); 
+                        _resetForm();
                       }
                       )   
            ],
     )
     );
-  }
 
+
+  }
+   _resetForm(){
+   _codigoController.clear();    
+   _categoriasController.clear();
+   _marcasController.clear();    
+   _nombreController.clear();    
+   _precioUnoController.clear(); 
+   _precioDosController.clear();
+   _precioTresController.clear();
+
+   }
 
 }

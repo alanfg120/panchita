@@ -1,6 +1,7 @@
 part of 'productos_bloc.dart';
 
 class ProductosState extends Equatable {
+  final bool productoAdd;
   final bool existProducto;
   final List preferencias;
   final List<Producto> productos;
@@ -14,15 +15,17 @@ class ProductosState extends Equatable {
       this.resultSearch,
       this.preferencia,
       this.selectPreferencia,
-      this.existProducto});
+      this.existProducto,
+      this.productoAdd});
 
   factory ProductosState.initial() => ProductosState(
-      preferencias: [],
-      productos: [],
-      resultSearch: [],
-      preferencia: '',
-      selectPreferencia: 0,
-      existProducto: false);
+      preferencias      : [],
+      productos         : [],
+      resultSearch      : [],
+      preferencia       : '',
+      selectPreferencia : 0,
+      existProducto     : false,
+      productoAdd       : false);
 
   ProductosState copyWith(
           {List preferencias,
@@ -31,25 +34,35 @@ class ProductosState extends Equatable {
           List<Producto> resultSearch,
           String preferencia,
           int selectPreferencia,
-          bool existProducto}) =>
+          bool existProducto,
+          bool productoAdd}) =>
       ProductosState(
           preferencias: preferencias           ?? this.preferencias,
           productos: productos                 ?? this.productos,
           resultSearch: resultSearch           ?? this.resultSearch,
           preferencia: preferencia             ?? this.preferencia,
           selectPreferencia: selectPreferencia ?? this.selectPreferencia,
-          existProducto: existProducto         ?? this.existProducto);
+          existProducto: existProducto         ?? this.existProducto,
+          productoAdd: productoAdd             ?? this.productoAdd);
 
-   bool isExist(Producto producto) {
+  bool isExist(String codigo) {
     bool existe = false;
     if (productos.length == 0) return false;
-    productos.forEach((p) {
-      if (p.codigo == producto.codigo) existe = true;
+    this.productos.forEach((p) {
+      print(p.codigo);
+      if (p.codigo == codigo) existe = true;
     });
     return existe;
   }
 
   @override
-  List<Object> get props =>
-      [preferencias, productos, resultSearch, preferencia, selectPreferencia,existProducto];
+  List<Object> get props => [
+        preferencias,
+        productos,
+        resultSearch,
+        preferencia,
+        selectPreferencia,
+        existProducto,
+        productoAdd
+      ];
 }

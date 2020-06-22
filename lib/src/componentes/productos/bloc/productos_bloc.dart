@@ -102,13 +102,19 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
 
   Stream<ProductosState> _createProducto(
       CreateProductoEvent event, ProductosState state) async* {
- 
-    if(!state.isExist(event.producto)){
+     print(state.isExist(event.producto.codigo));
+    if(!state.isExist(event.producto.codigo)){
+
        state.productos.add(event.producto);
        //repo.setProducto(event.producto);
-       yield state.copyWith(productos: state.productos,existProducto: false);
+       yield state.copyWith(productos: state.productos,productoAdd: true);
+       yield state.copyWith(productoAdd: false);
     }
-    else  yield state.copyWith(existProducto: true);
+    else {
+       print(event.producto.nombre);
+     yield state.copyWith(existProducto: true);
+     yield state.copyWith(existProducto: false,productoAdd: false);
+    } 
   
   }
 }

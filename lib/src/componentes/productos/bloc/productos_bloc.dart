@@ -105,7 +105,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
      print(state.isExist(event.producto.codigo));
     if(!state.isExist(event.producto.codigo)){
 
-       state.productos.add(event.producto);
+       state.productos.insert(0, event.producto);
        //repo.setProducto(event.producto);
        yield state.copyWith(productos: state.productos,productoAdd: true);
        yield state.copyWith(productoAdd: false);

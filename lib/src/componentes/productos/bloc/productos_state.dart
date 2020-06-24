@@ -1,6 +1,7 @@
 part of 'productos_bloc.dart';
 
 class ProductosState extends Equatable {
+  
   final bool productoAdd;
   final bool existProducto;
   final List preferencias;
@@ -49,7 +50,6 @@ class ProductosState extends Equatable {
     bool existe = false;
     if (productos.length == 0) return false;
     this.productos.forEach((p) {
-      print(p.codigo);
       if (p.codigo == codigo) existe = true;
     });
     return existe;

@@ -43,7 +43,9 @@ class _DialogProductoState extends State<DialogProducto> {
                                                children: <Widget>[
                                                          CircleAvatar(
                                                          radius          : 80,
-                                                         backgroundImage : CachedNetworkImageProvider(widget.producto.foto)
+                                                         backgroundImage : widget.producto.foto == '' 
+                                                                           ? AssetImage('assets/image.gif')
+                                                                           : CachedNetworkImageProvider(widget.producto.foto)
                                                          ),
                                                          Positioned(
                                                          bottom : 8,

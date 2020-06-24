@@ -13,7 +13,7 @@ class CreateProductoPage extends StatefulWidget {
 
 class _CreateProductoPageState extends State<CreateProductoPage> {
 
-  Producto producto = Producto.initial();
+
   List  categorias  = List(); 
   List  marcas      = List(); 
  
@@ -62,19 +62,19 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
                                               padding: EdgeInsets.all(33),
                                               child: Column(
                                                  children: <Widget>[
-                                                            input("Codigo",_codigoController,Icon(CustomIcon.barcode),_focoCodigo,producto),
+                                                            input("Codigo",_codigoController,Icon(CustomIcon.barcode),_focoCodigo),
                                                             SizedBox(height: 20),
-                                                            input("Nombre",_nombreController,Icon(CustomIcon.card_text),_focoNombre,producto),
+                                                            input("Nombre",_nombreController,Icon(CustomIcon.card_text),_focoNombre),
                                                             SizedBox(height: 20),
-                                                            input("Categorias",_categoriasController,Icon(CustomIcon.format_list_checkbox),_focoCategorias,producto),
+                                                            input("Categorias",_categoriasController,Icon(CustomIcon.format_list_checkbox),_focoCategorias),
                                                             SizedBox(height: 20),
-                                                            input("Marcas",_marcasController,Icon(CustomIcon.tag_text_outline),_focoMarcas,producto),
+                                                            input("Marcas",_marcasController,Icon(CustomIcon.tag_text_outline),_focoMarcas),
                                                             SizedBox(height: 20),
-                                                            input("Precio Uno",_precioUnoController,Icon(CustomIcon.cash_usd_outline),_focoPrecioUno,producto),
+                                                            input("Precio Uno",_precioUnoController,Icon(CustomIcon.cash_usd_outline),_focoPrecioUno),
                                                             SizedBox(height: 20),
-                                                            input("Precio Dos",_precioDosController,Icon(CustomIcon.cash_usd_outline),_focoPrecioDos,producto),
+                                                            input("Precio Dos",_precioDosController,Icon(CustomIcon.cash_usd_outline),_focoPrecioDos),
                                                             SizedBox(height: 20),
-                                                            input("Precio Tres",_precioTresController,Icon(CustomIcon.cash_usd_outline),_focoPrecioTres,producto),
+                                                            input("Precio Tres",_precioTresController,Icon(CustomIcon.cash_usd_outline),_focoPrecioTres),
                                                             SizedBox(height: 20),
                                                             registroButton(),
                                                             SizedBox(height: 20),
@@ -91,7 +91,7 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
   
   }
 
-Widget input(String texto, TextEditingController controller,Icon icono,foco,Producto producto){
+Widget input(String texto, TextEditingController controller,Icon icono,foco){
   
         TextInputAction textinput;
          switch (texto) {
@@ -117,7 +117,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
        return TextFormField(
        readOnly   : texto == 'Categorias' || texto == 'Marcas' ?  true : false,
        textInputAction: textinput,
-       keyboardType: texto == 'Precio Uno' || texto == 'Precio Dos' || texto == 'Precio Tres' ? TextInputType.phone : TextInputType.text,
+       keyboardType: texto == 'Precio Uno' || texto == 'Precio Dos' || texto == 'Precio Tres' ? TextInputType.numberWithOptions(signed: false,decimal: false) : TextInputType.text,
        focusNode  : foco,
        controller : controller,
        decoration : InputDecoration(
@@ -140,14 +140,12 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                           break;
                       case 'Precio Dos' : FocusScope.of(context).requestFocus(_focoPrecioTres);
                                           break;
-                      case 'Precio Tres':     context.bloc<ProductosBloc>().add(
-      CreateProductoEvent(producto:producto)
-    );
+                      case 'Precio Tres': _createProducto();
                                           break;
                       default           : break;    
                     }
        },
-       onChanged:(value){
+      /*  onChanged:(value){
                     switch (texto) {
                       case 'Codigo'     : producto.codigo = value;
                                           break;
@@ -166,7 +164,7 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                       default           : break;    
                     }
 
-       },  
+       }, */   
        validator: (value){
                    if(value.isEmpty) return "Es requerido";
                    return null;
@@ -188,9 +186,8 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                              ),
                              onPressed :(){
                                 if(_formKey.currentState.validate())
-                                       context.bloc<ProductosBloc>().add(
-                                       CreateProductoEvent(producto:producto)
-                                     );
+                                      _createProducto();
+                                   
                              },
   );
 
@@ -211,11 +208,11 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                                 onTap: (){
                                    if(preferencia == 'categorias'){
                                        _categoriasController.text = items[index];
-                                       producto.categoria= items[index]; 
+                                        
                                    }
                                    if(preferencia == 'marcas'){
                                       _marcasController.text = items[index]; 
-                                      producto.marca=items[index];
+                                     
                                    }
                                       
                                    Navigator.pop(context);
@@ -251,20 +248,16 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
                       color     : Colors.red,
                       child     : Text("Si",style:TextStyle(color:Colors.white)),
                       onPressed : (){
-                            context.bloc<PedidosBloc>().add(
-                               AddProductoEvent(producto:producto)
-                            );
-                           Navigator.pop(context);      
-                           producto = Producto.initial();
-                           _resetForm();              
+                           Navigator.pop(context); 
+                           _createProducto(agregar: true);
+                          _resetForm();              
                       },
                       ),
                       OutlineButton(
                       child     : Text("No",style:TextStyle(color:Colors.red)),
                       onPressed : (){ 
                        Navigator.pop(context);
-                        producto = Producto.initial(); 
-                        _resetForm();
+                       _resetForm();
                       }
                       )   
            ],
@@ -281,7 +274,27 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco,Prod
    _precioUnoController.clear(); 
    _precioDosController.clear();
    _precioTresController.clear();
+  }
 
-   }
-
+  _createProducto({bool agregar = false}){
+      final   producto = Producto(
+                    codigo         : _codigoController.text,
+                    nombre         : _nombreController.text,
+                    cantidadCompra : 1,
+                    categoria      : _categoriasController.text,
+                    marca          : _marcasController.text,
+                    precioUno      : int.parse(_precioUnoController.text),
+                    precioDos      : int.parse(_precioDosController.text),
+                    precioTres     : int.parse(_precioTresController.text),
+                    foto           : ''
+   ); 
+   if(agregar)
+     context.bloc<PedidosBloc>().add(
+     AddProductoEvent(producto: producto)
+     );
+   else context.bloc<ProductosBloc>().add(
+     CreateProductoEvent(producto: producto)
+    );
+  }
+  
 }

@@ -84,8 +84,10 @@ class _CompraPageState extends State<CompraPage> {
                                                                                   isThreeLine    : true,
 
                                                                                   leading        : CircleAvatar(
-                                                                                                   radius         : 30,
-                                                                                                   backgroundImage:CachedNetworkImageProvider(state.productos[i].foto),
+                                                                                                   radius          : 30,
+                                                                                                   backgroundImage : state.productos[i].foto == ''
+                                                                                                                     ? AssetImage('assets/image.gif')
+                                                                                                                     : CachedNetworkImageProvider(state.productos[i].foto),
                                                                                   ),      
                                                                                   title          : Text(state.productos[i].nombre),
                                                                                   subtitle       : Text(

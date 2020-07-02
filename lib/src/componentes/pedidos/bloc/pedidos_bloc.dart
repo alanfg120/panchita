@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:panchita/src/componentes/clientes/models/cliente_model.dart';
 
 import 'package:panchita/src/componentes/pedidos/data/pedidos_repocitorio.dart';
 import 'package:panchita/src/componentes/pedidos/models/pedido_model.dart';
@@ -29,6 +30,7 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     if (event is SendPedidoEvent)     yield* _addPedido(event, state);
     if (event is FinishPedidoEvent)   yield* _finishPedido(event, state);
     if (event is ConfirmPedidoEvent)  yield* _confirmPedido(event, state);
+    if (event is SelectClienteEvent)  yield* _selectCliente(event, state);
   }
 
   Stream<PedidosState> _addProducto(
@@ -47,7 +49,13 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
 
   Stream<PedidosState> _getPedidos(
       GetPedidosEvent event, PedidosState state) async* {
-    final pedidos = await repocitorio.getPedidos(event.cedula);
+    List<Pedido> pedidos;
+    if (event.vendedor)
+      pedidos =
+          await repocitorio.getPedidos(event.cedula, query: 'cedula_vendedor');
+    else
+      pedidos =
+          await repocitorio.getPedidos(event.cedula, query: 'cliente.cedula');
     yield state.copyWith(pedidos: pedidos);
   }
 
@@ -79,5 +87,10 @@ class PedidosBloc extends Bloc<PedidosEvent, PedidosState> {
     state.pedidos.add(Pedido());
     repocitorio.updatePedido(event.id, event.mensaje);
     yield state.copyWith(pedidos: pedidos);
+  }
+
+  Stream<PedidosState> _selectCliente(
+      SelectClienteEvent event, PedidosState state) async* {
+    yield state.copyWith(cliente: event.cliente);
   }
 }

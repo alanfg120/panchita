@@ -1,6 +1,11 @@
+
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/clientes/models/cliente_model.dart';
+import 'package:panchita/src/componentes/clientes/vistas/buscar_cliente_page.dart';
+import 'package:panchita/src/componentes/clientes/vistas/clientes_page.dart';
 
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
@@ -39,9 +44,8 @@ class _CompraPageState extends State<CompraPage> {
                                  if(!state.sendPedido){
                                      Navigator.pop(context);
                                      _snackBar("Pedido Realizado");
-                                     
                                  }
-                               
+                            
                       },
                       listenWhen :(previos,current){
                            if(previos.sendPedido==current.sendPedido)
@@ -54,58 +58,20 @@ class _CompraPageState extends State<CompraPage> {
                                 appBar :  AppBar(title: Text("Tu Pedido",style: TextStyle(color:Colors.black),)),
                                 body   :  state.productos.length == 0 
                                           ? Center(child: Text("Ningun producto agregado"))
-                                          : ListView.builder(
-                                            padding     : EdgeInsets.only(bottom: 130),
-                                            itemCount   : state.productos.length,
-                                            itemBuilder : (context, i) {
-                                                           return Dismissible (
-                                                                    direction   : DismissDirection.endToStart,
-                                                                    key         : Key(state.productos[i].codigo), 
-                                                                    background  : Container(
-                                                                                  padding: EdgeInsets.all(10),
-                                                                                  alignment: Alignment.centerRight,
-                                                                                  color :Colors.red,
-                                                                                  child :Text("Eliminar",style:TextStyle(color:Colors.white)),
-                                                                                  ),
-                                                                    onDismissed : (d){
-                                                                                   context.bloc<PedidosBloc>().add(
-                                                                                           DeleteProductoEvent(
-                                                                                           index : i,
-                                                                                           ruta  : ruta
-                                                                                           )
-                                                                                   );
-                                                                                   context.bloc<ProductosBloc>().add(
-                                                                                           ResetCantidadEvent(
-                                                                                           codigo: state.productos[i].codigo  
-                                                                                           )
-                                                                                   );
-                                                                    },
-                                                                    child       : ListTile(
-                                                                                  isThreeLine    : true,
+                                          : Column(
+                                            children: <Widget>[
+                                                 usuario.vendedor
+                                                 ? ListTile(
+                                                   title    : Text("${state.cliente == null ? 'Seleciona Cliente' : state.cliente.nombre}"),
+                                                   subtitle : state.cliente == null ? null : Text("Cliente Selecionado"),
+                                                   trailing : Icon(Icons.add,color: Colors.pink),
+                                                   onTap    : ()=>_selectCliente(),
+                                                 )
+                                                 :Container(),
+                                                 Expanded(child: _listaProductos(state.productos))
 
-                                                                                  leading        : CircleAvatar(
-                                                                                                   radius          : 30,
-                                                                                                   backgroundImage : state.productos[i].foto == ''
-                                                                                                                     ? AssetImage('assets/image.gif')
-                                                                                                                     : CachedNetworkImageProvider(state.productos[i].foto),
-                                                                                  ),      
-                                                                                  title          : Text(state.productos[i].nombre),
-                                                                                  subtitle       : Text(
-                                                                                                   'Cantidad: ${state.productos[i].cantidadCompra}\nPrecio Unit: \u0024 ${state.productos[i].getPrecio(ruta)}'
-                                                                                                   ),
-                                                                                  trailing       : Text(
-                                                                                                   '\u0024 ${state.productos[i].getSubtotal(ruta)}',
-                                                                                                   style: TextStyle(fontWeight: FontWeight.bold),
-                                                                                  ),      
-                                                                                  onTap          : (){
-                                                                                                   productoActual = state.productos[i];
-                                                                                                   _editCantidad();
-                                                                                  },
-                                                                                  //contentPadding : EdgeInsets.all(7),
-                                                                    ),
-                                                           );
-                                            }
-                                         ),
+                                            ],
+                                          ),
                                  bottomSheet: ListTile(
                                               contentPadding : EdgeInsets.all(20),
                                               title          : Text("Total"),
@@ -188,17 +154,22 @@ class _CompraPageState extends State<CompraPage> {
     _sendPedido(List<Producto> productos) {
    
     final pedido  = Pedido(
-    cedula        : usuario.cedula,
-    telefono      : usuario.telefono,
+    cliente       : usuario.vendedor
+                    ? context.bloc<PedidosBloc>().state.cliente
+                    : Cliente(
+                      nombre    : usuario.nombre,
+                      cedula    : usuario.cedula,
+                      ciudad    : usuario.ciudad,
+                      direccion : usuario.direccion,
+                      telefono  : usuario.telefono
+                      ),
     token         : usuario.token,
     confirmado    : false,
-    direccion     : usuario.direccion,
     fecha         : DateTime.now(),
-    nombreCliente : usuario.nombre,
     productos     : productos,
     observacion   : observacion,
-    ciudad        : usuario.ciudad,
-    total         : context.bloc<PedidosBloc>().state.total
+    total         : context.bloc<PedidosBloc>().state.total,
+    cedulaVendedor: usuario.vendedor ? usuario.cedula : ''
     );
 
     context.bloc<PedidosBloc>().add(
@@ -223,6 +194,69 @@ class _CompraPageState extends State<CompraPage> {
       Navigator.pop(context);
    });
  }
+
+ Widget _listaProductos(List<Producto> productos) {
+    return ListView.builder(
+           padding     : EdgeInsets.only(bottom: 130),
+           itemCount   : productos.length,
+           itemBuilder : (context, i) {
+                          return Dismissible (
+                                   direction   : DismissDirection.endToStart,
+                                   key         : Key(productos[i].codigo), 
+                                   background  : Container(
+                                                 padding: EdgeInsets.all(10),
+                                                 alignment: Alignment.centerRight,
+                                                 color :Colors.red,
+                                                 child :Text("Eliminar",style:TextStyle(color:Colors.white)),
+                                                 ),
+                                   onDismissed : (d){
+                                                  context.bloc<PedidosBloc>().add(
+                                                          DeleteProductoEvent(
+                                                          index : i,
+                                                          ruta  : ruta
+                                                          )
+                                                  );
+                                                  context.bloc<ProductosBloc>().add(
+                                                          ResetCantidadEvent(
+                                                          codigo: productos[i].codigo  
+                                                          )
+                                                  );
+                                   },
+                                   child       : ListTile(
+                                                 isThreeLine    : true,
+
+                                                 leading        : CircleAvatar(
+                                                                  radius          : 30,
+                                                                  backgroundImage : productos[i].foto == ''
+                                                                                    ? AssetImage('assets/image.gif')
+                                                                                    : CachedNetworkImageProvider(productos[i].foto),
+                                                 ),      
+                                                 title          : Text(productos[i].nombre),
+                                                 subtitle       : Text(
+                                                                  'Cantidad: ${productos[i].cantidadCompra}\nPrecio Unit: \u0024 ${productos[i].getPrecio(ruta)}'
+                                                                  ),
+                                                 trailing       : Text(
+                                                                  '\u0024 ${productos[i].getSubtotal(ruta)}',
+                                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                 ),      
+                                                 onTap          : (){
+                                                                  productoActual = productos[i];
+                                                                  _editCantidad();
+                                                 },
+                                                 //contentPadding : EdgeInsets.all(7),
+                                   ),
+                          );
+           }
+    );
+ }
+
+  _selectCliente() {
+    Navigator.push(
+    context,MaterialPageRoute(
+            builder:(context)=>BuscarClientePage(select: true)
+            )
+    );
+  }
 
  
 }

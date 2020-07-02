@@ -8,7 +8,7 @@ class Ciudad {
 
   Ciudad.map(Map<String,dynamic> map) {
     ciudad = map['ciudad'] ?? '';
-    ruta = map['ruta']     ?? '';
+    ruta   = map['ruta']     ?? '';
   }
   Map toMap()=>{
    "ciudad": ciudad ?? '',

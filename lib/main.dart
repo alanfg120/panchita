@@ -24,19 +24,27 @@ import 'package:panchita/src/plugins/shared_preferences.dart';
 void main() async {
  WidgetsFlutterBinding.ensureInitialized();
  BlocSupervisor.delegate = SimpleBlocDelegate();
-final prefs = PreferenciasUsuario();
+ final prefs = PreferenciasUsuario();
  await prefs.initPrefs();
- //prefs.eraseall();
- runApp(MyApp());
+ final LoginRepocitorio repologin = LoginRepocitorio();
+ // ignore: close_sinks
+ final LoginBloc loginbloc = LoginBloc(repo: repologin);
+ 
+ loginbloc.firstWhere((state) => true).then((_) =>runApp(MyApp(loginbloc: loginbloc)));
+ 
+ loginbloc.add(VericarLoginEvent());
+ 
  //singOut();
 }
 
 class MyApp extends StatelessWidget {
 
- 
+  final LoginBloc loginbloc;
+  MyApp({@required this.loginbloc});
+
   final push = PushNotificatios();
-  
-  final LoginRepocitorio    repologin      = LoginRepocitorio();
+   
+ 
   final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
   final PedidoRepositorio   repoPedido     = PedidoRepositorio();
   final ClientesRepositorio repoClientes   = ClientesRepositorio();
@@ -47,9 +55,7 @@ class MyApp extends StatelessWidget {
  
     return MultiBlocProvider (
           providers: [
-                      BlocProvider<LoginBloc>(
-                      create: (context) => LoginBloc(repo:repologin)..add(VericarLoginEvent())
-                      ),
+                      BlocProvider<LoginBloc>.value(value: loginbloc),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
                       ),
@@ -57,7 +63,7 @@ class MyApp extends StatelessWidget {
                       create: (context) => PedidosBloc(repocitorio: repoPedido)
                       ),
                       BlocProvider<ClientesBloc>(
-                      create: (context) => ClientesBloc(repositorio: repoClientes)
+                      create: (context) => ClientesBloc(repositorio: repoClientes)..add(GetClientesEvent())
                       ),
           ],
           child: MaterialApp(
@@ -71,9 +77,9 @@ class MyApp extends StatelessWidget {
                                  color      : Colors.white,
                                  brightness : Brightness.light,
                                  iconTheme  : IconThemeData(color:Colors.pink,size: 40), 
-                                 textTheme  : TextTheme(headline1 : TextStyle(
+                                 textTheme  : TextTheme(title : TextStyle(
                                                                 color: Colors.black,
-                                                                fontSize: 25.0,
+                                                                fontSize: 22.0,
                                                                 ))
                                  ),
                 
@@ -84,7 +90,7 @@ class MyApp extends StatelessWidget {
                        return LoginPage();
                     if(state is AutenticadoState){
                        context.bloc<PedidosBloc>().add(
-                          GetPedidosEvent(cedula: state.usuario.cedula)
+                          GetPedidosEvent(cedula: state.usuario.cedula,vendedor:state.usuario.vendedor)
                        );
                        return HomePage();
                     }

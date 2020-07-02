@@ -27,10 +27,11 @@ class SendPedidoEvent extends PedidosEvent {
 }
 
 class GetPedidosEvent extends PedidosEvent {
+  final bool vendedor;
   final String cedula;
-  GetPedidosEvent({this.cedula});
+  GetPedidosEvent({this.cedula,this.vendedor});
   @override
-  List<Object> get props => [cedula];
+  List<Object> get props => [cedula,vendedor];
 }
 
 class FinishPedidoEvent extends PedidosEvent {
@@ -46,4 +47,10 @@ class ConfirmPedidoEvent extends PedidosEvent {
   ConfirmPedidoEvent({this.id,this.mensaje});
   @override
   List<Object> get props => [id,mensaje];
+}
+class SelectClienteEvent extends PedidosEvent {
+  final Cliente cliente;
+   SelectClienteEvent({this.cliente});
+  @override
+  List<Object> get props => [cliente];
 }

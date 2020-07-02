@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/clientes/vistas/clientes_page.dart';
 import 'package:panchita/src/componentes/home/widgets/menu_drawer_widget.dart';
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
@@ -80,6 +81,14 @@ class _HomePageState extends State<HomePage> {
                                                }
                                              )
                                            : Container(),
+                                           currentIndex == 5 
+                                           ? IconButton(
+                                             icon      :Icon(Icons.search), 
+                                             onPressed : (){
+                                                Navigator.pushNamed(context, 'buscar_cliente');
+                                               }
+                                             )
+                                           : Container(),
                                            currentIndex == 4 
                                            ? _card() : Container()
                                            ]
@@ -111,6 +120,8 @@ class _HomePageState extends State<HomePage> {
                           break;
                  case 4 : return CreateProductoPage();
                           break;
+                 case 5 : return ClientesPage();
+                          break;
                  default: return ProductosPage();
                           break;
 
@@ -136,6 +147,13 @@ Widget _drawer() {
                             titulo : "Marcas",
                             page   : 1,
                             ontap  : (page)=>_selectPage(page)
+                            ),
+                            ItemDrawer(
+                            icono    : CustomIcon.account_check_outline,
+                            titulo   : "Clientes",
+                            page     : 5,
+                            ontap    : (page)=>_selectPage(page),
+                            activate : usuario.vendedor,
                             ),
                             ItemDrawer(
                             icono  : CustomIcon.basket_outline,
@@ -164,18 +182,23 @@ Widget _drawer() {
 }
 
   Widget _titulo() {
-      if(currentIndex == 0 || currentIndex == 1)
-         return Text("Productos",style: TextStyle(color: Colors.black));
-      if(currentIndex == 2)
-         return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
-      if(currentIndex == 2)
-         return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
-      if(currentIndex == 3)
-         return Text("Configuracion",style: TextStyle(color: Colors.black));
-      if(currentIndex == 4)
-         return Text("Crear Producto",style: TextStyle(color: Colors.black));
-      return null;
-  }
+    switch (currentIndex) {
+            case  0 :  return Text("Productos",style: TextStyle(color: Colors.black));
+                       break;
+            case  1 :  return Text("Productos",style: TextStyle(color: Colors.black));
+                       break;
+            case  2 :  return Text("Tus Pedidos",style: TextStyle(color: Colors.black));
+                       break;
+            case  3 :  return Text("Configuracion",style: TextStyle(color: Colors.black));
+                       break;
+            case  4 :  return Text("Crear Producto",style: TextStyle(color: Colors.black));
+                       break;
+            case  5 :  return Text("Clientes",style: TextStyle(color: Colors.black));
+                       break;
+           default:    return null;
+                        break;
+     }
+ }
 
  Widget _drawerHeader(){
         return    DrawerHeader(

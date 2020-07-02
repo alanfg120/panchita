@@ -49,6 +49,7 @@ class Producto {
     descripcion ='';
   }
   Map toMap(Ciudad ciudad)=>{
+    
     "codigo"   : codigo,
     "nombre"   : nombre,
     "cantidad" : cantidadCompra,

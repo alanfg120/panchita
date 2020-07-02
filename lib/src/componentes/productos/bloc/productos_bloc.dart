@@ -111,7 +111,6 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
        yield state.copyWith(productoAdd: false);
     }
     else {
-       print(event.producto.nombre);
      yield state.copyWith(existProducto: true);
      yield state.copyWith(existProducto: false,productoAdd: false);
     } 

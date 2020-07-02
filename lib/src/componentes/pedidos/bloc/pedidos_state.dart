@@ -7,19 +7,22 @@ class PedidosState extends Equatable {
   final int total;
   final bool sendPedido;
 
-  PedidosState({this.productos, this.total, this.pedidos,this.sendPedido});
+  final Cliente cliente;
+
+  PedidosState({this.productos, this.total, this.pedidos,this.sendPedido,this.cliente});
 
   factory PedidosState.initial() {
     return PedidosState(productos: [], total: 0, pedidos: [],sendPedido: false);
   }
 
   PedidosState copyWith(
-      {List<Producto> productos, int total, List<Pedido> pedidos,bool sendPedido}) {
+      {List<Producto> productos, int total, List<Pedido> pedidos,bool sendPedido,Cliente cliente}) {
     return PedidosState(
-        productos : productos  ?? this.productos,
-        total     : total      ?? this.total,
-        pedidos   : pedidos    ?? this.pedidos,
-        sendPedido: sendPedido ?? this.sendPedido 
+        productos     : productos     ?? this.productos,
+        total         : total         ?? this.total,
+        pedidos       : pedidos       ?? this.pedidos,
+        sendPedido    : sendPedido    ?? this.sendPedido,
+        cliente       : cliente       ?? this.cliente
         );
   }
 
@@ -41,7 +44,7 @@ class PedidosState extends Equatable {
   }
 
   @override
-  List<Object> get props => [productos,total,pedidos,sendPedido];
+  List<Object> get props => [productos,total,pedidos,sendPedido,cliente];
 
  @override
   String toString()=>'$pedidos';

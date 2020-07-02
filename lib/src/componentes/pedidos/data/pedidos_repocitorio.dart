@@ -6,19 +6,30 @@ class PedidoRepositorio {
 final String colletion = '/pedidos';
 
 Stream<DocumentReference> setPedido(Pedido pedido){
-    return addDocument(colletion,data:{
-      "telefono"       : pedido.telefono,
-      "nombre_cliente" : pedido.nombreCliente,
-      "token"          : pedido.token,
-      "ciudad"         : pedido.ciudad.ciudad,
-      "direccion"      : pedido.direccion,
-      "cedula_cliente" : pedido.cedula,
-      "productos"      : pedido.productos.map((p)=>p.toMap(pedido.ciudad)).toList(),
-      "total"          : pedido.total,
-      "observacion"    : pedido.observacion,
-      "confirmado"     : pedido.confirmado,
-      "fecha"          : pedido.fecha
-    });
+
+    Map<String,dynamic> data;
+
+    if(pedido.cedulaVendedor == '')
+      data = {
+     "cliente"         : pedido.cliente.toMap(),
+     "token"           : pedido.token,
+     "productos"       : pedido.productos.map((p)=>p.toMap(pedido.cliente.ciudad)).toList(),
+     "total"           : pedido.total,
+     "observacion"     : pedido.observacion,
+     "confirmado"      : pedido.confirmado,
+     "fecha"           : pedido.fecha,
+    };
+    else  data = {
+     "cliente"         : pedido.cliente.toMap(),
+     "token"           : pedido.token,
+     "productos"       : pedido.productos.map((p)=>p.toMap(pedido.cliente.ciudad)).toList(),
+     "total"           : pedido.total,
+     "observacion"     : pedido.observacion,
+     "confirmado"      : pedido.confirmado,
+     "fecha"           : pedido.fecha,
+     "cedula_vendedor" : pedido.cedulaVendedor 
+    };
+    return addDocument(colletion,data:data);
 }
 
 Stream updatePedido(String id,String mensaje){
@@ -28,8 +39,8 @@ Stream updatePedido(String id,String mensaje){
     });
 }
 
-Future<List<Pedido>> getPedidos(String valor) async {
-  final pedidos = await queryGetDocumento(colletion,'cedula_cliente',valor);
+Future<List<Pedido>> getPedidos(String valor,{String query}) async {
+  final pedidos = await queryGetDocumento(colletion,query,valor);
   return pedidos.documents.map((p)=>Pedido.map(p)).toList();
 }
 

@@ -144,6 +144,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _verificarLogin(LoginState state) async* {
 
     token    = await push.getoken();
+    print(token);
     ciudades = await repo.getCiudades();
 
     yield InitialState();

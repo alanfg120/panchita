@@ -35,10 +35,12 @@ class LoginRepocitorio {
   }
   Future<Usuario> getUsuario(String uid) async {
       final usuario = await getDocument(colletion, uid);
+      
       return Usuario.map(usuario);
   }
   
   Stream updateToken(String token,String id){
+    print(token);
        return updateDocument(colletion, id, {
          "token":token
        });

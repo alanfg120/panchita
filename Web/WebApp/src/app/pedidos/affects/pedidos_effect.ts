@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType, act } from "@ngrx/effects";
-import { EMPTY, of, pipe } from "rxjs";
-import { Store, select } from "@ngrx/store";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType, act } from '@ngrx/effects';
+import { EMPTY, of, pipe } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
 import {
-  //map,
+  // map,
   catchError,
   tap,
   exhaustMap,
@@ -12,17 +12,17 @@ import {
   concatMapTo,
   concatMap,
   withLatestFrom,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from '@angular/material';
 
-import { async } from "@angular/core/testing";
+import { async } from '@angular/core/testing';
 import {
   loadPedidos,
   loadedPedidos,
   sendPushNotification,
-} from "../actions/pedidos_actions";
-import { PedidosService } from "../services/pedidos.service";
+} from '../actions/pedidos_actions';
+import { PedidosService } from '../services/pedidos.service';
 
 @Injectable()
 export class PedidosEffects {
@@ -42,12 +42,12 @@ export class PedidosEffects {
       this.actions$.pipe(
         ofType(sendPushNotification),
         concatMap((action) => {
-    
+
           return this._pedidos
-            .sendPushNotications(action.mensaje,action.token,action.id)
+            .sendPushNotications(action.mensaje, action.token, action.id)
             .pipe(map( async () => {
-              await this._pedidos.updatePedidos(action.mensaje,true,action.id)
-              return this.snacbar.open("Pedido Confirmado", "Aceptar")
+              await this._pedidos.updatePedidos(action.mensaje, true, action.id);
+              return this.snacbar.open('Pedido Confirmado', 'Aceptar');
             }));
         })
       ),

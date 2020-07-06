@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { EMPTY, of, pipe } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { EMPTY, of, pipe } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import {
-  //map,
+  // map,
   catchError,
   tap,
   exhaustMap,
@@ -12,7 +12,7 @@ import {
   concatMapTo,
   concatMap,
   withLatestFrom,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 import {
   addProducto,
   loadCategoriasyMarcas,
@@ -22,9 +22,9 @@ import {
   loadProductos,
   deleteProducto,
   updateProducto,
-} from "../actions/productos_actions";
-import { ProductosService } from "../services/productos.service";
-import { MatSnackBar } from "@angular/material";
+} from '../actions/productos_actions';
+import { ProductosService } from '../services/productos.service';
+import { MatSnackBar } from '@angular/material';
 import { ProductosState } from '../reducer/productos_reducer';
 import { existSelect } from '../selectors/productos_select';
 import { async } from '@angular/core/testing';
@@ -36,16 +36,15 @@ export class ProductosEffects {
     () =>
       this.actions$.pipe(
         ofType(addProducto),
-        concatMap((action)=>of(action).pipe(
+        concatMap((action) => of(action).pipe(
           withLatestFrom(this.store.select(existSelect))
         )),
-       tap(async ([action,existProducto]) => {
-         console.log(existProducto);
-         if(!existProducto){
+       tap(async ([action, existProducto]) => {
+         if (!existProducto) {
           await this._productos.addproductos(action.producto);
-          this.snacbar.open("Producto Agregado", "Aceptar");
+          this.snacbar.open('Producto Agregado', 'Aceptar');
          }
-        }) 
+        })
       ),
     { dispatch: false }
   );
@@ -54,10 +53,10 @@ export class ProductosEffects {
       this.actions$.pipe(
         ofType(updateProducto),
        tap(async (action) => {
-          await this._productos.updateProducto(action.producto)
-          this.snacbar.open("Producto Actulizado", "Aceptar");
-         
-        }) 
+          await this._productos.updateProducto(action.producto);
+          this.snacbar.open('Producto Actulizado', 'Aceptar');
+
+        })
       ),
     { dispatch: false }
   );
@@ -66,7 +65,7 @@ export class ProductosEffects {
       ofType(loadCategoriasyMarcas),
       concatMap(() => {
         return this._productos.getCatagorias().pipe(
-          map((categorias: any) => loadedCategorias({ categorias:categorias[0].categorias })),
+          map((categorias: any) => loadedCategorias({ categorias: categorias[0].categorias })),
           catchError((err) => EMPTY)
         );
       })
@@ -76,19 +75,19 @@ export class ProductosEffects {
     this.actions$.pipe(
       ofType(deleteProducto),
       tap(async (action) => {
-        await this._productos.deleteProducto(action.id)
-        await this._productos.deleteImage(action.url)
-        this.snacbar.open("Producto eliminado","Aceptar")
+        await this._productos.deleteProducto(action.id);
+        await this._productos.deleteImage(action.url);
+        this.snacbar.open('Producto eliminado','Aceptar');
       })
     ),
-    {dispatch:false}
+    {dispatch: false}
   );
   getMarcas$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCategoriasyMarcas),
       concatMap(() => {
         return this._productos.getMarcas().pipe(
-          map((marcas: any) => loadedMarcas({ marcas:marcas[0].marcas })),
+          map((marcas: any) => loadedMarcas({ marcas: marcas[0].marcas })),
           catchError((err) => EMPTY)
         );
       })

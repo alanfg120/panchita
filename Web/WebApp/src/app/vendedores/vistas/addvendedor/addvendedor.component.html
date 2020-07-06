@@ -1,0 +1,88 @@
+<h2 mat-dialog-title>Agregar Un Vendedor</h2>
+<form #formvendedor="ngForm" (ngSubmit)="addVendedor(formvendedor)">
+  <mat-dialog-content class="mat-typography inputs">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput name="nombre" [(ngModel)]="vendedor.nombre" required />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Cedula</mat-label>
+      <input
+        matInput
+        name="cedula"
+        type="text"
+        [(ngModel)]="vendedor.cedula"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input
+        matInput
+        name="correo"
+        type="text"
+        [(ngModel)]="vendedor.email"
+        #email = "ngModel"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        required
+      />
+      <mat-error *ngIf="email.errors?.pattern">
+        Correo Invalido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        name="password"
+        type="password"
+        #pass="ngModel"
+        [(ngModel)]="password"
+        pattern=".{8,}"
+        required
+      />
+      <mat-error *ngIf="pass.errors?.pattern">
+        8 caracteres minimo
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Telefono</mat-label>
+      <input
+        matInput
+        name="telefono"
+        type="text"
+        [(ngModel)]="vendedor.telefono"
+        required
+      />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      color="accent"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      *ngIf="!this.data"
+   
+    >
+      Agregar
+    </button>
+    <button
+      color="accent"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      *ngIf="this.data"
+    >
+      Actualizar
+    </button>
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="this.data ? null : formvendedor.reset()"
+    >
+      Cancelar
+    </button>
+  </mat-dialog-actions>
+</form>

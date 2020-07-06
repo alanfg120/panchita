@@ -5,17 +5,22 @@ import { HomeComponent } from './vistas/home/home.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:HomeComponent,
-    children:[
+    path: '',
+    component: HomeComponent,
+    children: [
       {
-        path:'productos',
-        loadChildren: "./../productos/productos.module#ProductosModule",
+        path: 'productos',
+        loadChildren: './../productos/productos.module#ProductosModule',
       },
       {
-        path:'pedidos',
-        loadChildren: "./../pedidos/pedidos.module#PedidosModule",
-      }
+        path: 'pedidos',
+        loadChildren: './../pedidos/pedidos.module#PedidosModule',
+      },
+      {
+        path: 'vendedores',
+        loadChildren: './../vendedores/vendedores.module#VendedoresModule',
+      },
+
     ]
   }
 ];

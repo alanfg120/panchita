@@ -10,8 +10,8 @@
   <div class="container-pedidos">
     <div class="pedidos" *ngFor="let pedido of pedidos$ | async; let i = index">
       <div>{{ i + 1 }}</div>
-      <div>{{ pedido.nombre_cliente }}</div>
-      <div>{{ pedido.ciudad }}</div>
+      <div>{{ pedido.cliente.nombre }}</div>
+      <div>{{ pedido.cliente.ciudad.ciudad}}</div>
       <div>{{ pedido.fecha.seconds * 1000 | date: "dd/MM/yyyy" }}</div>
       <div>$ {{ pedido.total }}</div>
       <button

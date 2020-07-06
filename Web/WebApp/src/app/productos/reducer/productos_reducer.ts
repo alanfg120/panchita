@@ -1,5 +1,5 @@
-import { createReducer, on } from "@ngrx/store";
-import { Producto } from "../models/producto_model";
+import { createReducer, on } from '@ngrx/store';
+import { Producto } from '../models/producto_model';
 import {
   addProducto,
   loadedCategorias,
@@ -7,7 +7,7 @@ import {
   loadedProductos,
   deleteProducto,
   updateProducto,
-} from "../actions/productos_actions";
+} from '../actions/productos_actions';
 
 export interface ProductosState {
   productos: Producto[];
@@ -51,9 +51,9 @@ const _ProductosReducer = createReducer(
     return { ...state };
   }),
   on(addProducto, (state, { producto }) => {
-    if (existeProducto(state.productos, producto.codigo))
+    if (existeProducto(state.productos, producto.codigo)) {
       return { ...state, existProducto: true };
-    else {
+    } else {
       state.productos.push(producto);
       return { ...state, existProducto: false };
     }
@@ -63,7 +63,9 @@ const _ProductosReducer = createReducer(
 function existeProducto(productos: Producto[], codigo: string): boolean {
   let exist = false;
   productos.forEach((p) => {
-    if (p.codigo == codigo) exist = true;
+    if (p.codigo === codigo) {
+      exist = true;
+    }
   });
   return exist;
 }

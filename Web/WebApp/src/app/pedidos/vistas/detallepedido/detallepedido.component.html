@@ -8,13 +8,13 @@
     <div>Nombre:</div>
     <div>Cedula:</div>
     <div>Direccion:</div>
-    <div class="pedido_item">{{ data.nombre_cliente }}</div>
-    <div class="pedido_item">{{ data.cedula_cliente }}</div>
-    <div class="pedido_item">{{ data.direccion }}</div>
+    <div class="pedido_item">{{ data.cliente.nombre }}</div>
+    <div class="pedido_item">{{ data.cliente.cedula }}</div>
+    <div class="pedido_item">{{ data.cliente.direccion }}</div>
     <div>Ciudad:</div>
     <div>Confirmado:</div>
     <div>Telefono:</div>
-    <div class="pedido_item">{{ data.ciudad }}</div>
+    <div class="pedido_item">{{ data.cliente.ciudad.ciudad }}</div>
     <div class="pedido_item">{{ data.confirmado ? "Si" : "No" }}</div>
     <div class="pedido_item">{{ data.telefono }}</div>
     <div class="observacion">Observacion</div>

@@ -22,4 +22,9 @@ export const existSelect = createSelector(
   (state: ProductosState) => state.existProducto
 );
 
+export const loading = createSelector(
+  getProductosSelector,
+  (state: ProductosState) => state.isloading
+);
+
 

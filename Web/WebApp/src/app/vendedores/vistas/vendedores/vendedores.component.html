@@ -1,4 +1,7 @@
-<div class="contenedor">
+<div class="loading" *ngIf="loading$ | async">
+  <mat-spinner diameter="40" color="accent"></mat-spinner>
+</div>
+<div class="contenedor"  *ngIf="!(loading$ | async)">
     <div class="encabezado">
       <div>Nombre</div>
       <div>Cedula</div>

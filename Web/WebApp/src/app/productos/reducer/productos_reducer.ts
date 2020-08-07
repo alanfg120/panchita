@@ -22,12 +22,14 @@ export const initialState: ProductosState = {
   categorias: [],
   marcas: [],
   existProducto: false,
+  isloading : true
 };
 
+// tslint:disable-next-line: variable-name
 const _ProductosReducer = createReducer(
   initialState,
   on(loadedProductos, (state, { productos }) => {
-    return { ...state, productos };
+    return { ...state, productos,isloading : false};
   }),
   on(loadedCategorias, (state, { categorias }) => {
     return { ...state, categorias };

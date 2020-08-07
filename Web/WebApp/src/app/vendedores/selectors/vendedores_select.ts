@@ -13,4 +13,8 @@ export const getExistVendedor = createSelector(
     getVendedoresSelector,
   (state: VendedoresState) => state.existVendedor
 );
+export const loading = createSelector(
+    getVendedoresSelector,
+  (state: VendedoresState) => state.loading
+);
 

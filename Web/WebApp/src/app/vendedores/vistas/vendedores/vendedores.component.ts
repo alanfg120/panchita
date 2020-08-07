@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { VendedoresState } from '../../reducers/vendedor_reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { getVendedores } from '../../selectors/vendedores_select';
+import { getVendedores, loading } from '../../selectors/vendedores_select';
 import { Vendedor } from '../../models/vendedor_model';
 import { loadVendedores } from '../../actions/vendedor_actions';
 import { MatDialog } from '@angular/material';
@@ -20,6 +20,7 @@ export class VendedoresComponent implements OnInit {
     public dialog: MatDialog
   ) {}
   venedores$: Observable<Vendedor[]> = this.store.select(getVendedores);
+  loading$: Observable<boolean> = this.store.select(loading);
   update: boolean;
   selected: Vendedor;
   ngOnInit() {

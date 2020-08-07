@@ -51,3 +51,10 @@
 .selected{
   background-color: rgb(204, 204, 204);
 }
+
+.loading {
+  height: calc(100vh - 56px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

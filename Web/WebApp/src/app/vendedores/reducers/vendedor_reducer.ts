@@ -7,17 +7,19 @@ import { loadedVendedores, addVendedor } from '../actions/vendedor_actions';
 export interface VendedoresState {
   vendedores: Vendedor[];
   existVendedor?: boolean;
+  loading?: boolean;
 }
 
 export const initialState: VendedoresState = {
-    vendedores: []
+    vendedores: [],
+    loading : true
 };
 
 // tslint:disable-next-line: variable-name
 const _VendedoresReducer = createReducer(
   initialState,
   on(loadedVendedores, (state, {vendedores}) => {
-    return { ...state, vendedores};
+    return { ...state, vendedores,loading : false};
   }),
   on(addVendedor, (state, { vendedor }) => {
     if (existeVendedor(state.vendedores, vendedor.cedula,vendedor.email)) {

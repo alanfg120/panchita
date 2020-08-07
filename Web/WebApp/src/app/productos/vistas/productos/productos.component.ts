@@ -12,7 +12,7 @@ import {
   deleteProducto,
 } from '../../actions/productos_actions';
 import { MatSnackBar } from '@angular/material';
-import { existSelect, getProductos } from '../../selectors/productos_select';
+import { existSelect, getProductos, loading } from '../../selectors/productos_select';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -21,6 +21,7 @@ import { existSelect, getProductos } from '../../selectors/productos_select';
 export class ProductosComponent implements OnInit {
   productos$: Observable<Producto[]> = this.store.select(getProductos);
   exist$: Observable<boolean> = this.store.select(existSelect);
+  loading$: Observable<boolean> = this.store.select(loading);
   update: boolean;
   selected: Producto;
 

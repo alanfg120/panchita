@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 final Firestore firestore = Firestore.instance;
-
+                
 Stream<DocumentReference> addDocument(String colletion, {Map<String, dynamic> data,String id}) {
   if(id==null)
     return firestore.collection(colletion).add(data).asStream();

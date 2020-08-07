@@ -11,10 +11,9 @@ class ClientesBloc extends Bloc<ClientesEvent, ClientesState> {
   List<Cliente> clientes;
  
   final ClientesRepositorio repositorio;
-  ClientesBloc({this.repositorio});
+  ClientesBloc({this.repositorio}) : super(ClientesState.initial());
 
-  @override
-  ClientesState get initialState => ClientesState.initial();
+
 
   @override
   Stream<ClientesState> mapEventToState(

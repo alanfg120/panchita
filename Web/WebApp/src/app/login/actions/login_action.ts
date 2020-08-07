@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Usuario } from '../models/usuario_model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorStatus } from '../models/error_model';
 
 export const authAction = createAction(
   '[Login Componet] Auth',
@@ -8,7 +9,7 @@ export const authAction = createAction(
 );
 export const errorAction = createAction(
   '[Login Componet] Error',
-  props<{ error: HttpErrorResponse }>()
+  props<{ error: ErrorStatus }>()
 );
 export const successAction = createAction(
   '[Login Componet] Success',

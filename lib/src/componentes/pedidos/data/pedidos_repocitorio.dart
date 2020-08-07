@@ -18,6 +18,7 @@ Stream<DocumentReference> setPedido(Pedido pedido){
      "observacion"     : pedido.observacion,
      "confirmado"      : pedido.confirmado,
      "fecha"           : pedido.fecha,
+     "enviado"         : pedido.enviado
     };
     else  data = {
      "cliente"         : pedido.cliente.toMap(),
@@ -27,7 +28,8 @@ Stream<DocumentReference> setPedido(Pedido pedido){
      "observacion"     : pedido.observacion,
      "confirmado"      : pedido.confirmado,
      "fecha"           : pedido.fecha,
-     "cedula_vendedor" : pedido.cedulaVendedor 
+     "cedula_vendedor" : pedido.cedulaVendedor,
+     "enviado"         : pedido.enviado
     };
     return addDocument(colletion,data:data);
 }
@@ -35,7 +37,12 @@ Stream<DocumentReference> setPedido(Pedido pedido){
 Stream updatePedido(String id,String mensaje){
     return updateDocument(colletion, id, {
            "confirmado": true,
-           "mensaje"   : mensaje
+           "mensaje"   : mensaje,
+    });
+}
+Stream updatePedidoOnline(String id){
+    return updateDocument(colletion, id, {
+           "enviado": true
     });
 }
 

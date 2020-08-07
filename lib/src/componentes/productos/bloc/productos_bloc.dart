@@ -14,9 +14,8 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   List<Producto> allproductos;
   List categorias;
   List marcas;
-  ProductosBloc({this.repo});
-  @override
-  ProductosState get initialState => ProductosState.initial();
+  ProductosBloc({this.repo}) : super(ProductosState.initial());
+
 
   @override
   Stream<ProductosState> mapEventToState(

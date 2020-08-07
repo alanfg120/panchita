@@ -3,6 +3,7 @@ import 'package:panchita/src/componentes/login/models/usuario_model.dart';
 import 'package:panchita/src/plugins/firebase_service.dart';
 
 class LoginRepocitorio {
+  
   final String colletion = '/usuarios';
   final String ciudadesColletion = '/ciudades';
 

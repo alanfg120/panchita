@@ -22,7 +22,12 @@ Future<FirebaseUser> singGoogle() async {
 
 void singOut() async {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  await _googleSignIn.signOut();
+  try {
+       await _googleSignIn.signOut();
+  } catch (e) {
+    print('error $e');
+  }
+
 }
 
 Future<String> singIn(String email,String password) async {

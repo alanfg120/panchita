@@ -1,10 +1,10 @@
-import { createReducer, on } from "@ngrx/store";
-import { Usuario } from "../models/usuario_model";
+import { createReducer, on } from '@ngrx/store';
+import { Usuario } from '../models/usuario_model';
 import {
   authAction,
   errorAction,
   successAction
-} from "../actions/login_action";
+} from '../actions/login_action';
 
 export interface LoginState {
   errorStatus?: any;
@@ -15,6 +15,7 @@ export const initialState: LoginState = {
   usuario: new Usuario()
 };
 
+// tslint:disable-next-line: variable-name
 const _LoginReducer = createReducer(
   initialState,
   on(authAction, (state, { usuario }) => {

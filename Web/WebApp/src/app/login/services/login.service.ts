@@ -1,14 +1,22 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Usuario } from "../models/usuario_model";
-import { environment } from "src/environments/environment";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Usuario } from '../models/usuario_model';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class LoginService {
-  constructor(public http: HttpClient) {}
+  constructor(private firebaseAuth: AngularFireAuth) {}
+
   auth(usuario: Usuario) {
-   // return this.http.post(`${environment.apiUrl}/usuarios/login/administradores`, usuario);
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(
+      usuario.email,
+      usuario.password
+    );
+  }
+
+  logout() {
+    return this.firebaseAuth.auth.signOut();
   }
 }

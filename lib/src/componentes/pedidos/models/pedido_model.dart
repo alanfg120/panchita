@@ -15,6 +15,7 @@ class Pedido {
   String mensaje;
   DateTime fecha;
   String cedulaVendedor;
+  bool enviado;
 
 
   Pedido(
@@ -26,7 +27,8 @@ class Pedido {
       this.fecha,
       this.cliente,
       this.token,
-      this.cedulaVendedor});
+      this.cedulaVendedor,
+      this.enviado});
 
   String formatFecha() {
     return DateFormat("dd/MM/yyyy hh:mm aaa")
@@ -62,6 +64,7 @@ class Pedido {
     productos     = productoMap(data['productos']);
     confirmado    = data['confirmado'];
     mensaje       = data['mensaje'];
+    enviado       = data['enviado'];
   }
   @override
   String toString() => '$confirmado';

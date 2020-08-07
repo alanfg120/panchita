@@ -16,7 +16,7 @@
     <mat-icon style="color: white;">power_settings_new</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="outlogin()">
       <span>Cerrar Sesion</span>
     </button>
   </mat-menu>
@@ -26,30 +26,25 @@
     <mat-list>
       <mat-action-list class="menuicon">
         <button mat-list-item class="menuicon" routerLink="pedidos">
-          <mat-icon
-            class="example-icon"
-            color="accent"
-            style="margin-right: 20px;"
-            >date_range</mat-icon
-          >
+          <span
+          class="mdi mdi-clipboard-list-outline mdi-24px example-icon"
+          style="color: #e10877;"
+        ></span>
+          
           Pedidos
         </button>
         <button mat-list-item class="menuicon" routerLink="productos">
-          <mat-icon
-            class="example-icon"
-            color="accent"
-            style="margin-right: 20px;"
-            >chat_bubble_outline</mat-icon
-          >
+          <span
+          class="mdi mdi-dolly mdi-24px example-icon"
+          style="color: #e10877;"
+        ></span>
           Productos
         </button>
         <button mat-list-item class="menuicon" routerLink="vendedores">
-          <mat-icon
-            class="example-icon"
-            color="accent"
-            style="margin-right: 20px;"
-            >chat_bubble_outline</mat-icon
-          >
+          <span
+            class="mdi mdi-account-tie mdi-24px example-icon"
+            style="color: #e10877;"
+          ></span>
           Vendedores
         </button>
       </mat-action-list>

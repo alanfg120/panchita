@@ -23,14 +23,14 @@ import 'package:panchita/src/plugins/shared_preferences.dart';
 
 void main() async {
  WidgetsFlutterBinding.ensureInitialized();
- BlocSupervisor.delegate = SimpleBlocDelegate();
+ Bloc.observer = SimpleBlocDelegate();
  final prefs = PreferenciasUsuario();
  await prefs.initPrefs();
  final LoginRepocitorio repologin = LoginRepocitorio();
  // ignore: close_sinks
  final LoginBloc loginbloc = LoginBloc(repo: repologin);
  
- loginbloc.firstWhere((state) => true).then((_) =>runApp(MyApp(loginbloc: loginbloc)));
+ loginbloc.firstWhere((state) => true ).then((_) =>runApp(MyApp(loginbloc: loginbloc)));
  
  loginbloc.add(VericarLoginEvent());
  
@@ -52,10 +52,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     push.init();
- 
+
     return MultiBlocProvider (
           providers: [
-                      BlocProvider<LoginBloc>.value(value: loginbloc),
+                      BlocProvider<LoginBloc>(create: (context)=>loginbloc,lazy: false),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
                       ),
@@ -63,7 +63,8 @@ class MyApp extends StatelessWidget {
                       create: (context) => PedidosBloc(repocitorio: repoPedido)
                       ),
                       BlocProvider<ClientesBloc>(
-                      create: (context) => ClientesBloc(repositorio: repoClientes)..add(GetClientesEvent())
+                      create: (context) => ClientesBloc(repositorio: repoClientes)..add(GetClientesEvent()),
+                      lazy  : false,
                       ),
           ],
           child: MaterialApp(

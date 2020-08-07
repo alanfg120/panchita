@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:panchita/src/componentes/clientes/vistas/buscar_cliente_page.dart';
 import 'package:panchita/src/componentes/clientes/vistas/cretate_client_page.dart';
-import 'package:panchita/src/componentes/home/vistas/home_page.dart';
 import 'package:panchita/src/componentes/login/vistas/editUser_page.dart';
 import 'package:panchita/src/componentes/login/vistas/finishRegistro_page.dart';
 import 'package:panchita/src/componentes/login/vistas/login_page.dart';
@@ -16,11 +15,12 @@ import 'package:panchita/src/componentes/productos/vistas/search_producto_page.d
 
 
 Map<String, WidgetBuilder> route() {
+  
   return <String, WidgetBuilder>{
    'login'           : (context) => LoginPage(),
    'registro'        : (context) => RegistroPage(),
    'finish'          : (context) => FinishRegistroPage(),
-   'home'            : (context) => HomePage(),
+   //'home'            : (context) => HomePage(),
    'producto'        : (context) => ProductoPage(),
    'carrito'         : (context) => CompraPage(),
    'buscar_producto' : (context) => SearchProductoPage(),

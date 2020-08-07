@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panchita/src/componentes/clientes/models/cliente_model.dart';
 import 'package:panchita/src/componentes/clientes/vistas/buscar_cliente_page.dart';
-import 'package:panchita/src/componentes/clientes/vistas/clientes_page.dart';
-
 import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/login/models/usuario_model.dart';
 import 'package:panchita/src/componentes/pedidos/bloc/pedidos_bloc.dart';
@@ -28,7 +26,7 @@ class _CompraPageState extends State<CompraPage> {
     String ruta;
     String observacion;
     Producto productoActual;
-   final _scafKey = GlobalKey<ScaffoldState>();
+    final _scafKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,7 @@ class _CompraPageState extends State<CompraPage> {
                                  ),
                                  floatingActionButton: RaisedButton(
                                                        color     : Colors.red,
-                                                       onPressed : state.productos.length == 0
+                                                       onPressed : state.productos.length == 0 || (usuario.vendedor && state.cliente == null)
                                                                    ? null
                                                                    : ()=> _confirmarPedido(state.productos),
                                                        child     : Text("Confirmar ",style: TextStyle(color: Colors.white)),
@@ -169,12 +167,14 @@ class _CompraPageState extends State<CompraPage> {
     productos     : productos,
     observacion   : observacion,
     total         : context.bloc<PedidosBloc>().state.total,
-    cedulaVendedor: usuario.vendedor ? usuario.cedula : ''
+    cedulaVendedor: usuario.vendedor ? usuario.cedula : '',
+    enviado       : false
     );
 
     context.bloc<PedidosBloc>().add(
             SendPedidoEvent(
-            pedido : pedido   
+            pedido   : pedido,
+            vendedor : usuario.vendedor  
             )
     );
     productos.forEach((p){

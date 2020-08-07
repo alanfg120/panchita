@@ -81,6 +81,14 @@ class _HomePageState extends State<HomePage> {
                                                }
                                              )
                                            : Container(),
+                                           currentIndex == 2 
+                                           ? IconButton(
+                                             icon      :Icon(Icons.refresh), 
+                                             onPressed : (){
+                                               
+                                             }
+                                             )
+                                           : Container(),
                                            currentIndex == 5 
                                            ? IconButton(
                                              icon      :Icon(Icons.search), 

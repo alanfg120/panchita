@@ -5,7 +5,7 @@ import { AuthService } from './login/services/auth.service';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'Home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -15,12 +15,12 @@ const routes: Routes = [
   {
     path: 'Home',
     loadChildren: './home/home.module#HomeModule',
-   // canActivate: [AuthService]
+    canActivate: [AuthService]
   },
   {
     path: '**',
-    // loadChildren: "./login/login.module#LoginModule"
-    loadChildren: './home/home.module#HomeModule' ,
+    loadChildren: './login/login.module#LoginModule'
+    // loadChildren: './home/home.module#HomeModule' ,
   }
 ];
 

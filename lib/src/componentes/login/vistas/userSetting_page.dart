@@ -44,9 +44,10 @@ class _UserSettingPageState extends State<UserSettingPage> {
                    title   : Text("Cerrar Sesion"),
                   
                    onTap: (){
-                     BlocProvider.of<LoginBloc>(context).add(
-                       LogOutEvent()
+                     context.bloc<LoginBloc>().add(
+                      LogOutEvent()
                      );
+                   //  Navigator.pushNamed(context, 'login');
                    },
                    ),
                  ],

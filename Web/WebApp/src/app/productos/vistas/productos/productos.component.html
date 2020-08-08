@@ -3,6 +3,7 @@
 </div>
 <div class="contenedor" *ngIf="! (loading$ | async)">
   <div class="encabezado">
+    <div>Foto</div>
     <div>Codigo</div>
     <div>Nombre</div>
     <div>Categoria</div>
@@ -24,6 +25,16 @@
       (click)="actionProducto(producto)"
       [class.selected]="producto === selected"
     >
+      <div *ngIf="producto.url_foto">
+        <mat-icon color="primary">
+          image
+        </mat-icon>
+      </div>
+      <div *ngIf="!producto.url_foto">
+        <mat-icon color="accent">
+          image_not_supported
+        </mat-icon>
+      </div>
       <div>{{ producto.codigo }}</div>
       <div>{{ producto.nombre }}</div>
       <div>{{ producto.categoria }}</div>

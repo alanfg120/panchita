@@ -8,7 +8,7 @@
 
 .encabezado {
   display: grid;
-  grid-template-columns:  repeat(4, 2fr) repeat(4, 1fr) 2fr;
+  grid-template-columns:  20px repeat(4, 2fr) repeat(4, 1fr) 2fr;
   font-size: 11px;
   align-items: center;
   justify-items: center;
@@ -17,7 +17,7 @@
 .producto {
   padding: 4px;
   display: grid;
-  grid-template-columns: repeat(4, 2fr) repeat(4, 1fr) 2fr;
+  grid-template-columns:  20px repeat(4, 2fr) repeat(4, 1fr) 2fr;
   grid-template-rows: auto;
   font-size: 13px;
   align-items: center;

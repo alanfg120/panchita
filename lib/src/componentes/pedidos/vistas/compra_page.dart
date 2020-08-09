@@ -168,6 +168,7 @@ class _CompraPageState extends State<CompraPage> {
     observacion   : observacion,
     total         : context.bloc<PedidosBloc>().state.total,
     cedulaVendedor: usuario.vendedor ? usuario.cedula : '',
+    nombreVendedor: usuario.vendedor ? usuario.nombre : '',
     enviado       : false
     );
 

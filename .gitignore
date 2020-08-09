@@ -36,3 +36,5 @@ lib/generated_plugin_registrant.dart
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 Web/WebApp/src/environments/environment.ts
+Web/WebApp/functions/adminsdk.json
+Web/WebApp/panchitaapp-7cc6f-firebase-adminsdk-dtqu5-f26e83292e.json

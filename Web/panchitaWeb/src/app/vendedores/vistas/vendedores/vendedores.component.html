@@ -1,0 +1,71 @@
+<div class="loading" *ngIf="loading$ | async">
+  <mat-spinner diameter="40" color="accent"></mat-spinner>
+</div>
+<div class="contenedor"  *ngIf="!(loading$ | async)">
+    <div class="encabezado">
+      <div>Nombre</div>
+      <div>Cedula</div>
+      <div>Correo</div>
+      <div>Telefono</div>
+      <div>Direccion</div>
+   
+    </div>
+    <mat-divider></mat-divider>
+    <div class="novendedores" *ngIf="(venedores$ | async).length == 0">
+      No hay Vendedores
+    </div>
+    <div class="vendedores" *ngIf="(venedores$ | async).length > 0">
+      <div
+        class="vendedor"
+        *ngFor="let vendedor of venedores$ | async"
+        (click)="actionProducto(vendedor)"
+        [class.selected]="vendedor === selected"
+      >
+        <div>{{ vendedor.nombre }}</div>
+        <div>{{ vendedor.cedula }}</div>
+        <div>{{ vendedor.email }}</div>
+        <div>{{ vendedor.telefono }}</div>
+        <div>{{ vendedor.direccion}}</div>
+
+      </div>
+    </div>
+  </div>
+  
+  <div class="float">
+    <button
+      mat-fab
+      matTooltip="Agregar un vendedor"
+      (click)="addVendedor()"
+      *ngIf="!update"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <button
+      mat-fab
+      matTooltip="Editar un vendedor"
+      *ngIf="update"
+      class="actionButon"
+ 
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-fab
+      matTooltip="Eliminar un vendedor"
+      *ngIf="update"
+      class="actionButon"
+      (click) = "eraceVendedor()"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button
+      mat-fab
+      matTooltip="Cancelar"
+      *ngIf="update"
+      class="actionButon"
+      (click)="update = false; selected = null"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+  

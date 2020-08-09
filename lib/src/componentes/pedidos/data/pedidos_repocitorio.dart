@@ -29,6 +29,7 @@ Stream<DocumentReference> setPedido(Pedido pedido){
      "confirmado"      : pedido.confirmado,
      "fecha"           : pedido.fecha,
      "cedula_vendedor" : pedido.cedulaVendedor,
+     "vendedor"        : pedido.nombreVendedor,
      "enviado"         : pedido.enviado
     };
     return addDocument(colletion,data:data);

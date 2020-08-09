@@ -5,6 +5,7 @@ import 'package:panchita/src/componentes/login/models/ciudad_model.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 
 class Pedido {
+
   String id;
   Cliente cliente;
   String token;
@@ -15,6 +16,7 @@ class Pedido {
   String mensaje;
   DateTime fecha;
   String cedulaVendedor;
+  String nombreVendedor;
   bool enviado;
 
 
@@ -28,6 +30,7 @@ class Pedido {
       this.cliente,
       this.token,
       this.cedulaVendedor,
+      this.nombreVendedor,
       this.enviado});
 
   String formatFecha() {

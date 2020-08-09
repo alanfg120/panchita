@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider (
           providers: [
-                      BlocProvider<LoginBloc>(create: (context)=>loginbloc,lazy: false),
+                      BlocProvider<LoginBloc>(create: (context)=>loginbloc),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
                       ),

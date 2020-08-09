@@ -145,26 +145,6 @@ Widget input(String texto, TextEditingController controller,Icon icono,foco){
                       default           : break;    
                     }
        },
-      /*  onChanged:(value){
-                    switch (texto) {
-                      case 'Codigo'     : producto.codigo = value;
-                                          break;
-                      case 'Nombre'     : producto.nombre = value;
-                                          break;
-                      case 'Categorias' : producto.categoria = value;
-                                          break;
-                      case 'Marcas'     : producto.marca = value;
-                                          break;
-                      case 'Precio Uno' : producto.precioUno = int.parse(value);
-                                          break;
-                      case 'Precio Dos' : producto.precioDos = int.parse(value);
-                                          break;
-                      case 'Precio Tres': producto.precioTres = int.parse(value);
-                                          break;
-                      default           : break;    
-                    }
-
-       }, */   
        validator: (value){
                    if(value.isEmpty) return "Es requerido";
                    return null;

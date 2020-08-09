@@ -1,0 +1,87 @@
+<div class="loading" *ngIf="loading$ | async">
+  <mat-spinner diameter="40" color="accent"></mat-spinner>
+</div>
+<div class="contenedor" *ngIf="! (loading$ | async)">
+  <div class="encabezado">
+    <div>Foto</div>
+    <div>Codigo</div>
+    <div>Nombre</div>
+    <div>Categoria</div>
+    <div>Marca</div>
+    <div>Precio(R1)</div>
+    <div>Precio(R2)</div>
+    <div>Precio(R3)</div>
+    <div>Cantidad</div>
+    <div>descripcion</div>
+  </div>
+  <mat-divider></mat-divider>
+<!--   <div class="noproductos" *ngIf="(productos$ | async).length == 0">
+    No hay Productos
+  </div> -->
+  <div class="productos" >
+    <div
+      class="producto"
+      *ngFor="let producto of productos$ | async"
+      (click)="actionProducto(producto)"
+      [class.selected]="producto === selected"
+    >
+      <div *ngIf="producto.url_foto">
+        <mat-icon color="primary">
+          image
+        </mat-icon>
+      </div>
+      <div *ngIf="!producto.url_foto">
+        <mat-icon color="accent">
+          image_not_supported
+        </mat-icon>
+      </div>
+      <div>{{ producto.codigo }}</div>
+      <div>{{ producto.nombre }}</div>
+      <div>{{ producto.categoria }}</div>
+      <div>{{ producto.marca }}</div>
+      <div>{{ producto.ruta1 }}</div>
+      <div>{{ producto.ruta2 }}</div>
+      <div>{{ producto.ruta3 }}</div>
+      <div>{{ producto.cantidad }}</div>
+      <div>{{ producto.descripcion }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="float">
+  <button
+    mat-fab
+    matTooltip="Agregar un producto"
+    (click)="AddProductodialog()"
+    *ngIf="!update"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    mat-fab
+    matTooltip="Editar un producto"
+    *ngIf="update"
+    class="actionButon"
+    (click)="updateProductodialog(selected)"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-fab
+    matTooltip="Eliminar un producto"
+    *ngIf="update"
+    class="actionButon"
+    (click)="deleteProducto(selected.id,selected.url_foto)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button
+    mat-fab
+    matTooltip="Cancelar"
+    *ngIf="update"
+    class="actionButon"
+    (click)="update = false; selected = null"
+  >
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>

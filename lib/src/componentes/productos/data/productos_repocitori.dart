@@ -16,7 +16,8 @@ class ProductoRepocitorio {
       "marca"          : producto.marca,
       "ruta1"          : producto.precioUno,
       "ruta2"          : producto.precioDos,
-      "ruta3"          : producto.precioTres
+      "ruta3"          : producto.precioTres,
+      "url_foto"       : ''
    });
 }
 

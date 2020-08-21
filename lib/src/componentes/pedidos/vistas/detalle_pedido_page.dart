@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:panchita/src/componentes/login/bloc/login_bloc.dart';
 import 'package:panchita/src/componentes/pedidos/models/pedido_model.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 
@@ -13,19 +16,26 @@ class DetallesPedidoPage extends StatefulWidget {
 }
 
 class _DetallesPedidoPageState extends State<DetallesPedidoPage> {
-  
+   bool isVendedor;
    final Color primaryColor = Colors.teal;
   @override
   Widget build(BuildContext context) {
-  
-                    
-                     return Scaffold(
+             final stateUsuario = BlocProvider.of<LoginBloc>(context).state;
+                   if(stateUsuario is AutenticadoState)
+                      isVendedor = stateUsuario.usuario.vendedor;
+             return Scaffold(
                             appBar : AppBar(
                                      title: Text("Detalles del Pedido"),
                                 
                                     ),
                             body   : Column(
                                      children: <Widget>[
+                                              isVendedor
+                                              ? ListTile(
+                                              title    : Text("Cliente"),
+                                              subtitle : Text(widget.pedido.cliente.nombre)
+                                              )
+                                              : Container(),
                                               ListTile(
                                               title    : Text("Confirmado"),
                                               subtitle : widget.pedido.confirmado
@@ -34,10 +44,6 @@ class _DetallesPedidoPageState extends State<DetallesPedidoPage> {
                                               leading  : widget.pedido.confirmado
                                                          ? Icon(Icons.check_circle_outline)
                                                          : Icon(Icons.cancel)
-                                              ),
-                                              ListTile(
-                                              leading  : Icon(Icons.message),
-                                              title    : Text("Mensaje del distribuidor"),
                                               ),
                                               Container(
                                               height : 80,

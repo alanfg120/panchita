@@ -26,28 +26,22 @@ void main() async {
  Bloc.observer = SimpleBlocDelegate();
  final prefs = PreferenciasUsuario();
  await prefs.initPrefs();
- final LoginRepocitorio repologin = LoginRepocitorio();
- // ignore: close_sinks
- final LoginBloc loginbloc = LoginBloc(repo: repologin);
- 
- loginbloc.firstWhere((state) => true ).then((_) =>runApp(MyApp(loginbloc: loginbloc)));
- 
- loginbloc.add(VericarLoginEvent());
- 
- //singOut();
+ runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
 
-  final LoginBloc loginbloc;
-  MyApp({@required this.loginbloc});
+
+  MyApp();
 
   final push = PushNotificatios();
    
  
-  final ProductoRepocitorio repoProductos  = ProductoRepocitorio();
-  final PedidoRepositorio   repoPedido     = PedidoRepositorio();
-  final ClientesRepositorio repoClientes   = ClientesRepositorio();
+  final LoginRepocitorio    loginRepocitorio  = LoginRepocitorio();
+  final ProductoRepocitorio repoProductos     = ProductoRepocitorio();
+  final PedidoRepositorio   repoPedido        = PedidoRepositorio();
+  final ClientesRepositorio repoClientes      = ClientesRepositorio();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +49,9 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider (
           providers: [
-                      BlocProvider<LoginBloc>(create: (context)=>loginbloc),
+                      BlocProvider<LoginBloc>(
+                      create: (context)=>LoginBloc(repo: loginRepocitorio)..add(VericarLoginEvent())
+                      ),
                       BlocProvider<ProductosBloc>(
                       create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
                       ),

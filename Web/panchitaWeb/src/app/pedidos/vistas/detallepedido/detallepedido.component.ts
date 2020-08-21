@@ -20,14 +20,14 @@ export class DetallepedidoComponent implements OnInit {
     private store: Store<{ pedidos: PedidosState }>
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  sendPush() {
+  sendPush(): void {
     this.store.dispatch(
       sendPushNotification({
         mensaje : this.mensaje,
         token   : this.data.token,
-        id      : this.data.id,
+        id      : this.data.id, 
       })
     );
   }

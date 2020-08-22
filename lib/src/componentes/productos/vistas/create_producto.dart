@@ -53,7 +53,7 @@ class _CreateProductoPageState extends State<CreateProductoPage> {
                                        if(state.productoAdd)
                                           _dialogConfirm();
                                        if(state.existProducto)
-                                          _snackBar("Ya existe el producto");
+                                          _snackBar("Ya existe el producto o estas desconectado");
                                },
                                builder: (context,state){
                                return  Form(

@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
    }); 
 
    final state = BlocProvider.of<LoginBloc>(context).state;
-            if(state is AutenticadoState){
+            if(state is AuthenticationSuccessState){
               usuario = state.usuario;
              }
      

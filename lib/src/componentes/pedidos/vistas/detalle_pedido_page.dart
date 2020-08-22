@@ -21,7 +21,7 @@ class _DetallesPedidoPageState extends State<DetallesPedidoPage> {
   @override
   Widget build(BuildContext context) {
              final stateUsuario = BlocProvider.of<LoginBloc>(context).state;
-                   if(stateUsuario is AutenticadoState)
+                   if(stateUsuario is AuthenticationSuccessState)
                       isVendedor = stateUsuario.usuario.vendedor;
              return Scaffold(
                             appBar : AppBar(

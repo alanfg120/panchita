@@ -45,7 +45,7 @@ class _FinishRegistroPageState extends State<FinishRegistroPage> {
                       
                            child: BlocConsumer<LoginBloc,LoginState>(
                            listener: (context,state){
-                                if(state is AutenticadoState)
+                                if(state is AuthenticationSuccessState)
                                    Navigator.pushReplacementNamed(context, 'home');
                            },
                            builder: (context,state){

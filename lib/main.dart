@@ -46,14 +46,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     push.init();
-
+    
     return MultiBlocProvider (
           providers: [
                       BlocProvider<LoginBloc>(
                       create: (context)=>LoginBloc(repo: loginRepocitorio)..add(VericarLoginEvent())
                       ),
                       BlocProvider<ProductosBloc>(
-                      create: (context) => ProductosBloc(repo:repoProductos)..add(GetProductosEvent())
+                      create: (context) => ProductosBloc(repo:repoProductos)
                       ),
                       BlocProvider<PedidosBloc>(
                       create: (context) => PedidosBloc(repocitorio: repoPedido)
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
                    builder:(context,state){
                     if(state is AutenticandoState)
                        return LoginPage();
-                    if(state is AutenticadoState){
+                    if(state is AuthenticationSuccessState){
                        context.bloc<PedidosBloc>().add(
                           GetPedidosEvent(cedula: state.usuario.cedula,vendedor:state.usuario.vendedor)
                        );

@@ -41,13 +41,13 @@ class _EditUserPageState extends State<EditUserPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc,LoginState>(
            listener:(context,state){
-                 if(state is AutenticadoState){
+                 if(state is AuthenticationSuccessState){
                     if(state.edit)_snakBar("Datos Actualizados");
                       
                  }
            },
            builder:(context,state){
-                     if(state is AutenticadoState){
+                     if(state is AuthenticationSuccessState){
                           usuario = state.usuario;
                           ciudades= state.ciudades;
                           _nombreController.text = usuario.nombre;

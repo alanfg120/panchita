@@ -26,7 +26,7 @@ class _DialogProductoState extends State<DialogProducto> {
      final state       = BlocProvider.of<LoginBloc>(context).state;
      final blocCompras = BlocProvider.of<PedidosBloc>(context).add;
 
-    if (state is AutenticadoState) ruta = state.usuario.ciudad.ruta;
+    if (state is AuthenticationSuccessState) ruta = state.usuario.ciudad.ruta;
         final heigthDialog = MediaQuery.of(context).size.height * 0.5;
 
          
@@ -43,7 +43,7 @@ class _DialogProductoState extends State<DialogProducto> {
                                                children: <Widget>[
                                                          CircleAvatar(
                                                          radius          : 80,
-                                                         backgroundImage : widget.producto.foto == '' 
+                                                         backgroundImage : widget.producto.foto == '' || widget.producto.foto == null
                                                                            ? AssetImage('assets/image.gif')
                                                                            : CachedNetworkImageProvider(widget.producto.foto)
                                                          ),

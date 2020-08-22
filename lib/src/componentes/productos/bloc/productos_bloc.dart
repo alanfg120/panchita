@@ -5,25 +5,35 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:panchita/src/componentes/productos/data/productos_repocitori.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
+import 'package:panchita/src/plugins/internet_check.dart';
+
 
 part 'productos_event.dart';
 part 'productos_state.dart';
 
 class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   final ProductoRepocitorio repo;
+
   List<Producto> allproductos;
   List categorias;
   List marcas;
-  ProductosBloc({this.repo}) : super(ProductosState.initial());
-
+  ProductosBloc({this.repo}) : super(ProductosState.initial()){
+     this.repo.getProductosStream().onData((data) {
+         print(data);
+         allproductos = data.documents.map((e) => Producto.map(e)).toList();
+         add(GetProductosEvent());
+     });
+  }
+  
 
   @override
   Stream<ProductosState> mapEventToState(
     ProductosEvent event,
   ) async* {
+    
     if (event is GetCategoriasEvent)  yield* _getCategorias(state);
     if (event is GetMarcasEvent)      yield* _getMarcas(state);
-    if (event is GetProductosEvent)   yield* _getProductos(state);
+    if (event is GetProductosEvent)   yield* _getProductos(state,event);
     if (event is ResetCantidadEvent)  yield* _resetCantidad(event, state);
     if (event is SearchProductoEvent) yield* _searchProducto(event, state);
     if (event is FilterProductoEvent) yield* _filterProducto(event, state);
@@ -31,6 +41,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   }
 
   Stream<ProductosState> _getCategorias(ProductosState state) async* {
+    categorias   = await repo.getCategorias();
     yield state.copyWith(
         productos: allproductos,
         preferencias: categorias,
@@ -39,6 +50,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
   }
 
   Stream<ProductosState> _getMarcas(ProductosState state) async* {
+    marcas       = await repo.getMarcas();
     yield state.copyWith(
         productos: allproductos,
         preferencias: marcas,
@@ -46,11 +58,10 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
         selectPreferencia: 0);
   }
 
-  Stream<ProductosState> _getProductos(ProductosState state) async* {
-    categorias   = await repo.getCategorias();
-    marcas       = await repo.getMarcas();
-    allproductos = await repo.getProductos();
-    yield state.copyWith(productos: allproductos);
+  Stream<ProductosState> _getProductos(ProductosState state, GetProductosEvent event) async* {
+   // allproductos = await repo.getProductos();
+    yield state.copyWith(productos: allproductos,productoAdd: true);
+    yield state.copyWith(productoAdd: false);
   }
 
   Stream<ProductosState> _resetCantidad(
@@ -101,8 +112,7 @@ class ProductosBloc extends Bloc<ProductosEvent, ProductosState> {
 
   Stream<ProductosState> _createProducto(
       CreateProductoEvent event, ProductosState state) async* {
-     print(state.isExist(event.producto.codigo));
-    if(!state.isExist(event.producto.codigo)){
+    if(!state.isExist(event.producto.codigo) && await internetCheck()){
 
        state.productos.insert(0, event.producto);
        repo.setProducto(event.producto);

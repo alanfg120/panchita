@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:panchita/src/componentes/productos/models/producto_model.dart';
 import 'package:panchita/src/plugins/firebase_service.dart';
@@ -36,7 +38,9 @@ class ProductoRepocitorio {
     final productos = await getDocuments(colletionProductos);
     return productos.documents.map((p) => Producto.map(p)).toList();
   }
-
+   StreamSubscription<QuerySnapshot> getProductosStream(){
+     return getDocumentsStream('productos').listen((_)=>{});
+   }
   Future<List<Producto>> filterProducto(String campo, String valor) async {
     final productos = await queryGetDocumento(colletionProductos,campo,valor);
     return productos.documents.map((p) => Producto.map(p)).toList();

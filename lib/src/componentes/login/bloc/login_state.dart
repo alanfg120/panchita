@@ -10,6 +10,7 @@ class AutenticandoState extends LoginState {
   final Usuario      usuario;
   final StatusLogin  registro;
   final List<Ciudad> ciudades;
+  
 
   AutenticandoState({this.usuario,this.registro,this.ciudades});
   factory AutenticandoState.initial(List<Ciudad> ciudadesList)=>
@@ -23,31 +24,34 @@ class AutenticandoState extends LoginState {
                    ciudad   : Ciudad(ciudad:'',ruta: '') 
                    ),
           registro: StatusLogin.inicial,
-          ciudades: ciudadesList
+          ciudades: ciudadesList,
+
         );
 
   AutenticandoState copyWith({Usuario usuario,StatusLogin  registro})
   => AutenticandoState(
      usuario  : usuario  ??  this.usuario,
      registro : registro ??  this.registro,
-     ciudades : ciudades ??  this.ciudades 
+     ciudades : ciudades ??  this.ciudades,
      );
 
   @override
   List<Object> get props => [usuario,registro,ciudades];
 }
 
-class AutenticadoState extends LoginState {
+class AuthenticationSuccessState extends LoginState {
+ 
   final Usuario usuario;
   final List<Ciudad> ciudades;
   final bool edit;
-  AutenticadoState({this.usuario,this.ciudades,this.edit});
+  AuthenticationSuccessState({this.usuario,this.ciudades,this.edit});
 
-AutenticadoState copyWith({Usuario usuario,List<Ciudad> ciudades,bool edit})=>
-   AutenticadoState(
+AuthenticationSuccessState copyWith({Usuario usuario,List<Ciudad> ciudades,bool edit})=>
+   AuthenticationSuccessState(
    usuario  : usuario  ?? this.usuario,
    ciudades : ciudades ?? this.ciudades,
-   edit     : edit     ?? this.edit 
+   edit     : edit     ?? this.edit
+
    );
   @override
   List<Object> get props => [usuario,ciudades,edit];

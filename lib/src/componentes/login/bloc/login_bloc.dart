@@ -60,7 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _finishregistroGoogle(
       FinishRegistroGoogleEvent event) async* {
     repo.updateUsuario(event.usuario);
-    yield AutenticadoState(usuario: event.usuario);
+    yield AuthenticationSuccessState(usuario: event.usuario);
   }
 
   Stream<LoginState> _authGoogle(AutenticandoState state) async* {
@@ -82,11 +82,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield state.copyWith(usuario: usuario, registro: StatusLogin.inicial);
       } else {
         if (usuario.token == token)
-          yield AutenticadoState(usuario: usuario);
+          yield AuthenticationSuccessState(usuario: usuario);
         else {
           repo.updateToken(token, usuario.idGoogle);
           usuario.token = token;
-          yield AutenticadoState(usuario: usuario);
+          yield AuthenticationSuccessState(usuario: usuario);
         }
         prefs.token = usuario.idGoogle;
       }
@@ -105,11 +105,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else {
       final usuario = await repo.getUsuario(uid);
       if (usuario.token == token)
-        yield AutenticadoState(usuario: usuario);
+        yield AuthenticationSuccessState(usuario: usuario);
       else {
         repo.updateToken(token, usuario.idGoogle);
         usuario.token = token;
-        yield AutenticadoState(usuario: usuario);
+        yield AuthenticationSuccessState(usuario: usuario);
       }
       prefs.token = usuario.idGoogle;
       prefs.vendedor = usuario.vendedor;
@@ -143,14 +143,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (internet && prefs.token != '') {
       final usuario = await repo.getUsuario(prefs.token);
-      yield AutenticadoState(usuario: usuario, ciudades: ciudades);
+      yield AuthenticationSuccessState(usuario: usuario, ciudades: ciudades);
     }
     if (internet && prefs.token == '') {
       yield AutenticandoState.initial(ciudades);
     }
     if (!internet && prefs.vendedor) {
       final usuario = await repo.getUsuario(prefs.token);
-      yield AutenticadoState(usuario: usuario, ciudades: ciudades);
+      yield AuthenticationSuccessState(usuario: usuario, ciudades: ciudades);
     }
     if (!internet && !prefs.vendedor) {
       yield OfflineState();
@@ -174,7 +174,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _editUsuario(
-      EditUsuarioEvent event, AutenticadoState state) async* {
+      EditUsuarioEvent event, AuthenticationSuccessState state) async* {
     repo.updateUsuario(event.usuario);
     yield state.copyWith(usuario: event.usuario, edit: true);
     yield state.copyWith(edit: false);
@@ -187,7 +187,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _changeRuta(
-      ChangeRutaEvent event, AutenticadoState state) async* {
+      ChangeRutaEvent event, AuthenticationSuccessState state) async* {
     state.usuario.ciudad.ruta = event.ruta;
     yield state.copyWith(usuario: state.usuario);
   }

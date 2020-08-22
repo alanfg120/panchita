@@ -23,7 +23,7 @@ class _ProductoCardState extends State<ProductoCard> {
   Widget build(BuildContext context) {
 
     final state = BlocProvider.of<LoginBloc>(context).state;
-    if (state is AutenticadoState) ruta = state.usuario.ciudad.ruta;
+    if (state is AuthenticationSuccessState) ruta = state.usuario.ciudad.ruta;
 
   
     return Container(
@@ -65,7 +65,13 @@ class _ProductoCardState extends State<ProductoCard> {
                            tag   : widget.id.toString(),
                            child : GestureDetector(
                                    onTap : _navigation,
-                                   child :CachedNetworkImage(
+                                   child : widget.producto.foto == null || widget.producto.foto == ''
+                                          ? Container(
+                                            width: 90,
+                                            height: 90,
+                                            child: Icon(Icons.not_interested)
+                                            )
+                                          : CachedNetworkImage(
                                           height      : 90,
                                           width       : 90,
                                           imageUrl    : widget.producto.foto,
@@ -78,7 +84,7 @@ class _ProductoCardState extends State<ProductoCard> {
                                                                                  alignment: Alignment.center,
                                                                                  width: 90,
                                                                                  height: 90,
-                                                                                 child: Icon(Icons.error)
+                                                                                 child: Icon(Icons.not_interested)
                                                                                  ),
                                     ),
                            ),

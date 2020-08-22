@@ -24,6 +24,10 @@ Future<QuerySnapshot> getDocuments(String colletion,[String order]) {
     return firestore.collection(colletion).orderBy(order).getDocuments();
 }
 
+Stream<QuerySnapshot> getDocumentsStream(String colletion) {
+  return firestore.collection(colletion).snapshots();
+}
+
 Future<bool> userExist(String colletion, String id) async {
   final user = await firestore.collection(colletion).document(id).get();
   return user.exists;

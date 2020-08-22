@@ -14,7 +14,7 @@ class _ChangeRutaPageState extends State<ChangeRutaPage> {
   @override
   Widget build(BuildContext context) {
        final state = context.bloc<LoginBloc>().state;
-       if(state is AutenticadoState)
+       if(state is AuthenticationSuccessState)
            select = int.parse(state.usuario.ciudad.ruta);
     return Scaffold(
            appBar: AppBar(

@@ -18,7 +18,7 @@ class _UserSettingPageState extends State<UserSettingPage> {
   Widget build(BuildContext context) {
 
     final state = context.bloc<LoginBloc>().state;
-    if(state is AutenticadoState)
+    if(state is AuthenticationSuccessState)
           usuario = state.usuario;
 
    return Scaffold(

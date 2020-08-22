@@ -4,6 +4,7 @@ part of 'productos_bloc.dart';
 abstract class ProductosEvent extends Equatable {}
 
 class GetProductosEvent extends ProductosEvent {
+
   @override
   List<Object> get props => [];
 }

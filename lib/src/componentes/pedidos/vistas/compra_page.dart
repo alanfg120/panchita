@@ -32,7 +32,7 @@ class _CompraPageState extends State<CompraPage> {
   Widget build(BuildContext context) {
   // _snackBar("mensaje");
      final state = BlocProvider.of<LoginBloc>(context).state;
-      if (state is AutenticadoState) {
+      if (state is AuthenticationSuccessState) {
          usuario = state.usuario;
          ruta    = state.usuario.ciudad.ruta;
     }
@@ -191,9 +191,7 @@ class _CompraPageState extends State<CompraPage> {
     behavior : SnackBarBehavior.floating,
     duration : Duration(seconds: 2),
     )
-   )..closed.then((_){
-      Navigator.pop(context);
-   });
+   );
  }
 
  Widget _listaProductos(List<Producto> productos) {
@@ -228,7 +226,7 @@ class _CompraPageState extends State<CompraPage> {
 
                                                  leading        : CircleAvatar(
                                                                   radius          : 30,
-                                                                  backgroundImage : productos[i].foto == ''
+                                                                  backgroundImage : productos[i].foto == '' || productos[i].foto == null
                                                                                     ? AssetImage('assets/image.gif')
                                                                                     : CachedNetworkImageProvider(productos[i].foto),
                                                  ),      

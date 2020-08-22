@@ -37,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                          
                            child: BlocConsumer<LoginBloc,LoginState>(
                            listener: (context,state){
-                             if(state is AutenticadoState)
-                                Navigator.pushReplacementNamed(context, 'home');
+                            /*  if(state is AuthenticationSuccessState)
+                                Navigator.pushReplacementNamed(context, 'home'); */
                              if(state is AutenticandoState){
                                 if(state.registro==StatusLogin.incompleto)
                                   Navigator.pushNamed(context, 'finish');
